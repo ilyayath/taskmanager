@@ -1,0 +1,469 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+            h1:hover {
+                color: #34495e;
+            }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+            .container:hover {
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+            .form-group input,
+            .form-group select {
+                flex: 1;
+                min-width: 200px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            }
+
+                .form-group input:focus,
+                .form-group select:focus {
+                    border-color: #3498db;
+                    outline: none;
+                    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+                }
+
+                .form-group input[type="date"] {
+                    min-width: 150px;
+                }
+
+            .form-group button {
+                padding: 10px 20px;
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s ease, transform 0.1s ease;
+                min-width: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .form-group button:hover {
+                    background-color: #2980b9;
+                }
+
+                .form-group button:active {
+                    transform: scale(0.95);
+                }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        ul#taskList {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+            li.completed {
+                text-decoration: line-through;
+                color: #7f8c8d;
+                border-left-color: #2ecc71;
+                background-color: #e8f5e9;
+            }
+
+            li.urgent {
+                border-left-color: #e74c3c;
+                background-color: #fff1f0;
+            }
+
+            li.overdue {
+                border-left-color: #e74c3c;
+                background-color: #ffebee;
+            }
+
+            li:hover {
+                background-color: #f1f1f1;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            li button {
+                padding: 8px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: background-color 0.3s ease, transform 0.1s ease;
+                min-width: 80px;
+                flex-shrink: 0;
+            }
+
+                li button.edit {
+                    background-color: #f39c12;
+                    color: #fff;
+                    margin-right: 10px;
+                }
+
+                    li button.edit:hover {
+                        background-color: #e67e22;
+                    }
+
+                li button:first-of-type {
+                    background-color: #2ecc71;
+                    color: #fff;
+                    margin-right: 10px;
+                }
+
+                    li button:first-of-type:hover {
+                        background-color: #27ae60;
+                    }
+
+                li button:last-of-type {
+                    background-color: #e74c3c;
+                    color: #fff;
+                }
+
+                    li button:last-of-type:hover {
+                        background-color: #c0392b;
+                    }
+
+        .success-message {
+            display: none;
+            color: #27ae60;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+        }
+
+        .filter-sort-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+            .filter-sort-group select,
+            .filter-sort-group button {
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: border-color 0.3s ease;
+            }
+
+                .filter-sort-group select:focus,
+                .filter-sort-group button:focus {
+                    border-color: #3498db;
+                    outline: none;
+                }
+
+            .filter-sort-group button {
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+            }
+
+                .filter-sort-group button:hover {
+                    background-color: #2980b9;
+                }
+
+        .search-group {
+            margin-bottom: 20px;
+        }
+
+            .search-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+                .search-group input:focus {
+                    border-color: #3498db;
+                    outline: none;
+                    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+                }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+            .modal-content h3 {
+                margin-top: 0;
+                color: #2c3e50;
+            }
+
+            .modal-content .form-group {
+                margin-bottom: 15px;
+            }
+
+            .modal-content button {
+                margin-right: 10px;
+            }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+            }
+
+        .notification {
+            display: none;
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ffebee;
+            border-radius: 5px;
+        }
+
+        .stats-panel {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+            .stats-panel div {
+                text-align: center;
+            }
+
+            .stats-panel .stat-label {
+                font-weight: bold;
+                color: #2c3e50;
+                margin-bottom: 5px;
+            }
+
+            .stats-panel .stat-value {
+                color: #34495e;
+                font-size: 18px;
+            }
+
+        @media (max-width: 600px) {
+            .form-group, .filter-sort-group {
+                flex-direction: column;
+            }
+
+                .form-group input,
+                .form-group select,
+                .form-group button,
+                .filter-sort-group select,
+                .filter-sort-group button {
+                    width: 100%;
+                    min-width: unset;
+                }
+
+            li {
+                flex-direction: column;
+                text-align: left;
+            }
+
+                li button {
+                    margin-top: 10px;
+                    width: 100%;
+                }
+
+            .stats-panel {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <div class="container">
+        <div class="stats-panel" id="statsPanel">
+            <div><span class="stat-label">Total Tasks</span><br><span class="stat-value" id="totalTasks">0</span></div>
+            <div><span class="stat-label">Completed Tasks</span><br><span class="stat-value" id="completedTasks">0</span></div>
+            <div><span class="stat-label">Overdue Tasks</span><br><span class="stat-value" id="overdueTasks">0</span></div>
+            <div><span class="stat-label">Active Tasks</span><br><span class="stat-value" id="activeTasks">0</span></div>
+        </div>
+        <div class="form-group">
+            <input type="text" id="taskTitle" placeholder="Task Title" required title="Enter the task title"
+                   oninvalid="this.setCustomValidity('Please enter a task title')" oninput="this.setCustomValidity('')">
+            <input type="text" id="taskDesc" placeholder="Description (optional)" title="Enter a description (optional)">
+            <input type="date" id="taskDueDate" required title="Select the due date"
+                   oninvalid="this.setCustomValidity('Please select a due date')" oninput="this.setCustomValidity('')">
+            <select id="userSelect" aria-label="Select a user">
+                <option value="">Select User</option>
+            </select>
+            <button onclick="addTaskWithSpinner()">Add Task <span class="spinner" id="taskSpinner"></span></button>
+        </div>
+        <div class="success-message" id="taskSuccess">Task added successfully!</div>
+        <div>
+            <h2>Add User</h2>
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="User Name" required title="Enter the user name"
+                       oninvalid="this.setCustomValidity('Please enter a user name')" oninput="this.setCustomValidity('')">
+                <button onclick="addUserWithSpinner()">Add User <span class="spinner" id="userSpinner"></span></button>
+            </div>
+            <div class="success-message" id="userSuccess">User added successfully!</div>
+        </div>
+        <div class="search-group">
+            <input type="text" id="taskSearch" placeholder="Search tasks by title or description..." oninput="searchTasks()">
+        </div>
+        <div class="filter-sort-group">
+            <select id="taskFilter" onchange="filterTasks()">
+                <option value="all">All Tasks</option>
+                <option value="completed">Completed</option>
+                <option value="incomplete">Incomplete</option>
+            </select>
+            <select id="taskSort" onchange="sortTasks()">
+                <option value="default">Sort by Default</option>
+                <option value="dueDateAsc">Due Date (Ascending)</option>
+                <option value="dueDateDesc">Due Date (Descending)</option>
+            </select>
+            <button onclick="exportToCSV()">Export to CSV</button>
+            <button onclick="clearFilters()">Clear Filters</button>
+        </div>
+        <div class="notification" id="overdueNotification">Some tasks are overdue! Please check your list.</div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">×</span>
+            <h3>Edit Task</h3>
+            <div class="form-group">
+                <input type="text" id="editTaskTitle" placeholder="Task Title" required>
+                <input type="text" id="editTaskDesc" placeholder="Description (optional)">
+                <input type="date" id="editTaskDueDate" required>
+                <select id="editUserSelect" aria-label="Select a user"></select>
+            </div>
+            <div class="form-group">
+                <button onclick="saveTaskChanges()">Save Changes</button>
+                <button onclick="closeModal()" style="background-color: #e74c3c;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        async function addTaskWithSpinner() {
+            const spinner = document.getElementById('taskSpinner');
+            const successMessage = document.getElementById('taskSuccess');
+            spinner.style.display = 'inline-block';
+            await addTask();
+            spinner.style.display = 'none';
+            successMessage.style.display = 'block';
+            setTimeout(() => successMessage.style.display = 'none', 2000);
+        }
+
+        async function addUserWithSpinner() {
+            const spinner = document.getElementById('userSpinner');
+            const successMessage = document.getElementById('userSuccess');
+            spinner.style.display = 'inline-block';
+            await addUser();
+            spinner.style.display = 'none';
+            successMessage.style.display = 'block';
+            setTimeout(() => successMessage.style.display = 'none', 2000);
+        }
+    </script>
+</body>
+</html>
