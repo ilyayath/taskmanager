@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Data;
 using TaskManager.Models;
@@ -7,6 +8,8 @@ namespace TaskManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+    [Produces("application/json")]
     public class UsersController : ControllerBase
     {
         private readonly TaskManagerContext _context;
@@ -17,32 +20,49 @@ namespace TaskManager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
-            return Ok(users);
+            try
+            {
+                var users = await _context.Users
+                    .Select(u => new UserDto
+                    {
+                        Id = u.Id,
+                        Name = u.Name,
+                        Email = u.Email
+                    })
+                    .ToListAsync();
+                if (users == null || !users.Any()) return NotFound();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetUsers: {ex.Message}");
+                return StatusCode(500, new { error = "An error occurred while retrieving users.", details = ex.Message });
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
-            return user;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(User user)
-        {
-            if (string.IsNullOrWhiteSpace(user.Name))
+            try
             {
-                ModelState.AddModelError("Name", "The Name field is required.");
-                return BadRequest(ModelState);
+                var user = await _context.Users
+                    .Select(u => new UserDto
+                    {
+                        Id = u.Id,
+                        Name = u.Name,
+                        Email = u.Email
+                    })
+                    .FirstOrDefaultAsync(u => u.Id == id);
+                if (user == null) return NotFound();
+                return Ok(user);
             }
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetUser: {ex.Message}");
+                return StatusCode(500, new { error = "An error occurred while retrieving the user.", details = ex.Message });
+            }
         }
     }
 }

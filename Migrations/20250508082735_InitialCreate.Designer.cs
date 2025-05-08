@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskManager.Data;
@@ -11,9 +12,11 @@ using TaskManager.Data;
 namespace TaskManager.Migrations
 {
     [DbContext(typeof(TaskManagerContext))]
-    partial class TaskManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20250508082735_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,38 +157,6 @@ namespace TaskManager.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TaskManager.Data.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("TaskManager.Data.TaskTag", b =>
-                {
-                    b.Property<int>("TaskId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("TaskId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("TaskTags");
-                });
-
             modelBuilder.Entity("TaskManager.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -196,7 +167,8 @@ namespace TaskManager.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -227,9 +199,6 @@ namespace TaskManager.Migrations
                     b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Progress")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -369,25 +338,6 @@ namespace TaskManager.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManager.Data.TaskTag", b =>
-                {
-                    b.HasOne("TaskManager.Data.Tag", "Tag")
-                        .WithMany("TaskTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskManager.Models.TaskItem", "Task")
-                        .WithMany("TaskTags")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tag");
-
-                    b.Navigation("Task");
-                });
-
             modelBuilder.Entity("TaskManager.Models.TaskItem", b =>
                 {
                     b.HasOne("TaskManager.Models.Category", "Category")
@@ -405,19 +355,9 @@ namespace TaskManager.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("TaskManager.Data.Tag", b =>
-                {
-                    b.Navigation("TaskTags");
-                });
-
             modelBuilder.Entity("TaskManager.Models.Category", b =>
                 {
                     b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("TaskManager.Models.TaskItem", b =>
-                {
-                    b.Navigation("TaskTags");
                 });
 
             modelBuilder.Entity("TaskManager.Models.User", b =>

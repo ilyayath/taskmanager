@@ -4,108 +4,696 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f4f6f9;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+            body.dark-mode {
+                background: linear-gradient(135deg, #2c3e50 0%, #4a6278 100%);
+                color: #e0e0e0;
+            }
 
         h1 {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 30px;
-            transition: color 0.3s ease;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-            h1:hover {
-                color: #34495e;
-            }
-
-        h2 {
-            color: #34495e;
-            margin-top: 30px;
-            margin-bottom: 15px;
+        body.dark-mode h1 {
+            color: #e0e0e0;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.1);
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
         }
 
-            .container:hover {
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        body.dark-mode .container {
+            background: #34495e;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        #authSection {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+            #authSection.authenticated .auth-btn {
+                display: none;
             }
+
+            #authSection.authenticated #logoutBtn {
+                display: inline-block;
+            }
+
+        .auth-btn, #logoutBtn, #themeToggle {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .auth-btn, body.dark-mode #logoutBtn, body.dark-mode #themeToggle {
+            background: #1abc9c;
+        }
+
+        .auth-btn:hover, #logoutBtn:hover, #themeToggle:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .auth-btn:hover, body.dark-mode #logoutBtn:hover, body.dark-mode #themeToggle:hover {
+            background: #16a085;
+        }
+
+        #logoutBtn {
+            display: none;
+            background: #e74c3c;
+        }
+
+            #logoutBtn:hover {
+                background: #c0392b;
+            }
+
+        body.dark-mode #logoutBtn {
+            background: #c0392b;
+        }
+
+            body.dark-mode #logoutBtn:hover {
+                background: #e74c3c;
+            }
+
+        .auth-form {
+            display: none;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .auth-form {
+            background: #2c3e50;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-form h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        body.dark-mode .auth-form h3 {
+            color: #e0e0e0;
+        }
 
         .form-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 20px;
-            align-items: center;
         }
 
-            .form-group input,
-            .form-group select {
+            .form-group input, .form-group select, .form-group textarea {
                 flex: 1;
                 min-width: 200px;
-                padding: 10px;
+                padding: 12px;
                 border: 1px solid #ddd;
                 border-radius: 5px;
-                font-size: 16px;
-                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+                font-size: 1rem;
+                transition: border-color 0.3s ease, background 0.3s ease;
+                color: #333;
             }
 
-                .form-group input:focus,
-                .form-group select:focus {
-                    border-color: #3498db;
-                    outline: none;
-                    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
-                }
+        body.dark-mode .form-group input, body.dark-mode .form-group select, body.dark-mode .form-group textarea {
+            background: #2c3e50;
+            border-color: #4a6278;
+            color: #e0e0e0;
+        }
 
-                .form-group input[type="date"] {
-                    min-width: 150px;
-                }
+        .form-group select option {
+            color: #333;
+            background: #fff;
+        }
 
-            .form-group button {
-                padding: 10px 20px;
-                background-color: #3498db;
-                color: #fff;
+        body.dark-mode .form-group select option {
+            color: #e0e0e0;
+            background: #2c3e50;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            height: 100px;
+            resize: vertical;
+        }
+
+            .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+                border-color: #3498db;
+                outline: none;
+                box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            }
+
+        body.dark-mode .form-group input:focus, body.dark-mode .form-group select:focus, body.dark-mode .form-group textarea:focus {
+            border-color: #1abc9c;
+            box-shadow: 0 0 5px rgba(26, 188, 156, 0.3);
+        }
+
+        .tag-list {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .tag-list {
+            background: #2c3e50;
+            border-color: #4a6278;
+        }
+
+        .tag-list label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        .tag-list input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .form-group button {
+            background: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .form-group button {
+            background: #1abc9c;
+        }
+
+        .form-group button:hover {
+            background: #27ae60;
+        }
+
+        body.dark-mode .form-group button:hover {
+            background: #16a085;
+        }
+
+        .error-message {
+            display: none;
+            color: #e74c3c;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 10px;
+            position: relative;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 5px;
+        }
+
+        body.dark-mode .error-message {
+            background: rgba(192, 57, 43, 0.1);
+        }
+
+        .error-message .close-error {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #e74c3c;
+        }
+
+        body.dark-mode .error-message .close-error {
+            color: #c0392b;
+        }
+
+        .stats-panel {
+            display: flex;
+            justify-content: space-around;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .stats-panel {
+            background: #2c3e50;
+            box-shadow: 0 5px 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-panel div {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .stat-label {
+            color: #95a5a6;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .stat-value {
+            color: #e0e0e0;
+        }
+
+        .task-board {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone {
+            flex: 1;
+            min-height: 200px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .drop-zone {
+            background: #2c3e50;
+            border-color: #4a6278;
+        }
+
+        .drop-zone.active {
+            border-color: #2ecc71;
+            background: #e0f7e9;
+        }
+
+        body.dark-mode .drop-zone.active {
+            border-color: #1abc9c;
+            background: #34495e;
+        }
+
+        .drop-zone.dragover {
+            border-color: #3498db;
+            background: #e8f4f8;
+        }
+
+        body.dark-mode .drop-zone.dragover {
+            border-color: #1abc9c;
+            background: #34495e;
+        }
+
+        .notification {
+            display: none;
+            background: #e74c3c;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        body.dark-mode .notification {
+            background: #c0392b;
+        }
+
+        .notification .close-notification {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        #taskList li {
+            list-style: none;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: move;
+        }
+
+        body.dark-mode #taskList li {
+            background: #2c3e50;
+        }
+
+        #taskList li:hover {
+            background: #f1f1f1;
+            transform: translateX(5px);
+        }
+
+        body.dark-mode #taskList li:hover {
+            background: #34495e;
+        }
+
+        #taskList li.completed {
+            background: #e0f7e9;
+            text-decoration: line-through;
+        }
+
+        body.dark-mode #taskList li.completed {
+            background: #34495e;
+        }
+
+        #taskList li.urgent {
+            border-left: 5px solid #f1c40f;
+        }
+
+        #taskList li.overdue {
+            border-left: 5px solid #e74c3c;
+        }
+
+        body.dark-mode #taskList li.overdue {
+            border-left: 5px solid #c0392b;
+        }
+
+        #taskList li.dragging {
+            opacity: 0.5;
+        }
+
+        .task-details {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .task-details {
+            color: #95a5a6;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+            .task-actions button {
+                padding: 8px 15px;
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
-                font-size: 16px;
-                transition: background-color 0.3s ease, transform 0.1s ease;
-                min-width: 120px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                font-size: 0.9rem;
+                transition: all 0.3s ease;
             }
 
-                .form-group button:hover {
-                    background-color: #2980b9;
+                .task-actions button.edit {
+                    background: #3498db;
+                    color: #fff;
                 }
 
-                .form-group button:active {
-                    transform: scale(0.95);
-                }
+        body.dark-mode .task-actions button.edit {
+            background: #1abc9c;
+        }
+
+        .task-actions button.edit:hover {
+            background: #2980b9;
+        }
+
+        body.dark-mode .task-actions button.edit:hover {
+            background: #16a085;
+        }
+
+        .task-actions button:nth-child(2) {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        body.dark-mode .task-actions button:nth-child(2) {
+            background: #1abc9c;
+        }
+
+        .task-actions button:nth-child(2):hover {
+            background: #27ae60;
+        }
+
+        body.dark-mode .task-actions button:nth-child(2):hover {
+            background: #16a085;
+        }
+
+        .task-actions button:nth-child(3) {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        body.dark-mode .task-actions button:nth-child(3) {
+            background: #c0392b;
+        }
+
+        .task-actions button:nth-child(3):hover {
+            background: #c0392b;
+        }
+
+        body.dark-mode .task-actions button:nth-child(3):hover {
+            background: #e74c3c;
+        }
+
+        .task-actions button:nth-child(4) {
+            background: #9b59b6;
+            color: #fff;
+        }
+
+        body.dark-mode .task-actions button:nth-child(4) {
+            background: #8e44ad;
+        }
+
+        .task-actions button:nth-child(4):hover {
+            background: #8e44ad;
+        }
+
+        body.dark-mode .task-actions button:nth-child(4):hover {
+            background: #9b59b6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            height: 5px;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3498db;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        body.dark-mode .progress-bar {
+            background: #4a6278;
+        }
+
+        body.dark-mode .progress-fill {
+            background: #1abc9c;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #3498db;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        body.dark-mode .tag {
+            background: #1abc9c;
+        }
+
+        .search-group {
+            margin-bottom: 20px;
+        }
+
+            .search-group input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+                transition: border-color 0.3s ease, background 0.3s ease;
+            }
+
+        body.dark-mode .search-group input {
+            background: #2c3e50;
+            border-color: #4a6278;
+            color: #e0e0e0;
+        }
+
+        .filter-sort-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+            .filter-sort-group select, .filter-sort-group button {
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+                transition: border-color 0.3s ease, background 0.3s ease;
+            }
+
+        body.dark-mode .filter-sort-group select, body.dark-mode .filter-sort-group button {
+            background: #2c3e50;
+            border-color: #4a6278;
+            color: #e0e0e0;
+        }
+
+        .filter-sort-group button {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .filter-sort-group button {
+            background: #1abc9c;
+        }
+
+        .filter-sort-group button:hover {
+            background: #2980b9;
+        }
+
+        body.dark-mode .filter-sort-group button:hover {
+            background: #16a085;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .modal-content {
+            background: #34495e;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-content .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        body.dark-mode .modal-content .close {
+            color: #95a5a6;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .modal-content h2 {
+            color: #e0e0e0;
+        }
+
+        .modal-content p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+            .modal-content p span {
+                font-weight: 500;
+                color: #2c3e50;
+            }
+
+        body.dark-mode .modal-content p span {
+            color: #e0e0e0;
+        }
 
         .spinner {
             display: none;
-            width: 20px;
-            height: 20px;
             border: 3px solid #f3f3f3;
             border-top: 3px solid #3498db;
             border-radius: 50%;
+            width: 20px;
+            height: 20px;
             animation: spin 1s linear infinite;
-            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        body.dark-mode .spinner {
+            border: 3px solid #4a6278;
+            border-top: 3px solid #1abc9c;
         }
 
         @keyframes spin {
@@ -118,351 +706,291 @@
             }
         }
 
-        ul#taskList {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            border-left: 4px solid #3498db;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-            li.completed {
-                text-decoration: line-through;
-                color: #7f8c8d;
-                border-left-color: #2ecc71;
-                background-color: #e8f5e9;
-            }
-
-            li.urgent {
-                border-left-color: #e74c3c;
-                background-color: #fff1f0;
-            }
-
-            li.overdue {
-                border-left-color: #e74c3c;
-                background-color: #ffebee;
-            }
-
-            li:hover {
-                background-color: #f1f1f1;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            }
-
-            li button {
-                padding: 8px 15px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 14px;
-                transition: background-color 0.3s ease, transform 0.1s ease;
-                min-width: 80px;
-                flex-shrink: 0;
-            }
-
-                li button.edit {
-                    background-color: #f39c12;
-                    color: #fff;
-                    margin-right: 10px;
-                }
-
-                    li button.edit:hover {
-                        background-color: #e67e22;
-                    }
-
-                li button:first-of-type {
-                    background-color: #2ecc71;
-                    color: #fff;
-                    margin-right: 10px;
-                }
-
-                    li button:first-of-type:hover {
-                        background-color: #27ae60;
-                    }
-
-                li button:last-of-type {
-                    background-color: #e74c3c;
-                    color: #fff;
-                }
-
-                    li button:last-of-type:hover {
-                        background-color: #c0392b;
-                    }
-
         .success-message {
             display: none;
-            color: #27ae60;
+            color: #2ecc71;
             text-align: center;
-            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .success-message {
+            color: #1abc9c;
+        }
+
+        #globalError {
+            display: none;
+            background: #e74c3c;
+            color: #fff;
             padding: 10px;
-            background-color: #e8f5e9;
             border-radius: 5px;
-        }
-
-        .filter-sort-group {
-            display: flex;
-            gap: 15px;
             margin-bottom: 20px;
-            align-items: center;
+            text-align: center;
+            position: relative;
         }
 
-            .filter-sort-group select,
-            .filter-sort-group button {
-                padding: 8px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 14px;
-                cursor: pointer;
-                transition: border-color 0.3s ease;
-            }
-
-                .filter-sort-group select:focus,
-                .filter-sort-group button:focus {
-                    border-color: #3498db;
-                    outline: none;
-                }
-
-            .filter-sort-group button {
-                background-color: #3498db;
-                color: #fff;
-                border: none;
-            }
-
-                .filter-sort-group button:hover {
-                    background-color: #2980b9;
-                }
-
-        .search-group {
-            margin-bottom: 20px;
+        body.dark-mode #globalError {
+            background: #c0392b;
         }
 
-            .search-group input {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 16px;
-            }
+        #globalError .close-error {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #fff;
+        }
 
-                .search-group input:focus {
-                    border-color: #3498db;
-                    outline: none;
-                    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
-                }
-
-        .modal {
+        #globalSpinner {
             display: none;
             position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
         }
 
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 500px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        body.dark-mode #globalSpinner {
+            border: 5px solid #4a6278;
+            border-top: 5px solid #1abc9c;
         }
 
-            .modal-content h3 {
-                margin-top: 0;
-                color: #2c3e50;
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
             }
 
-            .modal-content .form-group {
-                margin-bottom: 15px;
-            }
-
-            .modal-content button {
-                margin-right: 10px;
-            }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-            .close:hover,
-            .close:focus {
-                color: #000;
-                text-decoration: none;
-            }
-
-        .notification {
-            display: none;
-            color: #e74c3c;
-            text-align: center;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #ffebee;
-            border-radius: 5px;
-        }
-
-        .stats-panel {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #ecf0f1;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-            .stats-panel div {
-                text-align: center;
-            }
-
-            .stats-panel .stat-label {
-                font-weight: bold;
-                color: #2c3e50;
-                margin-bottom: 5px;
-            }
-
-            .stats-panel .stat-value {
-                color: #34495e;
-                font-size: 18px;
-            }
-
-        @media (max-width: 600px) {
-            .form-group, .filter-sort-group {
+            .form-group {
                 flex-direction: column;
             }
 
-                .form-group input,
-                .form-group select,
-                .form-group button,
-                .filter-sort-group select,
-                .filter-sort-group button {
-                    width: 100%;
-                    min-width: unset;
-                }
-
-            li {
-                flex-direction: column;
-                text-align: left;
-            }
-
-                li button {
-                    margin-top: 10px;
-                    width: 100%;
+                .form-group input, .form-group select, .form-group textarea, .tag-list {
+                    min-width: 100%;
                 }
 
             .stats-panel {
                 flex-direction: column;
                 gap: 10px;
             }
+
+            .task-board {
+                flex-direction: column;
+            }
+
+            .filter-sort-group {
+                flex-direction: column;
+            }
+
+                .filter-sort-group select, .filter-sort-group button {
+                    width: 100%;
+                }
+
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .auth-btn, #logoutBtn, #themeToggle {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .form-group input, .form-group select, .form-group textarea, .tag-list {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .task-actions button {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="globalSpinner" class="spinner" role="status" aria-label="Loading"></div>
     <h1>Task Manager</h1>
     <div class="container">
-        <div class="stats-panel" id="statsPanel">
+        <div id="globalError" role="alert">
+            <span class="close-error" onclick="this.parentElement.style.display='none'" aria-label="Close error message">×</span>
+        </div>
+        <div id="authSection">
+            <button class="auth-btn" onclick="document.getElementById('loginForm').style.display='block'; document.getElementById('registerForm').style.display='none'" aria-label="Open login form">Login</button>
+            <button class="auth-btn" onclick="document.getElementById('registerForm').style.display='block'; document.getElementById('loginForm').style.display='none'" aria-label="Open register form">Register</button>
+            <button id="logoutBtn" onclick="logout()" aria-label="Logout">Logout</button>
+            <button id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">Dark Mode</button>
+        </div>
+
+        <div id="loginForm" class="auth-form">
+            <h3>Login to Your Account</h3>
+            <div class="form-group">
+                <input type="email" id="loginEmail" placeholder="Email" required aria-describedby="loginError">
+                <input type="password" id="loginPassword" placeholder="Password" required aria-describedby="loginError">
+                <button onclick="login()" aria-label="Login">Login</button>
+            </div>
+            <div id="loginError" class="error-message" role="alert">
+                <span class="close-error" onclick="this.parentElement.style.display='none'" aria-label="Close login error message">×</span>
+            </div>
+        </div>
+
+        <div id="registerForm" class="auth-form">
+            <h3>Create a New Account</h3>
+            <div class="form-group">
+                <input type="email" id="registerEmail" placeholder="Email" required aria-describedby="registerError">
+                <input type="text" id="registerName" placeholder="Name" required aria-describedby="registerError">
+                <input type="password" id="registerPassword" placeholder="Password" required aria-describedby="registerError">
+                <input type="password" id="registerConfirmPassword" placeholder="Confirm Password" required aria-describedby="registerError">
+                <select id="registerRole" aria-label="Select role" required>
+                    <option value="Manager">Manager</option>
+                    <option value="Worker">Worker</option>
+                </select>
+                <button onclick="register()" aria-label="Register">Register</button>
+            </div>
+            <div id="registerError" class="error-message" role="alert">
+                <span class="close-error" onclick="this.parentElement.style.display='none'" aria-label="Close register error message">×</span>
+            </div>
+        </div>
+
+        <div class="stats-panel auth-protected" id="statsPanel" style="display: none;">
             <div><span class="stat-label">Total Tasks</span><br><span class="stat-value" id="totalTasks">0</span></div>
             <div><span class="stat-label">Completed Tasks</span><br><span class="stat-value" id="completedTasks">0</span></div>
             <div><span class="stat-label">Overdue Tasks</span><br><span class="stat-value" id="overdueTasks">0</span></div>
             <div><span class="stat-label">Active Tasks</span><br><span class="stat-value" id="activeTasks">0</span></div>
         </div>
-        <div class="form-group">
-            <input type="text" id="taskTitle" placeholder="Task Title" required title="Enter the task title"
-                   oninvalid="this.setCustomValidity('Please enter a task title')" oninput="this.setCustomValidity('')">
-            <input type="text" id="taskDesc" placeholder="Description (optional)" title="Enter a description (optional)">
-            <input type="date" id="taskDueDate" required title="Select the due date"
-                   oninvalid="this.setCustomValidity('Please select a due date')" oninput="this.setCustomValidity('')">
+
+        <div class="form-group auth-protected" id="addTaskForm" style="display: none;">
+            <input type="text" id="taskTitle" placeholder="Task Title" required title="Enter the task title" oninvalid="this.setCustomValidity('Please enter a task title')" oninput="this.setCustomValidity('')" aria-label="Task title">
+            <input type="text" id="taskDesc" placeholder="Description (optional)" title="Enter a description (optional)" aria-label="Task description">
+            <input type="date" id="taskDueDate" required title="Select the due date" oninvalid="this.setCustomValidity('Please select a due date')" oninput="this.setCustomValidity('')" aria-label="Due date">
             <select id="userSelect" aria-label="Select a user">
                 <option value="">Select User</option>
             </select>
-            <button onclick="addTaskWithSpinner()">Add Task <span class="spinner" id="taskSpinner"></span></button>
-        </div>
-        <div class="success-message" id="taskSuccess">Task added successfully!</div>
-        <div>
-            <h2>Add User</h2>
-            <div class="form-group">
-                <input type="text" id="userName" placeholder="User Name" required title="Enter the user name"
-                       oninvalid="this.setCustomValidity('Please enter a user name')" oninput="this.setCustomValidity('')">
-                <button onclick="addUserWithSpinner()">Add User <span class="spinner" id="userSpinner"></span></button>
+            <select id="taskCategory" aria-label="Select a category">
+                <option value="">Select Category</option>
+            </select>
+            <div id="taskTagsContainer" class="tag-list" aria-label="Select tags">
+                <span>No tags available</span>
             </div>
-            <div class="success-message" id="userSuccess">User added successfully!</div>
+            <input type="number" id="taskProgress" placeholder="Progress (0-100)" min="0" max="100" value="0" aria-label="Task progress">
+            <button onclick="addTaskWithSpinner()" aria-label="Add task">Add Task <span class="spinner" id="taskSpinner" role="status" aria-label="Loading"></span></button>
+            <button onclick="addCategory()" aria-label="Add category">Add Category</button>
+            <button onclick="addTag()" aria-label="Add tag">Add Tag</button>
         </div>
-        <div class="search-group">
-            <input type="text" id="taskSearch" placeholder="Search tasks by title or description..." oninput="searchTasks()">
+        <div class="success-message auth-protected" id="taskSuccess" style="display: none;" role="alert">Task added successfully!</div>
+
+        <div class="search-group auth-protected" id="searchGroup" style="display: none;">
+            <input type="text" id="taskSearch" placeholder="Search tasks by title or description..." oninput="searchTasks()" aria-label="Search tasks">
         </div>
-        <div class="filter-sort-group">
-            <select id="taskFilter" onchange="filterTasks()">
+        <div class="filter-sort-group auth-protected" id="filterSection" style="display: none;">
+            <select id="taskFilter" onchange="filterTasks()" aria-label="Filter tasks by status">
                 <option value="all">All Tasks</option>
                 <option value="completed">Completed</option>
                 <option value="incomplete">Incomplete</option>
             </select>
-            <select id="taskSort" onchange="sortTasks()">
+            <select id="userFilter" onchange="filterTasks()" aria-label="Filter tasks by user">
+                <option value="">All Users</option>
+            </select>
+            <select id="categoryFilter" onchange="filterTasks()" aria-label="Filter tasks by category">
+                <option value="">All Categories</option>
+            </select>
+            <select id="tagFilter" onchange="filterTasks()" aria-label="Filter tasks by tag">
+                <option value="">All Tags</option>
+            </select>
+            <select id="taskSort" onchange="sortTasks()" aria-label="Sort tasks">
                 <option value="default">Sort by Default</option>
                 <option value="dueDateAsc">Due Date (Ascending)</option>
                 <option value="dueDateDesc">Due Date (Descending)</option>
+                <option value="progressAsc">Progress (Ascending)</option>
+                <option value="progressDesc">Progress (Descending)</option>
             </select>
-            <button onclick="exportToCSV()">Export to CSV</button>
-            <button onclick="clearFilters()">Clear Filters</button>
+            <button id="exportButton" onclick="exportToCSV()" aria-label="Export tasks to CSV">Export to CSV</button>
+            <button onclick="clearFilters()" aria-label="Clear filters">Clear Filters</button>
         </div>
-        <div class="notification" id="overdueNotification">Some tasks are overdue! Please check your list.</div>
-        <ul id="taskList"></ul>
-    </div>
+        <div class="notification auth-protected" id="overdueNotification" style="display: none;" role="alert">
+            Some tasks are overdue! Please check your list.
+            <span class="close-notification" onclick="this.parentElement.style.display='none'" aria-label="Close notification">×</span>
+        </div>
 
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">×</span>
-            <h3>Edit Task</h3>
-            <div class="form-group">
-                <input type="text" id="editTaskTitle" placeholder="Task Title" required>
-                <input type="text" id="editTaskDesc" placeholder="Description (optional)">
-                <input type="date" id="editTaskDueDate" required>
-                <select id="editUserSelect" aria-label="Select a user"></select>
+        <div class="task-board auth-protected" id="taskBoard" style="display: none;">
+            <div id="activeTasksZone" class="drop-zone">
+                Active Tasks
+                <ul id="taskList" aria-label="List of active tasks"></ul>
             </div>
-            <div class="form-group">
-                <button onclick="saveTaskChanges()">Save Changes</button>
-                <button onclick="closeModal()" style="background-color: #e74c3c;">Cancel</button>
+            <div id="completedTasksZone" class="drop-zone">
+                Completed Tasks
+                <ul aria-label="List of completed tasks"></ul>
+            </div>
+        </div>
+
+        <div id="editModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('editModal')" aria-label="Close edit modal">×</span>
+                <h2 id="editModalTitle">Edit Task</h2>
+                <div class="form-group">
+                    <input type="text" id="editTaskTitle" placeholder="Task Title" required aria-label="Edit task title">
+                    <input type="text" id="editTaskDesc" placeholder="Description (optional)" aria-label="Edit task description">
+                    <input type="date" id="editTaskDueDate" required aria-label="Edit due date">
+                    <select id="editUserSelect" aria-label="Select a user for editing">
+                        <option value="">Select User</option>
+                    </select>
+                    <select id="editTaskCategory" aria-label="Select a category for editing">
+                        <option value="">Select Category</option>
+                    </select>
+                    <div id="editTaskTagsContainer" class="tag-list" aria-label="Select tags for editing">
+                        <span>No tags available</span>
+                    </div>
+                    <input type="number" id="editTaskProgress" placeholder="Progress (0-100)" min="0" max="100" aria-label="Edit task progress">
+                </div>
+                <div class="form-group">
+                    <button onclick="saveTaskChanges()" aria-label="Save task changes">Save Changes</button>
+                    <button onclick="closeModal('editModal')" style="background-color: #e74c3c;" aria-label="Cancel editing">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="detailsModal" class="modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('detailsModal')" aria-label="Close details modal">×</span>
+                <h2 id="detailsModalTitle">Task Details</h2>
+                <p>Title: <span id="detailsTaskTitle"></span></p>
+                <p>Description: <span id="detailsTaskDesc"></span></p>
+                <p>Due Date: <span id="detailsTaskDueDate"></span></p>
+                <p>Assigned To: <span id="detailsTaskUser"></span></p>
+                <p>Category: <span id="detailsTaskCategory"></span></p>
+                <p>Tags: <span id="detailsTaskTags"></span></p>
+                <p>Progress: <span id="detailsTaskProgress"></span></p>
+                <p>Status: <span id="detailsTaskStatus"></span></p>
+                <textarea id="detailsTaskNotes" placeholder="Notes" aria-label="Task notes"></textarea><br>
+                <button onclick="saveTaskNotes()" aria-label="Save notes">Save Notes</button>
+                <button id="editFromDetailsBtn" onclick="openEditModal(document.getElementById('detailsTaskNotes').dataset.taskId)" style="background: #3498db; color: #fff; margin-left: 10px;" aria-label="Edit task from details">Edit Task</button>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
-
     <script>
-        async function addTaskWithSpinner() {
-            const spinner = document.getElementById('taskSpinner');
-            const successMessage = document.getElementById('taskSuccess');
-            spinner.style.display = 'inline-block';
-            await addTask();
-            spinner.style.display = 'none';
-            successMessage.style.display = 'block';
-            setTimeout(() => successMessage.style.display = 'none', 2000);
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('themeToggle').textContent = 'Light Mode';
         }
 
-        async function addUserWithSpinner() {
-            const spinner = document.getElementById('userSpinner');
-            const successMessage = document.getElementById('userSuccess');
-            spinner.style.display = 'inline-block';
-            await addUser();
-            spinner.style.display = 'none';
-            successMessage.style.display = 'block';
-            setTimeout(() => successMessage.style.display = 'none', 2000);
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
         }
     </script>
 </body>
