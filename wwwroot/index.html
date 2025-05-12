@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <title>Task Manager</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --bg-dark-gradient: linear-gradient(135deg, #2c3e50 0%, #4a6278 100%);
+            --text-color: #333;
+            --text-dark-color: #e0e0e0;
+            --container-bg: #fff;
+            --container-dark-bg: #34495e;
+            --button-bg: #3498db;
+            --button-dark-bg: #1abc9c;
+            --button-hover-bg: #2980b9;
+            --button-dark-hover-bg: #16a085;
+            --error-bg: rgba(231, 76, 60, 0.1);
+            --error-dark-bg: rgba(192, 57, 43, 0.1);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --shadow-dark: 0 10px 20px rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,16 +33,16 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-gradient);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
-            transition: background 0.3s ease, color 0.3s ease;
+            color: var(--text-color);
+            transition: var(--transition);
         }
 
             body.dark-mode {
-                background: linear-gradient(135deg, #2c3e50 0%, #4a6278 100%);
-                color: #e0e0e0;
+                background: var(--bg-dark-gradient);
+                color: var(--text-dark-color);
             }
 
         h1 {
@@ -36,23 +55,23 @@
         }
 
         body.dark-mode h1 {
-            color: #e0e0e0;
+            color: var(--text-dark-color);
             text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.1);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: #fff;
+            background: var(--container-bg);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s ease;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
         body.dark-mode .container {
-            background: #34495e;
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+            background: var(--container-dark-bg);
+            box-shadow: var(--shadow-dark);
         }
 
         #authSection {
@@ -71,7 +90,7 @@
             }
 
         .auth-btn, #logoutBtn, #themeToggle {
-            background: #3498db;
+            background: var(--button-bg);
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -79,21 +98,21 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         body.dark-mode .auth-btn, body.dark-mode #logoutBtn, body.dark-mode #themeToggle {
-            background: #1abc9c;
+            background: var(--button-dark-bg);
         }
 
         .auth-btn:hover, #logoutBtn:hover, #themeToggle:hover {
-            background: #2980b9;
+            background: var(--button-hover-bg);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow);
         }
 
         body.dark-mode .auth-btn:hover, body.dark-mode #logoutBtn:hover, body.dark-mode #themeToggle:hover {
-            background: #16a085;
+            background: var(--button-dark-hover-bg);
         }
 
         #logoutBtn {
@@ -118,14 +137,14 @@
             background: #f9f9f9;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             margin-bottom: 20px;
-            transition: background 0.3s ease;
+            transition: var(--transition);
         }
 
         body.dark-mode .auth-form {
             background: #2c3e50;
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-dark);
         }
 
         .auth-form h3 {
@@ -136,7 +155,7 @@
         }
 
         body.dark-mode .auth-form h3 {
-            color: #e0e0e0;
+            color: var(--text-dark-color);
         }
 
         .form-group {
@@ -153,24 +172,39 @@
                 border: 1px solid #ddd;
                 border-radius: 5px;
                 font-size: 1rem;
-                transition: border-color 0.3s ease, background 0.3s ease;
-                color: #333;
+                transition: var(--transition);
+                color: var(--text-color);
+                background: #fff;
             }
 
         body.dark-mode .form-group input, body.dark-mode .form-group select, body.dark-mode .form-group textarea {
             background: #2c3e50;
             border-color: #4a6278;
-            color: #e0e0e0;
+            color: var(--text-dark-color);
+        }
+
+        .form-group select[multiple] {
+            height: 120px;
+            padding: 8px;
         }
 
         .form-group select option {
-            color: #333;
+            color: var(--text-color);
             background: #fff;
         }
 
         body.dark-mode .form-group select option {
-            color: #e0e0e0;
+            color: var(--text-dark-color);
             background: #2c3e50;
+        }
+
+        .form-group select option:checked {
+            background: var(--button-bg);
+            color: #fff;
+        }
+
+        body.dark-mode .form-group select option:checked {
+            background: var(--button-dark-bg);
         }
 
         .form-group textarea {
@@ -180,39 +214,14 @@
         }
 
             .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-                border-color: #3498db;
+                border-color: var(--button-bg);
                 outline: none;
                 box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
             }
 
         body.dark-mode .form-group input:focus, body.dark-mode .form-group select:focus, body.dark-mode .form-group textarea:focus {
-            border-color: #1abc9c;
+            border-color: var(--button-dark-bg);
             box-shadow: 0 0 5px rgba(26, 188, 156, 0.3);
-        }
-
-        .tag-list {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: #fff;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-
-        body.dark-mode .tag-list {
-            background: #2c3e50;
-            border-color: #4a6278;
-        }
-
-        .tag-list label {
-            display: block;
-            margin: 5px 0;
-        }
-
-        .tag-list input[type="checkbox"] {
-            margin-right: 8px;
         }
 
         .form-group button {
@@ -224,11 +233,11 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         body.dark-mode .form-group button {
-            background: #1abc9c;
+            background: var(--button-dark-bg);
         }
 
         .form-group button:hover {
@@ -236,7 +245,7 @@
         }
 
         body.dark-mode .form-group button:hover {
-            background: #16a085;
+            background: var(--button-dark-hover-bg);
         }
 
         .error-message {
@@ -245,14 +254,14 @@
             font-size: 0.9rem;
             text-align: center;
             margin-top: 10px;
-            position: relative;
             padding: 10px;
-            background: rgba(231, 76, 60, 0.1);
+            background: var(--error-bg);
             border-radius: 5px;
+            position: relative;
         }
 
         body.dark-mode .error-message {
-            background: rgba(192, 57, 43, 0.1);
+            background: var(--error-dark-bg);
         }
 
         .error-message .close-error {
@@ -275,13 +284,13 @@
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
-            transition: background 0.3s ease;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
         body.dark-mode .stats-panel {
             background: #2c3e50;
-            box-shadow: 0 5px 10px rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-dark);
         }
 
         .stats-panel div {
@@ -305,7 +314,7 @@
         }
 
         body.dark-mode .stat-value {
-            color: #e0e0e0;
+            color: var(--text-dark-color);
         }
 
         .task-board {
@@ -321,7 +330,7 @@
             padding: 15px;
             border-radius: 8px;
             border: 2px dashed #ddd;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         body.dark-mode .drop-zone {
@@ -335,17 +344,17 @@
         }
 
         body.dark-mode .drop-zone.active {
-            border-color: #1abc9c;
+            border-color: var(--button-dark-bg);
             background: #34495e;
         }
 
         .drop-zone.dragover {
-            border-color: #3498db;
+            border-color: var(--button-bg);
             background: #e8f4f8;
         }
 
         body.dark-mode .drop-zone.dragover {
-            border-color: #1abc9c;
+            border-color: var(--button-dark-bg);
             background: #34495e;
         }
 
@@ -382,7 +391,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             cursor: move;
         }
 
@@ -444,74 +453,74 @@
                 border-radius: 5px;
                 cursor: pointer;
                 font-size: 0.9rem;
-                transition: all 0.3s ease;
+                transition: var(--transition);
             }
 
-                .task-actions button.edit {
-                    background: #3498db;
+                .task-actions button.edit-btn {
+                    background: var(--button-bg);
                     color: #fff;
                 }
 
-        body.dark-mode .task-actions button.edit {
-            background: #1abc9c;
+        body.dark-mode .task-actions button.edit-btn {
+            background: var(--button-dark-bg);
         }
 
-        .task-actions button.edit:hover {
-            background: #2980b9;
+        .task-actions button.edit-btn:hover {
+            background: var(--button-hover-bg);
         }
 
-        body.dark-mode .task-actions button.edit:hover {
-            background: #16a085;
+        body.dark-mode .task-actions button.edit-btn:hover {
+            background: var(--button-dark-hover-bg);
         }
 
-        .task-actions button:nth-child(2) {
+        .task-actions button.complete-btn {
             background: #2ecc71;
             color: #fff;
         }
 
-        body.dark-mode .task-actions button:nth-child(2) {
-            background: #1abc9c;
+        body.dark-mode .task-actions button.complete-btn {
+            background: var(--button-dark-bg);
         }
 
-        .task-actions button:nth-child(2):hover {
+        .task-actions button.complete-btn:hover {
             background: #27ae60;
         }
 
-        body.dark-mode .task-actions button:nth-child(2):hover {
-            background: #16a085;
+        body.dark-mode .task-actions button.complete-btn:hover {
+            background: var(--button-dark-hover-bg);
         }
 
-        .task-actions button:nth-child(3) {
+        .task-actions button.delete-btn {
             background: #e74c3c;
             color: #fff;
         }
 
-        body.dark-mode .task-actions button:nth-child(3) {
+        body.dark-mode .task-actions button.delete-btn {
             background: #c0392b;
         }
 
-        .task-actions button:nth-child(3):hover {
+        .task-actions button.delete-btn:hover {
             background: #c0392b;
         }
 
-        body.dark-mode .task-actions button:nth-child(3):hover {
+        body.dark-mode .task-actions button.delete-btn:hover {
             background: #e74c3c;
         }
 
-        .task-actions button:nth-child(4) {
+        .task-actions button.details-btn {
             background: #9b59b6;
             color: #fff;
         }
 
-        body.dark-mode .task-actions button:nth-child(4) {
+        body.dark-mode .task-actions button.details-btn {
             background: #8e44ad;
         }
 
-        .task-actions button:nth-child(4):hover {
+        .task-actions button.details-btn:hover {
             background: #8e44ad;
         }
 
-        body.dark-mode .task-actions button:nth-child(4):hover {
+        body.dark-mode .task-actions button.details-btn:hover {
             background: #9b59b6;
         }
 
@@ -525,7 +534,7 @@
 
         .progress-fill {
             height: 100%;
-            background: #3498db;
+            background: var(--button-bg);
             border-radius: 5px;
             transition: width 0.3s ease;
         }
@@ -535,12 +544,12 @@
         }
 
         body.dark-mode .progress-fill {
-            background: #1abc9c;
+            background: var(--button-dark-bg);
         }
 
         .tag {
             display: inline-block;
-            background: #3498db;
+            background: var(--button-bg);
             color: #fff;
             padding: 2px 8px;
             border-radius: 12px;
@@ -550,7 +559,7 @@
         }
 
         body.dark-mode .tag {
-            background: #1abc9c;
+            background: var(--button-dark-bg);
         }
 
         .search-group {
@@ -563,13 +572,14 @@
                 border: 1px solid #ddd;
                 border-radius: 5px;
                 font-size: 1rem;
-                transition: border-color 0.3s ease, background 0.3s ease;
+                transition: var(--transition);
+                background: #fff;
             }
 
         body.dark-mode .search-group input {
             background: #2c3e50;
             border-color: #4a6278;
-            color: #e0e0e0;
+            color: var(--text-dark-color);
         }
 
         .filter-sort-group {
@@ -584,33 +594,33 @@
                 border: 1px solid #ddd;
                 border-radius: 5px;
                 font-size: 1rem;
-                transition: border-color 0.3s ease, background 0.3s ease;
+                transition: var(--transition);
+                background: #fff;
             }
 
         body.dark-mode .filter-sort-group select, body.dark-mode .filter-sort-group button {
             background: #2c3e50;
             border-color: #4a6278;
-            color: #e0e0e0;
+            color: var(--text-dark-color);
         }
 
         .filter-sort-group button {
-            background: #3498db;
+            background: var(--button-bg);
             color: #fff;
             border: none;
             cursor: pointer;
-            transition: background 0.3s ease;
         }
 
         body.dark-mode .filter-sort-group button {
-            background: #1abc9c;
+            background: var(--button-dark-bg);
         }
 
         .filter-sort-group button:hover {
-            background: #2980b9;
+            background: var(--button-hover-bg);
         }
 
         body.dark-mode .filter-sort-group button:hover {
-            background: #16a085;
+            background: var(--button-dark-hover-bg);
         }
 
         .modal {
@@ -627,7 +637,7 @@
         }
 
         .modal-content {
-            background: #fff;
+            background: var(--container-bg);
             padding: 20px;
             border-radius: 10px;
             width: 90%;
@@ -635,13 +645,13 @@
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s ease;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
         body.dark-mode .modal-content {
-            background: #34495e;
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+            background: var(--container-dark-bg);
+            box-shadow: var(--shadow-dark);
         }
 
         .modal-content .close {
@@ -663,7 +673,7 @@
         }
 
         body.dark-mode .modal-content h2 {
-            color: #e0e0e0;
+            color: var(--text-dark-color);
         }
 
         .modal-content p {
@@ -677,13 +687,13 @@
             }
 
         body.dark-mode .modal-content p span {
-            color: #e0e0e0;
+            color: var(--text-dark-color);
         }
 
         .spinner {
             display: none;
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
+            border-top: 3px solid var(--button-bg);
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -693,7 +703,7 @@
 
         body.dark-mode .spinner {
             border: 3px solid #4a6278;
-            border-top: 3px solid #1abc9c;
+            border-top: 3px solid var(--button-dark-bg);
         }
 
         @keyframes spin {
@@ -714,7 +724,7 @@
         }
 
         body.dark-mode .success-message {
-            color: #1abc9c;
+            color: var(--button-dark-bg);
         }
 
         #globalError {
@@ -748,7 +758,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
+            border-top: 5px solid var(--button-bg);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -757,7 +767,7 @@
 
         body.dark-mode #globalSpinner {
             border: 5px solid #4a6278;
-            border-top: 5px solid #1abc9c;
+            border-top: 5px solid var(--button-dark-bg);
         }
 
         @media (max-width: 768px) {
@@ -769,7 +779,7 @@
                 flex-direction: column;
             }
 
-                .form-group input, .form-group select, .form-group textarea, .tag-list {
+                .form-group input, .form-group select, .form-group textarea {
                     min-width: 100%;
                 }
 
@@ -806,7 +816,7 @@
                 font-size: 0.9rem;
             }
 
-            .form-group input, .form-group select, .form-group textarea, .tag-list {
+            .form-group input, .form-group select, .form-group textarea {
                 padding: 10px;
                 font-size: 0.9rem;
             }
@@ -823,13 +833,13 @@
     <h1>Task Manager</h1>
     <div class="container">
         <div id="globalError" role="alert">
-            <span class="close-error" onclick="this.parentElement.style.display='none'" aria-label="Close error message">×</span>
+            <span class="close-error" role="button" tabindex="0" onclick="this.parentElement.style.display='none'" onkeydown="if(event.key === 'Enter') this.parentElement.style.display='none'" aria-label="Close error message">×</span>
         </div>
         <div id="authSection">
-            <button class="auth-btn" onclick="document.getElementById('loginForm').style.display='block'; document.getElementById('registerForm').style.display='none'" aria-label="Open login form">Login</button>
-            <button class="auth-btn" onclick="document.getElementById('registerForm').style.display='block'; document.getElementById('loginForm').style.display='none'" aria-label="Open register form">Register</button>
+            <button class="auth-btn" onclick="showAuthForm('loginForm')" aria-label="Open login form">Login</button>
+            <button class="auth-btn" onclick="showAuthForm('registerForm')" aria-label="Open register form">Register</button>
             <button id="logoutBtn" onclick="logout()" aria-label="Logout">Logout</button>
-            <button id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">Dark Mode</button>
+            <button id="themeToggle" aria-label="Toggle theme">Dark Mode</button>
         </div>
 
         <div id="loginForm" class="auth-form">
@@ -840,7 +850,7 @@
                 <button onclick="login()" aria-label="Login">Login</button>
             </div>
             <div id="loginError" class="error-message" role="alert">
-                <span class="close-error" onclick="this.parentElement.style.display='none'" aria-label="Close login error message">×</span>
+                <span class="close-error" role="button" tabindex="0" onclick="this.parentElement.style.display='none'" onkeydown="if(event.key === 'Enter') this.parentElement.style.display='none'" aria-label="Close login error message">×</span>
             </div>
         </div>
 
@@ -858,7 +868,7 @@
                 <button onclick="register()" aria-label="Register">Register</button>
             </div>
             <div id="registerError" class="error-message" role="alert">
-                <span class="close-error" onclick="this.parentElement.style.display='none'" aria-label="Close register error message">×</span>
+                <span class="close-error" role="button" tabindex="0" onclick="this.parentElement.style.display='none'" onkeydown="if(event.key === 'Enter') this.parentElement.style.display='none'" aria-label="Close register error message">×</span>
             </div>
         </div>
 
@@ -879,13 +889,13 @@
             <select id="taskCategory" aria-label="Select a category">
                 <option value="">Select Category</option>
             </select>
-            <div id="taskTagsContainer" class="tag-list" aria-label="Select tags">
-                <span>No tags available</span>
-            </div>
+            <select id="taskTags" multiple aria-label="Select tags">
+                <option value="">Select Tags</option>
+            </select>
             <input type="number" id="taskProgress" placeholder="Progress (0-100)" min="0" max="100" value="0" aria-label="Task progress">
             <button onclick="addTaskWithSpinner()" aria-label="Add task">Add Task <span class="spinner" id="taskSpinner" role="status" aria-label="Loading"></span></button>
-            <button onclick="addCategory()" aria-label="Add category">Add Category</button>
-            <button onclick="addTag()" aria-label="Add tag">Add Tag</button>
+            <button onclick="openAddItemModal('category')" aria-label="Add category">Add Category</button>
+            <button onclick="openAddItemModal('tag')" aria-label="Add tag">Add Tag</button>
         </div>
         <div class="success-message auth-protected" id="taskSuccess" style="display: none;" role="alert">Task added successfully!</div>
 
@@ -919,7 +929,7 @@
         </div>
         <div class="notification auth-protected" id="overdueNotification" style="display: none;" role="alert">
             Some tasks are overdue! Please check your list.
-            <span class="close-notification" onclick="this.parentElement.style.display='none'" aria-label="Close notification">×</span>
+            <span class="close-notification" role="button" tabindex="0" onclick="this.parentElement.style.display='none'" onkeydown="if(event.key === 'Enter') this.parentElement.style.display='none'" aria-label="Close notification">×</span>
         </div>
 
         <div class="task-board auth-protected" id="taskBoard" style="display: none;">
@@ -935,7 +945,7 @@
 
         <div id="editModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
             <div class="modal-content">
-                <span class="close" onclick="closeModal('editModal')" aria-label="Close edit modal">×</span>
+                <span class="close" role="button" tabindex="0" onclick="closeModal('editModal')" onkeydown="if(event.key === 'Enter') closeModal('editModal')" aria-label="Close edit modal">×</span>
                 <h2 id="editModalTitle">Edit Task</h2>
                 <div class="form-group">
                     <input type="text" id="editTaskTitle" placeholder="Task Title" required aria-label="Edit task title">
@@ -947,9 +957,9 @@
                     <select id="editTaskCategory" aria-label="Select a category for editing">
                         <option value="">Select Category</option>
                     </select>
-                    <div id="editTaskTagsContainer" class="tag-list" aria-label="Select tags for editing">
-                        <span>No tags available</span>
-                    </div>
+                    <select id="editTaskTags" multiple aria-label="Select tags for editing">
+                        <option value="">Select Tags</option>
+                    </select>
                     <input type="number" id="editTaskProgress" placeholder="Progress (0-100)" min="0" max="100" aria-label="Edit task progress">
                 </div>
                 <div class="form-group">
@@ -959,9 +969,9 @@
             </div>
         </div>
 
-        <div id="detailsModal" class="modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+        <div id="detailsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
             <div class="modal-content">
-                <span class="close" onclick="closeModal('detailsModal')" aria-label="Close details modal">×</span>
+                <span class="close" role="button" tabindex="0" onclick="closeModal('detailsModal')" onkeydown="if(event.key === 'Enter') closeModal('detailsModal')" aria-label="Close details modal">×</span>
                 <h2 id="detailsModalTitle">Task Details</h2>
                 <p>Title: <span id="detailsTaskTitle"></span></p>
                 <p>Description: <span id="detailsTaskDesc"></span></p>
@@ -973,25 +983,25 @@
                 <p>Status: <span id="detailsTaskStatus"></span></p>
                 <textarea id="detailsTaskNotes" placeholder="Notes" aria-label="Task notes"></textarea><br>
                 <button onclick="saveTaskNotes()" aria-label="Save notes">Save Notes</button>
-                <button id="editFromDetailsBtn" onclick="openEditModal(document.getElementById('detailsTaskNotes').dataset.taskId)" style="background: #3498db; color: #fff; margin-left: 10px;" aria-label="Edit task from details">Edit Task</button>
+                <button id="editFromDetailsBtn" style="background: #3498db; color: #fff; margin-left: 10px;" aria-label="Edit task from details">Edit Task</button>
+            </div>
+        </div>
+
+        <div id="addItemModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="addItemModalTitle">
+            <div class="modal-content">
+                <span class="close" role="button" tabindex="0" onclick="closeModal('addItemModal')" onkeydown="if(event.key === 'Enter') closeModal('addItemModal')" aria-label="Close add item modal">×</span>
+                <h2 id="addItemModalTitle">Add Item</h2>
+                <div class="form-group">
+                    <input type="text" id="addItemName" placeholder="Enter name" required aria-label="Item name">
+                </div>
+                <div class="form-group">
+                    <button onclick="saveNewItem()" aria-label="Save item">Save</button>
+                    <button onclick="closeModal('addItemModal')" style="background-color: #e74c3c;" aria-label="Cancel adding item">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
-    <script>
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            document.getElementById('themeToggle').textContent = 'Light Mode';
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-            document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
-        }
-    </script>
 </body>
 </html>
