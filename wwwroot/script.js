@@ -7,6 +7,7 @@ const state = {
     currentUserRole: '',
     currentItemType: ''
 };
+window.state = state; // Expose state for multi-select
 
 // Cached DOM elements
 const dom = {
@@ -23,7 +24,6 @@ const dom = {
     tagFilter: document.getElementById('tagFilter'),
     taskSort: document.getElementById('taskSort'),
     taskSearch: document.getElementById('taskSearch'),
-    taskSuccess: document.getElementById('taskSuccess'),
     taskSpinner: document.getElementById('taskSpinner'),
     overdueNotification: document.getElementById('overdueNotification'),
     authSection: document.getElementById('authSection'),
@@ -67,6 +67,7 @@ const dom = {
     completedTasksZone: document.getElementById('completedTasksZone'),
     themeToggle: document.getElementById('themeToggle'),
     exportButton: document.getElementById('exportButton'),
+    statsPanel: document.getElementById('statsPanel'),
     saveItemBtn: document.getElementById('saveItemBtn')
 };
 
@@ -102,10 +103,10 @@ function hideSpinner() {
     dom.globalSpinner.style.display = 'none';
 }
 
-function showError(message, context = 'General') {
+function showError(message, context = '') {
+    console.error(`${context ? context + ': ' : ''}${message}`);
     dom.globalError.textContent = message;
     dom.globalError.style.display = 'block';
-    console.error(`${context}: ${message}`);
     setTimeout(() => dom.globalError.style.display = 'none', 5000);
 }
 
@@ -171,8 +172,11 @@ async function checkAuth() {
 }
 
 async function login() {
-    const email = dom.loginForm.querySelector('#loginEmail')?.value.trim();
-    const password = dom.loginForm.querySelector('#loginPassword')?.value;
+    const emailInput = dom.loginForm.querySelector('#loginEmail');
+    const passwordInput = dom.loginForm.querySelector('#loginPassword');
+    const email = emailInput?.value.trim();
+    const password = passwordInput?.value;
+
     if (!email || !password) {
         showFormError('login', 'Email and password are required.');
         return;
@@ -184,11 +188,13 @@ async function login() {
             body: JSON.stringify({ Email: email, Password: password })
         });
         if (response.ok) {
-            dom.loginForm.reset();
+            emailInput.value = '';
+            passwordInput.value = '';
+            dom.loginError.style.display = 'none';
             await checkAuth();
         } else {
-            const error = await response.text();
-            showFormError('login', error || 'Login failed.');
+            const errorData = await response.json();
+            showFormError('login', errorData.message || 'Login failed.');
         }
     } catch (error) {
         showFormError('login', 'Login error: ' + error.message);
@@ -196,33 +202,68 @@ async function login() {
 }
 
 async function register() {
-    const email = dom.registerForm.querySelector('#registerEmail')?.value.trim();
-    const password = dom.registerForm.querySelector('#registerPassword')?.value;
-    const confirmPassword = dom.registerForm.querySelector('#confirmPassword')?.value;
-    if (!email || !password || !confirmPassword) {
-        showFormError('register', 'All fields are required.');
-        return;
-    }
-    if (password !== confirmPassword) {
-        showFormError('register', 'Passwords do not match.');
-        return;
-    }
+    const emailInput = dom.registerForm.querySelector('#registerEmail');
+    const nameInput = dom.registerForm.querySelector('#registerName');
+    const passwordInput = dom.registerForm.querySelector('#registerPassword');
+    const confirmPasswordInput = dom.registerForm.querySelector('#registerConfirmPassword');
+    const roleInput = dom.registerForm.querySelector('#registerRole');
 
     try {
+        const email = emailInput.value.trim();
+        const name = nameInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        const role = roleInput.value;
+
+        if (!email || !name || !password || !confirmPassword || !role) {
+            throw new Error('All fields are required');
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            throw new Error('Invalid email format');
+        }
+        if (password !== confirmPassword) {
+            throw new Error('Passwords do not match');
+        }
+        if (!['Manager', 'Worker'].includes(role)) {
+            throw new Error('Invalid role selected');
+        }
+        if (password.length < 6) {
+            throw new Error('Password must be at least 6 characters');
+        }
+
+        const payload = {
+            Email: email,
+            Name: name,
+            Password: password,
+            ConfirmPassword: confirmPassword,
+            Role: role
+        };
+        console.log('Register payload:', payload);
+
         const response = await fetchWithCsrf('/api/account/register', {
             method: 'POST',
-            body: JSON.stringify({ Email: email, Password: password, ConfirmPassword: confirmPassword })
+            body: JSON.stringify(payload)
         });
+
         if (response.ok) {
-            dom.registerForm.reset();
+            emailInput.value = '';
+            nameInput.value = '';
+            passwordInput.value = '';
+            confirmPasswordInput.value = '';
+            roleInput.selectedIndex = 0;
+            dom.registerError.style.display = 'none';
+            dom.registerForm.style.display = 'none';
             showAuthForm('loginForm');
-            await checkAuth();
+            alert('Registration successful! Please log in.');
         } else {
-            const error = await response.text();
-            showFormError('register', error.includes('email') ? 'Email already registered.' : error || 'Registration failed.');
+            const errorData = await response.json();
+            console.error('Registration error:', errorData);
+            const errorMessage = errorData.message || errorData.errors?.join(', ') || 'Registration failed';
+            showFormError('register', errorMessage);
         }
     } catch (error) {
-        showFormError('register', 'Registration error: ' + error.message);
+        console.error('Registration error:', error);
+        showFormError('register', error.message || 'An error occurred. Please try again.');
     }
 }
 
@@ -251,64 +292,96 @@ function showAuthForm(formId) {
 
 // Data loading
 async function loadUsers() {
-    const response = await fetch('/api/users', { credentials: 'include' });
-    if (!response.ok) throw new Error('Failed to load users');
-    state.users = await response.json();
-    renderSelectOptions(dom.userSelect, state.users, 'Name', 'Id', 'Select User');
-    renderSelectOptions(dom.editUserSelect, state.users, 'Name', 'Id', 'Select User');
-    renderSelectOptions(dom.userFilter, state.users, 'Name', 'Id', 'All Users');
+    try {
+        const response = await fetch('/api/users', { credentials: 'include' });
+        if (!response.ok) throw new Error('Failed to load users');
+        state.users = await response.json();
+        renderSelectOptions(dom.userSelect, state.users, 'Name', 'Id', 'Select User');
+        renderSelectOptions(dom.editUserSelect, state.users, 'Name', 'Id', 'Select User');
+        renderSelectOptions(dom.userFilter, state.users, 'Name', 'Id', 'All Users');
+    } catch (error) {
+        showError('Error loading users: ' + error.message, 'loadUsers');
+    }
 }
 
 async function loadTasks() {
-    const response = await fetch('/api/tasks', { credentials: 'include' });
-    if (!response.ok) throw new Error('Failed to load tasks');
-    state.tasks = await response.json();
-    renderFilteredTasks();
-    updateStatistics();
-    checkOverdueTasks();
+    try {
+        const response = await fetch('/api/tasks', { credentials: 'include' });
+        if (!response.ok) throw new Error('Failed to load tasks');
+        state.tasks = await response.json();
+        renderFilteredTasks();
+        updateStatistics();
+        checkOverdueTasks();
+    } catch (error) {
+        showError('Error loading tasks: ' + error.message, 'loadTasks');
+    }
 }
 
 async function loadCategories() {
-    const response = await fetch('/api/categories', { credentials: 'include' });
-    if (!response.ok) throw new Error('Failed to load categories');
-    state.categories = await response.json();
-    renderSelectOptions(dom.taskCategory, state.categories, 'Name', 'Id', 'Select Category');
-    renderSelectOptions(dom.editTaskCategory, state.categories, 'Name', 'Id', 'Select Category');
-    renderSelectOptions(dom.categoryFilter, state.categories, 'Name', 'Id', 'All Categories');
+    try {
+        const response = await fetch('/api/categories', { credentials: 'include' });
+        if (!response.ok) throw new Error('Failed to load categories');
+        state.categories = await response.json();
+        renderSelectOptions(dom.taskCategory, state.categories, 'Name', 'Id', 'Select Category');
+        renderSelectOptions(dom.editTaskCategory, state.categories, 'Name', 'Id', 'Select Category');
+        renderSelectOptions(dom.categoryFilter, state.categories, 'Name', 'Id', 'All Categories');
+    } catch (error) {
+        showError('Error loading categories: ' + error.message, 'loadCategories');
+    }
 }
 
 async function loadTags() {
-    const response = await fetch('/api/tags', { credentials: 'include' });
-    if (!response.ok) throw new Error('Failed to load tags');
-    state.tags = await response.json();
-    renderTagSelect(dom.taskTags);
-    renderTagSelect(dom.editTaskTags);
-    renderSelectOptions(dom.tagFilter, state.tags, 'Name', 'Id', 'All Tags');
+    try {
+        const response = await fetchWithCsrf('/api/tags');
+        const tags = await response.json();
+        const taskTagsSelect = document.getElementById('taskTags');
+        const editTagsSelect = document.getElementById('editTaskTags');
+
+        // Clear existing options (except placeholder)
+        taskTagsSelect.innerHTML = '<option value="" disabled>Select Tags</option>';
+        editTagsSelect.innerHTML = '<option value="" disabled>Select Tags</option>';
+
+        // Populate options
+        tags.forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag.Id;
+            option.textContent = tag.Name;
+            taskTagsSelect.appendChild(option.cloneNode(true));
+            editTagsSelect.appendChild(option);
+        });
+
+        // Ensure placeholder is not selected
+        taskTagsSelect.value = '';
+        editTagsSelect.value = '';
+    } catch (error) {
+        console.error('Failed to load tags:', error);
+        showError('globalError', 'Failed to load tags. Please try again.');
+    }
 }
 
 // Rendering utilities
-function renderSelectOptions(select, items, labelKey, valueKey, defaultLabel) {
-    select.innerHTML = `<option value="">${defaultLabel}</option>`;
+function renderSelectOptions(select, items, labelKey, valueKey, defaultLabel, multiple = false) {
+    if (select.id === 'taskTags' || select.id === 'editTaskTags') {
+        if (window.populateTagsDropdown) {
+            window.populateTagsDropdown(items, select.id);
+        } else {
+            console.error(`populateTagsDropdown not defined for ${select.id}`);
+        }
+        return;
+    }
+    select.innerHTML = `<option value="" disabled ${!multiple ? 'selected' : ''}>${defaultLabel}</option>`;
     items.forEach(item => {
         const option = document.createElement('option');
         option.value = item[valueKey];
         option.textContent = item[labelKey];
         select.appendChild(option);
     });
-}
-
-function renderTagSelect(select) {
-    select.innerHTML = '<option value="" disabled>Select Tags</option>';
-    state.tags.forEach(tag => {
-        const option = document.createElement('option');
-        option.value = tag.Id;
-        option.textContent = tag.Name;
-        select.appendChild(option);
-    });
+    if (multiple) select.multiple = true;
 }
 
 function renderFilteredTasks() {
     const query = dom.taskSearch.value.toLowerCase();
+    const status = dom.taskFilter.value;
     const userId = dom.userFilter.value;
     const categoryId = dom.categoryFilter.value;
     const tagId = dom.tagFilter.value;
@@ -316,16 +389,21 @@ function renderFilteredTasks() {
 
     let filteredTasks = state.tasks.filter(task => {
         const matchesSearch = task.Title.toLowerCase().includes(query) || (task.Description?.toLowerCase().includes(query));
+        const matchesStatus = status === 'all' || (status === 'completed' && task.IsCompleted) || (status === 'incomplete' && !task.IsCompleted);
         const matchesUser = !userId || task.UserId === parseInt(userId);
         const matchesCategory = !categoryId || task.CategoryId === parseInt(categoryId);
         const matchesTag = !tagId || task.TagIds?.includes(parseInt(tagId));
-        return matchesSearch && matchesUser && matchesCategory && matchesTag;
+        return matchesSearch && matchesStatus && matchesUser && matchesCategory && matchesTag;
     });
 
-    if (sort === 'dueDate') {
+    if (sort === 'dueDateAsc') {
         filteredTasks.sort((a, b) => new Date(a.DueDate) - new Date(b.DueDate));
-    } else if (sort === 'progress') {
+    } else if (sort === 'dueDateDesc') {
+        filteredTasks.sort((a, b) => new Date(b.DueDate) - new Date(a.DueDate));
+    } else if (sort === 'progressAsc') {
         filteredTasks.sort((a, b) => a.Progress - b.Progress);
+    } else if (sort === 'progressDesc') {
+        filteredTasks.sort((a, b) => b.Progress - a.Progress);
     }
 
     dom.taskList.innerHTML = '';
@@ -378,31 +456,69 @@ function formatDate(dateString) {
 
 // Task management
 async function addTaskWithSpinner() {
-    await addTask();
-}
-
-async function addTask() {
     dom.taskSpinner.style.display = 'inline-block';
     try {
-        const taskData = validateTaskForm();
-        if (!taskData) return;
-        const response = await fetchWithCsrf('/api/tasks', {
-            method: 'POST',
-            body: JSON.stringify(taskData)
-        });
-        if (!response.ok) throw new Error(await response.text());
-        const newTask = await response.json();
-        state.tasks.unshift(newTask);
-        resetTaskForm();
-        renderFilteredTasks();
-        updateStatistics();
-        dom.taskSuccess.style.display = 'block';
-        setTimeout(() => dom.taskSuccess.style.display = 'none', 3000);
+        await addTask();
     } catch (error) {
-        showError('Error adding task: ' + error.message, 'addTask');
+        showError('Error adding task: ' + error.message, 'addTaskWithSpinner');
     } finally {
         dom.taskSpinner.style.display = 'none';
     }
+}
+
+async function addTask() {
+    const title = dom.taskTitle.value.trim();
+    const description = dom.taskDesc.value.trim();
+    const dueDate = dom.taskDueDate.value;
+    const userId = dom.userSelect.value;
+    const categoryId = dom.taskCategory.value;
+    const tags = window.getSelectedTags?.('taskTags') || [];
+    const progress = parseInt(dom.taskProgress.value) || 0;
+
+    if (!title || !dueDate) {
+        throw new Error('Title and due date are required');
+    }
+    const dateObj = new Date(dueDate);
+    if (isNaN(dateObj.getTime())) {
+        throw new Error('Invalid due date');
+    }
+    if (progress < 0 || progress > 100) {
+        throw new Error('Progress must be between 0 and 100');
+    }
+    if (userId && !state.users.some(u => u.Id === parseInt(userId))) {
+        throw new Error('Invalid user selected');
+    }
+    if (categoryId && !state.categories.some(c => c.Id === parseInt(categoryId))) {
+        throw new Error('Invalid category selected');
+    }
+    if (tags.length > 0 && !tags.every(tag => state.tags.some(t => t.Id === parseInt(tag)))) {
+        throw new Error('Invalid tag selected');
+    }
+
+    const task = {
+        Title: title,
+        Description: description,
+        DueDate: dateObj.toISOString(),
+        UserId: userId ? parseInt(userId) : null,
+        CategoryId: categoryId ? parseInt(categoryId) : null,
+        TagIds: tags.map(tag => parseInt(tag)),
+        Progress: progress,
+        IsCompleted: false,
+        Notes: ''
+    };
+
+    const response = await fetchWithCsrf('/api/tasks', {
+        method: 'POST',
+        body: JSON.stringify(task)
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to add task');
+    }
+
+    await loadTasks();
+    resetTaskForm();
 }
 
 function validateTaskForm(isEdit = false) {
@@ -412,7 +528,7 @@ function validateTaskForm(isEdit = false) {
     const dueDate = form.querySelector(isEdit ? '#editTaskDueDate' : '#taskDueDate').value;
     const userId = form.querySelector(isEdit ? '#editUserSelect' : '#userSelect')?.value;
     const categoryId = form.querySelector(isEdit ? '#editTaskCategory' : '#taskCategory')?.value;
-    const tags = form.querySelector(isEdit ? '#editTaskTags' : '#taskTags');
+    const tags = window.getSelectedTags?.(isEdit ? 'editTaskTags' : 'taskTags') || [];
     const progress = parseInt(form.querySelector(isEdit ? '#editTaskProgress' : '#taskProgress').value) || 0;
 
     if (!title || !dueDate) {
@@ -428,6 +544,18 @@ function validateTaskForm(isEdit = false) {
         showError('Progress must be between 0 and 100.', 'validateTaskForm');
         return null;
     }
+    if (userId && !state.users.some(u => u.Id === parseInt(userId))) {
+        showError('Invalid user selected.', 'validateTaskForm');
+        return null;
+    }
+    if (categoryId && !state.categories.some(c => c.Id === parseInt(categoryId))) {
+        showError('Invalid category selected.', 'validateTaskForm');
+        return null;
+    }
+    if (tags.length > 0 && !tags.every(tag => state.tags.some(t => t.Id === parseInt(tag)))) {
+        showError('Invalid tag selected.', 'validateTaskForm');
+        return null;
+    }
 
     return {
         Title: title,
@@ -438,7 +566,7 @@ function validateTaskForm(isEdit = false) {
         CategoryId: categoryId ? parseInt(categoryId) : null,
         Notes: '',
         Progress: progress,
-        TagIds: Array.from(tags.selectedOptions).map(opt => parseInt(opt.value)).filter(id => !isNaN(id))
+        TagIds: tags.map(tag => parseInt(tag))
     };
 }
 
@@ -446,8 +574,9 @@ function resetTaskForm() {
     dom.taskTitle.value = '';
     dom.taskDesc.value = '';
     dom.taskDueDate.value = '';
+    dom.userSelect.value = '';
     dom.taskCategory.value = '';
-    dom.taskTags.selectedIndex = -1;
+    window.setSelectedTags?.([], 'taskTags');
     dom.taskProgress.value = '0';
 }
 
@@ -506,9 +635,7 @@ function openModal(modalId, taskId = null) {
         dom.editUserSelect.value = task.UserId || '';
         dom.editTaskCategory.value = task.CategoryId || '';
         dom.editTaskProgress.value = task.Progress;
-        Array.from(dom.editTaskTags.options).forEach(opt => {
-            opt.selected = task.TagIds?.includes(parseInt(opt.value));
-        });
+        window.setSelectedTags?.(task.TagIds || [], 'editTaskTags');
         modal.dataset.taskId = taskId;
     } else if (modalId === 'detailsModal' && taskId) {
         const task = state.tasks.find(t => t.Id === taskId);
@@ -541,6 +668,9 @@ function closeModal(modalId) {
         dom.addItemName.value = '';
         state.currentItemType = '';
     }
+    if (modalId === 'editModal') {
+        delete modal.dataset.taskId;
+    }
 }
 
 async function saveTaskChanges() {
@@ -560,7 +690,10 @@ async function saveTaskChanges() {
             method: 'PUT',
             body: JSON.stringify(task)
         });
-        if (!response.ok) throw new Error(await response.text());
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to save task');
+        }
         await loadTasks();
         closeModal('editModal');
     } catch (error) {
@@ -582,7 +715,10 @@ async function saveTaskNotes() {
             method: 'PUT',
             body: JSON.stringify(task)
         });
-        if (!response.ok) throw new Error(await response.text());
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to save notes');
+        }
         await loadTasks();
         closeModal('detailsModal');
     } catch (error) {
@@ -603,36 +739,33 @@ async function saveNewItem() {
         return;
     }
 
-    const endpoint = state.currentItemType === 'Category' ? '/api/categories' : '/api/tags';
-    // Include TaskTags to bypass backend validation error
+    const endpoint = state.currentItemType === 'category' ? '/api/categories' : '/api/tags';
     const payload = { Name: name, TaskTags: [] };
     try {
-        dom.saveItemBtn.disabled = true; // Prevent multiple submissions
         const response = await fetchWithCsrf(endpoint, {
             method: 'POST',
             body: JSON.stringify(payload)
         });
         if (!response.ok) {
             const errorData = await response.json();
-            const errorMessage = errorData.errors?.TaskTags?.[0] || errorData.title || 'Failed to add item';
+            const errorMessage = errorData.errors?.TaskTags?.[0] || errorData.message || 'Failed to add item';
             throw new Error(errorMessage);
         }
-        await (state.currentItemType === 'Category' ? loadCategories() : loadTags());
+        await (state.currentItemType === 'category' ? loadCategories() : loadTags());
         closeModal('addItemModal');
     } catch (error) {
         showError(`Error adding ${state.currentItemType.toLowerCase()}: ${error.message}`, 'saveNewItem');
-    } finally {
-        dom.saveItemBtn.disabled = false;
     }
 }
 
 // Filter management
 function clearFilters() {
     dom.taskSearch.value = '';
+    dom.taskFilter.value = 'all';
     dom.userFilter.value = '';
     dom.categoryFilter.value = '';
     dom.tagFilter.value = '';
-    dom.taskSort.value = '';
+    dom.taskSort.value = 'default';
     renderFilteredTasks();
 }
 
@@ -658,12 +791,12 @@ function setupDragAndDrop() {
     [dom.activeTasksZone, dom.completedTasksZone].forEach(zone => {
         zone.addEventListener('dragover', e => {
             e.preventDefault();
-            zone.classList.add('drag-over');
+            zone.classList.add('dragover');
         });
-        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
         zone.addEventListener('drop', async e => {
             e.preventDefault();
-            zone.classList.remove('drag-over');
+            zone.classList.remove('dragover');
             const taskId = parseInt(e.dataTransfer.getData('text/plain'));
             const isCompleted = zone.id === 'completedTasksZone';
             const task = state.tasks.find(t => t.Id === taskId);
@@ -748,12 +881,10 @@ function setupEventListeners() {
     });
     dom.addTaskForm.addEventListener('submit', async e => {
         e.preventDefault();
-        await addTask();
+        await addTaskWithSpinner();
     });
-    document.getElementById('logoutButton')?.addEventListener('click', logout);
-    document.getElementById('addCategory')?.addEventListener('click', () => openAddItemModal('Category'));
-    document.getElementById('addTag')?.addEventListener('click', () => openAddItemModal('Tag'));
-    document.getElementById('saveItemBtn')?.addEventListener('click', saveNewItem);
+    document.getElementById('logoutBtn')?.addEventListener('click', logout);
+    dom.saveItemBtn?.addEventListener('click', saveNewItem);
     document.getElementById('cancelItemBtn')?.addEventListener('click', () => closeModal('addItemModal'));
     document.getElementById('saveTaskBtn')?.addEventListener('click', saveTaskChanges);
     document.getElementById('cancelEditBtn')?.addEventListener('click', () => closeModal('editModal'));
@@ -774,7 +905,7 @@ function setupEventListeners() {
     dom.taskSearch.addEventListener('keydown', e => {
         if (e.key === 'Enter') renderFilteredTasks();
     });
-    [dom.userFilter, dom.categoryFilter, dom.tagFilter, dom.taskSort].forEach(el => {
+    [dom.taskFilter, dom.userFilter, dom.categoryFilter, dom.tagFilter, dom.taskSort].forEach(el => {
         el.addEventListener('change', renderFilteredTasks);
     });
 
