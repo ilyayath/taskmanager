@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #f0f2f5 0%, #d9e2ec 100%);
@@ -750,6 +751,105 @@
             border-top: 5px solid var(--primary-dark-bg);
         }
 
+        /* Custom Choices.js styles to match native select */
+        .choices {
+            margin-bottom: 0;
+        }
+
+        .choices__inner {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-base);
+            background: #fff;
+            color: var(--text-color);
+            min-height: auto;
+        }
+
+        body.dark-mode .choices__inner {
+            background: #4b5563;
+            border-color: #6b7280;
+            color: var(--text-dark-color);
+        }
+
+        .choices__list--single {
+            padding: 0;
+        }
+
+        .choices__list--multiple .choices__item {
+            background: var(--primary-bg);
+            border: none;
+            color: #fff;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            margin-right: 0.25rem;
+        }
+
+        body.dark-mode .choices__list--multiple .choices__item {
+            background: var(--primary-dark-bg);
+        }
+
+        .choices__list--dropdown {
+            border: 1px solid #d1d5db;
+            border-radius: var(--border-radius);
+            background: #fff;
+            color: var(--text-color);
+        }
+
+        body.dark-mode .choices__list--dropdown {
+            background: #4b5563;
+            border-color: #6b7280;
+            color: var(--text-dark-color);
+        }
+
+        .choices__list--dropdown .choices__item--selectable.is-highlighted {
+            background: var(--primary-bg);
+            color: #fff;
+        }
+
+        body.dark-mode .choices__list--dropdown .choices__item--selectable.is-highlighted {
+            background: var(--primary-dark-bg);
+        }
+
+        .choices__list--multiple .choices__item--selectable {
+            background: var(--primary-bg);
+            color: #fff;
+        }
+
+        body.dark-mode .choices__list--multiple .choices__item--selectable {
+            background: var(--primary-dark-bg);
+        }
+
+        .choices__input {
+            background: transparent;
+            border: none;
+            font-size: var(--font-size-base);
+            color: var(--text-color);
+        }
+
+        body.dark-mode .choices__input {
+            color: var(--text-dark-color);
+        }
+
+        .choices__button {
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 0.75rem;
+        }
+
+        .choices:focus {
+            outline: none;
+            border-color: var(--primary-bg);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        body.dark-mode .choices:focus {
+            border-color: var(--primary-dark-bg);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -986,6 +1086,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

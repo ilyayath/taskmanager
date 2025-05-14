@@ -5,9 +5,10 @@ const state = {
     categories: [],
     tags: [],
     currentUserRole: '',
-    currentItemType: ''
+    currentItemType: '',
+    currentUser: null
 };
-window.state = state; // Expose state for multi-select
+window.state = state;
 
 // Cached DOM elements
 const dom = {
@@ -70,6 +71,10 @@ const dom = {
     statsPanel: document.getElementById('statsPanel'),
     saveItemBtn: document.getElementById('saveItemBtn')
 };
+
+// Global Choices.js instances
+let taskTagsInstance;
+let editTaskTagsInstance;
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', async () => {
@@ -163,6 +168,7 @@ async function checkAuth() {
         dom.authSection.classList.add('authenticated');
         dom.authProtected.forEach(el => el.style.display = 'block');
         state.currentUserRole = data.role;
+        state.currentUser = { Id: parseInt(data.userId), Name: data.userName };
         if (data.role !== 'Manager') dom.addTaskForm.style.display = 'none';
         await Promise.all([loadUsers(), loadTasks(), loadCategories(), loadTags()]);
     } else {
@@ -172,10 +178,8 @@ async function checkAuth() {
 }
 
 async function login() {
-    const emailInput = dom.loginForm.querySelector('#loginEmail');
-    const passwordInput = dom.loginForm.querySelector('#loginPassword');
-    const email = emailInput?.value.trim();
-    const password = passwordInput?.value;
+    const email = dom.loginForm.querySelector('#loginEmail').value.trim();
+    const password = dom.loginForm.querySelector('#loginPassword').value;
 
     if (!email || !password) {
         showFormError('login', 'Email and password are required.');
@@ -188,8 +192,8 @@ async function login() {
             body: JSON.stringify({ Email: email, Password: password })
         });
         if (response.ok) {
-            emailInput.value = '';
-            passwordInput.value = '';
+            dom.loginForm.querySelector('#loginEmail').value = '';
+            dom.loginForm.querySelector('#loginPassword').value = '';
             dom.loginError.style.display = 'none';
             await checkAuth();
         } else {
@@ -202,19 +206,13 @@ async function login() {
 }
 
 async function register() {
-    const emailInput = dom.registerForm.querySelector('#registerEmail');
-    const nameInput = dom.registerForm.querySelector('#registerName');
-    const passwordInput = dom.registerForm.querySelector('#registerPassword');
-    const confirmPasswordInput = dom.registerForm.querySelector('#registerConfirmPassword');
-    const roleInput = dom.registerForm.querySelector('#registerRole');
+    const email = dom.registerForm.querySelector('#registerEmail').value.trim();
+    const name = dom.registerForm.querySelector('#registerName').value.trim();
+    const password = dom.registerForm.querySelector('#registerPassword').value;
+    const confirmPassword = dom.registerForm.querySelector('#registerConfirmPassword').value;
+    const role = dom.registerForm.querySelector('#registerRole').value;
 
     try {
-        const email = emailInput.value.trim();
-        const name = nameInput.value.trim();
-        const password = passwordInput.value;
-        const confirmPassword = confirmPasswordInput.value;
-        const role = roleInput.value;
-
         if (!email || !name || !password || !confirmPassword || !role) {
             throw new Error('All fields are required');
         }
@@ -231,39 +229,28 @@ async function register() {
             throw new Error('Password must be at least 6 characters');
         }
 
-        const payload = {
-            Email: email,
-            Name: name,
-            Password: password,
-            ConfirmPassword: confirmPassword,
-            Role: role
-        };
-        console.log('Register payload:', payload);
-
+        const payload = { Email: email, Name: name, Password: password, ConfirmPassword: confirmPassword, Role: role };
         const response = await fetchWithCsrf('/api/account/register', {
             method: 'POST',
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-            emailInput.value = '';
-            nameInput.value = '';
-            passwordInput.value = '';
-            confirmPasswordInput.value = '';
-            roleInput.selectedIndex = 0;
+            dom.registerForm.querySelector('#registerEmail').value = '';
+            dom.registerForm.querySelector('#registerName').value = '';
+            dom.registerForm.querySelector('#registerPassword').value = '';
+            dom.registerForm.querySelector('#registerConfirmPassword').value = '';
+            dom.registerForm.querySelector('#registerRole').selectedIndex = 0;
             dom.registerError.style.display = 'none';
             dom.registerForm.style.display = 'none';
             showAuthForm('loginForm');
             alert('Registration successful! Please log in.');
         } else {
             const errorData = await response.json();
-            console.error('Registration error:', errorData);
-            const errorMessage = errorData.message || errorData.errors?.join(', ') || 'Registration failed';
-            showFormError('register', errorMessage);
+            showFormError('register', errorData.message || errorData.errors?.join(', ') || 'Registration failed');
         }
     } catch (error) {
-        console.error('Registration error:', error);
-        showFormError('register', error.message || 'An error occurred. Please try again.');
+        showFormError('register', error.message);
     }
 }
 
@@ -276,6 +263,7 @@ async function logout() {
             state.categories = [];
             state.tags = [];
             state.currentUserRole = '';
+            state.currentUser = null;
             await checkAuth();
         } else {
             showError('Logout failed.', 'logout');
@@ -333,42 +321,75 @@ async function loadCategories() {
 async function loadTags() {
     try {
         const response = await fetchWithCsrf('/api/tags');
-        const tags = await response.json();
-        const taskTagsSelect = document.getElementById('taskTags');
-        const editTagsSelect = document.getElementById('editTaskTags');
+        if (!response.ok) throw new Error('Failed to load tags');
+        state.tags = await response.json();
+        renderSelectOptions(dom.taskTags, state.tags, 'Name', 'Id', 'Select Tags', true);
+        renderSelectOptions(dom.editTaskTags, state.tags, 'Name', 'Id', 'Select Tags', true);
+        renderSelectOptions(dom.tagFilter, [{ Id: '', Name: 'All Tags' }, ...state.tags], 'Name', 'Id', 'All Tags');
 
-        // Clear existing options (except placeholder)
-        taskTagsSelect.innerHTML = '<option value="" disabled>Select Tags</option>';
-        editTagsSelect.innerHTML = '<option value="" disabled>Select Tags</option>';
-
-        // Populate options
-        tags.forEach(tag => {
-            const option = document.createElement('option');
-            option.value = tag.Id;
-            option.textContent = tag.Name;
-            taskTagsSelect.appendChild(option.cloneNode(true));
-            editTagsSelect.appendChild(option);
+        // Initialize Choices.js to match native select styling
+        if (taskTagsInstance) taskTagsInstance.destroy();
+        taskTagsInstance = new Choices('#taskTags', {
+            placeholderValue: 'Select Tags',
+            allowHTML: false,
+            removeItemButton: true,
+            maxItemCount: 5,
+            searchEnabled: true,
+            classNames: {
+                containerOuter: 'choices',
+                containerInner: 'choices__inner',
+                input: 'choices__input',
+                inputCloned: 'choices__input--cloned',
+                list: 'choices__list',
+                listItems: 'choices__list--multiple',
+                listSingle: 'choices__list--single',
+                listDropdown: 'choices__list--dropdown',
+                item: 'choices__item',
+                itemSelectable: 'choices__item--selectable',
+                itemDisabled: 'choices__item--disabled',
+                itemChoice: 'choices__item--choice',
+                placeholder: 'choices__placeholder',
+                group: 'choices__group',
+                groupHeading: 'choices__heading',
+                button: 'choices__button'
+            },
+            itemSelectText: ''
         });
 
-        // Ensure placeholder is not selected
-        taskTagsSelect.value = '';
-        editTagsSelect.value = '';
+        if (editTaskTagsInstance) editTaskTagsInstance.destroy();
+        editTaskTagsInstance = new Choices('#editTaskTags', {
+            placeholderValue: 'Select Tags',
+            allowHTML: false,
+            removeItemButton: true,
+            maxItemCount: 5,
+            searchEnabled: true,
+            classNames: {
+                containerOuter: 'choices',
+                containerInner: 'choices__inner',
+                input: 'choices__input',
+                inputCloned: 'choices__input--cloned',
+                list: 'choices__list',
+                listItems: 'choices__list--multiple',
+                listSingle: 'choices__list--single',
+                listDropdown: 'choices__list--dropdown',
+                item: 'choices__item',
+                itemSelectable: 'choices__item--selectable',
+                itemDisabled: 'choices__item--disabled',
+                itemChoice: 'choices__item--choice',
+                placeholder: 'choices__placeholder',
+                group: 'choices__group',
+                groupHeading: 'choices__heading',
+                button: 'choices__button'
+            },
+            itemSelectText: ''
+        });
     } catch (error) {
-        console.error('Failed to load tags:', error);
-        showError('globalError', 'Failed to load tags. Please try again.');
+        showError('Error loading tags: ' + error.message, 'loadTags');
     }
 }
 
 // Rendering utilities
 function renderSelectOptions(select, items, labelKey, valueKey, defaultLabel, multiple = false) {
-    if (select.id === 'taskTags' || select.id === 'editTaskTags') {
-        if (window.populateTagsDropdown) {
-            window.populateTagsDropdown(items, select.id);
-        } else {
-            console.error(`populateTagsDropdown not defined for ${select.id}`);
-        }
-        return;
-    }
     select.innerHTML = `<option value="" disabled ${!multiple ? 'selected' : ''}>${defaultLabel}</option>`;
     items.forEach(item => {
         const option = document.createElement('option');
@@ -384,7 +405,7 @@ function renderFilteredTasks() {
     const status = dom.taskFilter.value;
     const userId = dom.userFilter.value;
     const categoryId = dom.categoryFilter.value;
-    const tagId = dom.tagFilter.value;
+    const tagId = dom.tagFilter.value ? parseInt(dom.tagFilter.value) : null;
     const sort = dom.taskSort.value;
 
     let filteredTasks = state.tasks.filter(task => {
@@ -392,7 +413,7 @@ function renderFilteredTasks() {
         const matchesStatus = status === 'all' || (status === 'completed' && task.IsCompleted) || (status === 'incomplete' && !task.IsCompleted);
         const matchesUser = !userId || task.UserId === parseInt(userId);
         const matchesCategory = !categoryId || task.CategoryId === parseInt(categoryId);
-        const matchesTag = !tagId || task.TagIds?.includes(parseInt(tagId));
+        const matchesTag = !tagId || task.TagIds?.includes(tagId);
         return matchesSearch && matchesStatus && matchesUser && matchesCategory && matchesTag;
     });
 
@@ -411,10 +432,10 @@ function renderFilteredTasks() {
     const activeTasks = filteredTasks.filter(task => !task.IsCompleted);
     const completedTasks = filteredTasks.filter(task => task.IsCompleted);
 
-    if (activeTasks.length === 0) dom.taskList.innerHTML = '<li>No active tasks found.</li>';
+    if (activeTasks.length === 0) dom.taskList.innerHTML = '<li>No active tasks.</li>';
     else activeTasks.forEach(task => dom.taskList.appendChild(createTaskElement(task)));
 
-    if (completedTasks.length === 0) dom.completedTasksList.innerHTML = '<li>No completed tasks found.</li>';
+    if (completedTasks.length === 0) dom.completedTasksList.innerHTML = '<li>No completed tasks.</li>';
     else completedTasks.forEach(task => dom.completedTasksList.appendChild(createTaskElement(task)));
 }
 
@@ -457,59 +478,24 @@ function formatDate(dateString) {
 // Task management
 async function addTaskWithSpinner() {
     dom.taskSpinner.style.display = 'inline-block';
+    dom.addTaskForm.querySelector('button[aria-label="Add task"]').disabled = true;
     try {
         await addTask();
     } catch (error) {
         showError('Error adding task: ' + error.message, 'addTaskWithSpinner');
     } finally {
         dom.taskSpinner.style.display = 'none';
+        dom.addTaskForm.querySelector('button[aria-label="Add task"]').disabled = false;
     }
 }
 
 async function addTask() {
-    const title = dom.taskTitle.value.trim();
-    const description = dom.taskDesc.value.trim();
-    const dueDate = dom.taskDueDate.value;
-    const userId = dom.userSelect.value;
-    const categoryId = dom.taskCategory.value;
-    const tags = window.getSelectedTags?.('taskTags') || [];
-    const progress = parseInt(dom.taskProgress.value) || 0;
-
-    if (!title || !dueDate) {
-        throw new Error('Title and due date are required');
-    }
-    const dateObj = new Date(dueDate);
-    if (isNaN(dateObj.getTime())) {
-        throw new Error('Invalid due date');
-    }
-    if (progress < 0 || progress > 100) {
-        throw new Error('Progress must be between 0 and 100');
-    }
-    if (userId && !state.users.some(u => u.Id === parseInt(userId))) {
-        throw new Error('Invalid user selected');
-    }
-    if (categoryId && !state.categories.some(c => c.Id === parseInt(categoryId))) {
-        throw new Error('Invalid category selected');
-    }
-    if (tags.length > 0 && !tags.every(tag => state.tags.some(t => t.Id === parseInt(tag)))) {
-        throw new Error('Invalid tag selected');
-    }
-
-    const task = {
-        Title: title,
-        Description: description,
-        DueDate: dateObj.toISOString(),
-        UserId: userId ? parseInt(userId) : null,
-        CategoryId: categoryId ? parseInt(categoryId) : null,
-        TagIds: tags.map(tag => parseInt(tag)),
-        Progress: progress,
-        IsCompleted: false,
-        Notes: ''
-    };
+    const taskData = validateTaskForm();
+    if (!taskData) return;
 
     const response = await fetchWithCsrf('/api/tasks', {
         method: 'POST',
-        body: JSON.stringify(task)
+        body: JSON.stringify(taskData)
     });
 
     if (!response.ok) {
@@ -528,16 +514,16 @@ function validateTaskForm(isEdit = false) {
     const dueDate = form.querySelector(isEdit ? '#editTaskDueDate' : '#taskDueDate').value;
     const userId = form.querySelector(isEdit ? '#editUserSelect' : '#userSelect')?.value;
     const categoryId = form.querySelector(isEdit ? '#editTaskCategory' : '#taskCategory')?.value;
-    const tags = window.getSelectedTags?.(isEdit ? 'editTaskTags' : 'taskTags') || [];
+    const tags = isEdit ? editTaskTagsInstance.getValue(true).map(item => parseInt(item)) : taskTagsInstance.getValue(true).map(item => parseInt(item));
     const progress = parseInt(form.querySelector(isEdit ? '#editTaskProgress' : '#taskProgress').value) || 0;
 
     if (!title || !dueDate) {
-        showError('Title and Due Date are required.', 'validateTaskForm');
+        showError('Title and due date are required.', 'validateTaskForm');
         return null;
     }
     const dateObj = new Date(dueDate);
     if (isNaN(dateObj.getTime())) {
-        showError('Invalid Due Date.', 'validateTaskForm');
+        showError('Invalid due date.', 'validateTaskForm');
         return null;
     }
     if (progress < 0 || progress > 100) {
@@ -552,8 +538,12 @@ function validateTaskForm(isEdit = false) {
         showError('Invalid category selected.', 'validateTaskForm');
         return null;
     }
-    if (tags.length > 0 && !tags.every(tag => state.tags.some(t => t.Id === parseInt(tag)))) {
+    if (tags.length > 0 && !tags.every(tag => state.tags.some(t => t.Id === tag))) {
         showError('Invalid tag selected.', 'validateTaskForm');
+        return null;
+    }
+    if (userId && parseInt(userId) === state.currentUser?.Id) {
+        showError('Cannot assign task to yourself.', 'validateTaskForm');
         return null;
     }
 
@@ -566,7 +556,7 @@ function validateTaskForm(isEdit = false) {
         CategoryId: categoryId ? parseInt(categoryId) : null,
         Notes: '',
         Progress: progress,
-        TagIds: tags.map(tag => parseInt(tag))
+        TagIds: tags
     };
 }
 
@@ -576,7 +566,8 @@ function resetTaskForm() {
     dom.taskDueDate.value = '';
     dom.userSelect.value = '';
     dom.taskCategory.value = '';
-    window.setSelectedTags?.([], 'taskTags');
+    taskTagsInstance.clearChoices();
+    taskTagsInstance.setChoiceByValue([]);
     dom.taskProgress.value = '0';
 }
 
@@ -635,7 +626,7 @@ function openModal(modalId, taskId = null) {
         dom.editUserSelect.value = task.UserId || '';
         dom.editTaskCategory.value = task.CategoryId || '';
         dom.editTaskProgress.value = task.Progress;
-        window.setSelectedTags?.(task.TagIds || [], 'editTaskTags');
+        editTaskTagsInstance.setChoiceByValue(task.TagIds || []);
         modal.dataset.taskId = taskId;
     } else if (modalId === 'detailsModal' && taskId) {
         const task = state.tasks.find(t => t.Id === taskId);
@@ -739,6 +730,13 @@ async function saveNewItem() {
         return;
     }
 
+    const existingItems = state.currentItemType === 'category' ? state.categories : state.tags;
+    if (existingItems.some(item => item.Name.toLowerCase() === name.toLowerCase())) {
+        showError(`${state.currentItemType} already exists.`, 'saveNewItem');
+        return;
+    }
+
+    dom.saveItemBtn.disabled = true;
     const endpoint = state.currentItemType === 'category' ? '/api/categories' : '/api/tags';
     const payload = { Name: name, TaskTags: [] };
     try {
@@ -748,17 +746,30 @@ async function saveNewItem() {
         });
         if (!response.ok) {
             const errorData = await response.json();
-            const errorMessage = errorData.errors?.TaskTags?.[0] || errorData.message || 'Failed to add item';
-            throw new Error(errorMessage);
+            throw new Error(errorData.message || 'Failed to add item');
         }
         await (state.currentItemType === 'category' ? loadCategories() : loadTags());
         closeModal('addItemModal');
     } catch (error) {
         showError(`Error adding ${state.currentItemType.toLowerCase()}: ${error.message}`, 'saveNewItem');
+    } finally {
+        dom.saveItemBtn.disabled = false;
     }
 }
 
 // Filter management
+function searchTasks() {
+    renderFilteredTasks();
+}
+
+function filterTasks() {
+    renderFilteredTasks();
+}
+
+function sortTasks() {
+    renderFilteredTasks();
+}
+
 function clearFilters() {
     dom.taskSearch.value = '';
     dom.taskFilter.value = 'all';
@@ -821,104 +832,77 @@ function setupDragAndDrop() {
 
 // Export to CSV
 function exportToCSV() {
-    const headers = ['Title', 'Description', 'Due Date', 'User', 'Category', 'Tags', 'Progress', 'Status', 'Notes'];
+    const headers = ['Id', 'Title', 'Description', 'Due Date', 'Assigned To', 'Category', 'Tags', 'Progress', 'Status'];
     const rows = state.tasks.map(task => [
+        task.Id,
         `"${task.Title.replace(/"/g, '""')}"`,
-        `"${(task.Description || '').replace(/"/g, '""')}"`,
+        `"${task.Description ? task.Description.replace(/"/g, '""') : ''}"`,
         formatDate(task.DueDate),
         state.users.find(u => u.Id === task.UserId)?.Name || 'Unassigned',
         state.categories.find(c => c.Id === task.CategoryId)?.Name || 'No category',
         task.TagIds?.map(id => state.tags.find(t => t.Id === id)?.Name).filter(Boolean).join(', ') || 'No tags',
         task.Progress,
-        task.IsCompleted ? 'Completed' : 'Active',
-        `"${(task.Notes || '').replace(/"/g, '""')}"`
+        task.IsCompleted ? 'Completed' : 'Active'
     ]);
-    const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'tasks.csv';
-    a.click();
-    URL.revokeObjectURL(url);
+
+    const csv = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'tasks.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
 }
 
-// Accessibility
+// Accessibility: Trap focus in modals
 function trapFocus(modalId) {
     const modal = document.getElementById(modalId);
-    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
+    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
 
     modal.addEventListener('keydown', e => {
         if (e.key === 'Tab') {
-            if (e.shiftKey && document.activeElement === first) {
+            if (e.shiftKey && document.activeElement === firstElement) {
                 e.preventDefault();
-                last.focus();
-            } else if (!e.shiftKey && document.activeElement === last) {
+                lastElement.focus();
+            } else if (!e.shiftKey && document.activeElement === lastElement) {
                 e.preventDefault();
-                first.focus();
+                firstElement.focus();
             }
-        } else if (e.key === 'Escape') {
-            closeModal(modalId);
         }
     });
 
-    first.focus();
+    firstElement.focus();
 }
 
 // Event listeners
 function setupEventListeners() {
     dom.themeToggle.addEventListener('click', toggleTheme);
-    dom.exportButton.addEventListener('click', exportToCSV);
-    dom.loginForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        await login();
+    dom.taskList.addEventListener('click', e => {
+        const taskId = parseInt(e.target.dataset.taskId);
+        if (e.target.classList.contains('edit-btn')) openModal('editModal', taskId);
+        else if (e.target.classList.contains('complete-btn')) toggleTaskCompletion(taskId);
+        else if (e.target.classList.contains('delete-btn')) deleteTask(taskId);
+        else if (e.target.classList.contains('details-btn')) openModal('detailsModal', taskId);
     });
-    dom.registerForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        await register();
+    dom.completedTasksList.addEventListener('click', e => {
+        const taskId = parseInt(e.target.dataset.taskId);
+        if (e.target.classList.contains('edit-btn')) openModal('editModal', taskId);
+        else if (e.target.classList.contains('complete-btn')) toggleTaskCompletion(taskId);
+        else if (e.target.classList.contains('delete-btn')) deleteTask(taskId);
+        else if (e.target.classList.contains('details-btn')) openModal('detailsModal', taskId);
     });
-    dom.addTaskForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        await addTaskWithSpinner();
-    });
-    document.getElementById('logoutBtn')?.addEventListener('click', logout);
-    dom.saveItemBtn?.addEventListener('click', saveNewItem);
-    document.getElementById('cancelItemBtn')?.addEventListener('click', () => closeModal('addItemModal'));
-    document.getElementById('saveTaskBtn')?.addEventListener('click', saveTaskChanges);
-    document.getElementById('cancelEditBtn')?.addEventListener('click', () => closeModal('editModal'));
-    document.getElementById('saveNotesBtn')?.addEventListener('click', saveTaskNotes);
-    document.getElementById('closeDetailsBtn')?.addEventListener('click', () => closeModal('detailsModal'));
-    document.getElementById('clearFilters')?.addEventListener('click', clearFilters);
     dom.editFromDetailsBtn.addEventListener('click', () => {
         const taskId = parseInt(dom.detailsTaskNotes.dataset.taskId);
         closeModal('detailsModal');
         openModal('editModal', taskId);
     });
-
-    let searchTimeout;
-    dom.taskSearch.addEventListener('input', () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(renderFilteredTasks, 300);
-    });
-    dom.taskSearch.addEventListener('keydown', e => {
-        if (e.key === 'Enter') renderFilteredTasks();
-    });
-    [dom.taskFilter, dom.userFilter, dom.categoryFilter, dom.tagFilter, dom.taskSort].forEach(el => {
-        el.addEventListener('change', renderFilteredTasks);
-    });
-
-    [dom.taskList, dom.completedTasksList].forEach(list => {
-        list.addEventListener('click', async e => {
-            const taskId = parseInt(e.target.dataset.taskId);
-            if (!taskId) return;
-            if (e.target.classList.contains('edit-btn')) openModal('editModal', taskId);
-            else if (e.target.classList.contains('complete-btn')) await toggleTaskCompletion(taskId);
-            else if (e.target.classList.contains('delete-btn')) await deleteTask(taskId);
-            else if (e.target.classList.contains('details-btn')) openModal('detailsModal', taskId);
-        });
-    });
-
+    dom.taskSearch.addEventListener('input', searchTasks);
+    dom.taskFilter.addEventListener('change', filterTasks);
+    dom.userFilter.addEventListener('change', filterTasks);
+    dom.categoryFilter.addEventListener('change', filterTasks);
+    dom.tagFilter.addEventListener('change', filterTasks);
+    dom.taskSort.addEventListener('change', sortTasks);
     setupDragAndDrop();
 }
