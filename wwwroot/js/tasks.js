@@ -81,7 +81,6 @@ export async function renderTasks(page = 1) {
                 throw new Error('Tasks is not an array');
             }
 
-            // Fetch user emails for assigned users
             const userIds = [...new Set(tasks.map(t => t.userId).filter(id => id))];
             let users = [];
             if (userIds.length > 0) {
@@ -91,22 +90,26 @@ export async function renderTasks(page = 1) {
             const userMap = Object.fromEntries(users.map(u => [u.id, u.email]));
 
             const tbody = document.getElementById('task-list');
+            const now = new Date();
             tbody.innerHTML = tasks.length > 0
-                ? tasks.map(task => `
-                    <tr>
-                        <td><a href="#/task/${task.id}">${task.title || 'Untitled'}</a></td>
-                        <td>${task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'N/A'}</td>
-                        <td>${task.priority || 'N/A'}</td>
-                        <td>${task.progress != null ? task.progress + '%' : '0%'}</td>
-                        <td>${task.userId ? userMap[task.userId] || 'Unknown' : 'Unassigned'}</td>
-                        <td>
-                            <button data-id="${task.id}" class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
-                            ${role === 'Manager' ? `
-                                <button data-id="${task.id}" class="action-btn delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
-                            ` : ''}
-                        </td>
-                    </tr>
-                `).join('')
+                ? tasks.map(task => {
+                    const isOverdue = task.dueDate && new Date(task.dueDate) < now && !task.isCompleted;
+                    return `
+                        <tr class="${isOverdue ? 'overdue' : ''}">
+                            <td><a href="#/task/${task.id}">${task.title || 'Untitled'}</a></td>
+                            <td>${task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'N/A'}</td>
+                            <td>${task.priority || 'N/A'}</td>
+                            <td>${task.progress != null ? task.progress + '%' : '0%'}</td>
+                            <td>${task.userId ? userMap[task.userId] || 'Unknown' : 'Unassigned'}</td>
+                            <td>
+                                <button data-id="${task.id}" class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                                ${role === 'Manager' ? `
+                                    <button data-id="${task.id}" class="action-btn delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                }).join('')
                 : '<tr><td colspan="6">No tasks available</td></tr>';
 
             document.getElementById('page-info').textContent = `Page ${currentPage} of ${Math.ceil(total / pageSize) || 1}`;
@@ -252,7 +255,7 @@ async function renderTaskForm(id = null) {
                 <div>
                     <label><i class="fas fa-tags"></i> Tags</label>
                     <select id="tagIds" multiple ${role === 'Worker' ? 'disabled' : ''}>
-                        ${tags.length > 0 ? tags.map(t => `<option value="${t.id}" ${task?.tagIds?.includes(t.id) ? 'selected' : ''}>${t.name || 'Unnamed'}</option>`).join('') : '<option value="">No tags available</option>'}
+                        ${tags.length > 0 ? categories.map(t => `<option value="${t.id}" ${task?.tagIds?.includes(t.id) ? 'selected' : ''}>${t.name || 'Unnamed'}</option>`).join('') : '<option value="">No tags available</option>'}
                     </select>
                 </div>
                 <div>
@@ -341,6 +344,9 @@ export async function renderTaskDetail(id) {
                 <p><strong>Notes:</strong> ${task.notes || 'None'}</p>
                 <p><strong>Completed:</strong> ${task.isCompleted ? 'Yes' : 'No'}</p>
                 <button id="edit-task" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit Task</button>
+                ${role === 'Manager' ? `
+                    <button id="delete-task" class="action-btn delete-btn" data-id="${task.id}" title="Delete Task"><i class="fas fa-trash"></i> Delete Task</button>
+                ` : ''}
                 <h3>Comments</h3>
                 <div id="comments"></div>
                 <form id="comment-form">
@@ -370,6 +376,20 @@ export async function renderTaskDetail(id) {
         renderNotes(id);
 
         document.getElementById('edit-task').addEventListener('click', () => renderTaskForm(id));
+
+        if (role === 'Manager') {
+            document.getElementById('delete-task')?.addEventListener('click', async () => {
+                if (confirm('Are you sure you want to delete this task?')) {
+                    try {
+                        await deleteTask(id);
+                        navigate('/');
+                    } catch (err) {
+                        console.error('Error deleting task:', err);
+                        app.innerHTML += `<p class="error">Failed to delete task: ${err.message}</p>`;
+                    }
+                }
+            });
+        }
 
         document.getElementById('comment-form').addEventListener('submit', async (e) => {
             e.preventDefault();

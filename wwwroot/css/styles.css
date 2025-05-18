@@ -1,7 +1,7 @@
-body {
+body.task-manager {
     font-family: 'Inter', Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #fff;
+    background: #ffffff !important;
+    color: #333333;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,226 +9,285 @@ body {
     min-height: 100vh;
 }
 
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-header {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 1rem 0;
-    backdrop-filter: blur(8px);
-}
-
-    header h1 {
-        margin: 0;
-        font-size: 2rem;
-        display: inline-block;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    body.task-manager .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    header nav {
-        float: right;
-        margin-top: 0.5rem;
+    body.task-manager header {
+        background: #f8f9fa;
+        padding: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-nav a, nav button {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 1.5rem;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    background: linear-gradient(45deg, #2a5298, #3b6db8);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-    nav a:hover, nav button:hover {
-        background: linear-gradient(45deg, #3b6db8, #4c88d8);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-nav button {
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-main {
-    flex: 1;
-    padding: 2rem 0;
-}
-
-.card {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    padding: 2rem;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
-
-    .card h2 {
-        margin: 0 0 1.5rem;
-        font-size: 1.8rem;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    }
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-}
-
-label {
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-input, select {
-    padding: 0.8rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.95);
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-    input:focus, select:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(59, 109, 184, 0.5);
-        background: #fff;
-    }
-
-button {
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    background: linear-gradient(45deg, #2a5298, #3b6db8);
-    color: #fff;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-}
-
-    button:hover {
-        background: linear-gradient(45deg, #3b6db8, #4c88d8);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    button:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1.5rem;
-}
-
-th, td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-th {
-    background: rgba(255, 255, 255, 0.2);
-    font-weight: 600;
-}
-
-td a {
-    color: #a8c7fa;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-    td a:hover {
-        color: #fff;
-        text-decoration: underline;
-    }
-
-.action-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-}
-
-.edit-btn {
-    color: #4cd137;
-}
-
-    .edit-btn:hover {
-        color: #69e64e;
-        background: rgba(76, 209, 55, 0.1);
-        transform: scale(1.1);
-    }
-
-.delete-btn {
-    color: #ff6b6b;
-}
-
-    .delete-btn:hover {
-        color: #ff8787;
-        background: rgba(255, 107, 107, 0.1);
-        transform: scale(1.1);
-    }
-
-.pagination {
-    margin-top: 1.5rem;
-    display: flex;
-    gap: 0.8rem;
-}
-
-    .pagination button {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.95rem;
-    }
-
-        .pagination button:disabled {
-            background: rgba(255, 255, 255, 0.3);
-            cursor: not-allowed;
-            box-shadow: none;
+        body.task-manager header h1 {
+            margin: 0;
+            font-size: 2rem;
+            display: inline-block;
+            color: #1a3c72;
         }
 
-.error {
-    color: #ff6b6b;
-    margin-top: 1rem;
-    font-weight: 500;
-}
+        body.task-manager header nav {
+            float: right;
+            margin-top: 0.5rem;
+        }
 
-.loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
+    body.task-manager nav a, body.task-manager nav button {
+        color: #ffffff;
+        text-decoration: none;
+        margin-left: 1.5rem;
+        padding: 0.7rem 1.3rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        background: linear-gradient(45deg, #0062cc, #3388ff);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+    }
 
-.spinner {
-    border: 5px solid rgba(255, 255, 255, 0.3);
-    border-top: 5px solid #fff;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-}
+        body.task-manager nav a:hover, body.task-manager nav button:hover {
+            background: linear-gradient(45deg, #3388ff, #66b0ff);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.task-manager nav a::after, body.task-manager nav button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        body.task-manager nav a:hover::after, body.task-manager nav button:hover::after {
+            width: 200%;
+            height: 200%;
+        }
+
+    body.task-manager nav button {
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    body.task-manager main {
+        flex: 1;
+        padding: 2rem 0;
+    }
+
+    body.task-manager .card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+        body.task-manager .card h2 {
+            margin: 0 0 1.5rem;
+            font-size: 1.8rem;
+            color: #1a3c72;
+        }
+
+    body.task-manager form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    body.task-manager label {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: #333333;
+    }
+
+    body.task-manager input, body.task-manager select, body.task-manager textarea {
+        padding: 0.8rem;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 1rem;
+        background: #ffffff;
+        transition: all 0.3s ease;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+        body.task-manager input:focus, body.task-manager select:focus, body.task-manager textarea:focus {
+            outline: none;
+            border-color: #0062cc;
+            box-shadow: 0 0 0 3px rgba(0, 98, 204, 0.25);
+            background: #ffffff;
+        }
+
+    body.task-manager button {
+        padding: 0.9rem 1.6rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        background: linear-gradient(45deg, #0062cc, #3388ff);
+        color: #ffffff;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        body.task-manager button:hover {
+            background: linear-gradient(45deg, #3388ff, #66b0ff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        body.task-manager button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        body.task-manager button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        body.task-manager button:hover::after {
+            width: 200%;
+            height: 200%;
+        }
+
+    body.task-manager table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5rem;
+    }
+
+    body.task-manager th, body.task-manager td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    body.task-manager th {
+        background: #e9ecef;
+        font-weight: 600;
+        color: #1a3c72;
+    }
+
+    body.task-manager td a {
+        color: #0062cc;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        body.task-manager td a:hover {
+            color: #003d80;
+            text-decoration: underline;
+        }
+
+    body.task-manager .action-btn {
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+        cursor: pointer;
+        font-size: 1.4rem;
+        padding: 0.6rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        margin-right: 0.5rem;
+    }
+
+    body.task-manager .edit-btn {
+        color: #28a745;
+        background: rgba(40, 167, 69, 0.1);
+    }
+
+        body.task-manager .edit-btn:hover {
+            color: #ffffff;
+            background: linear-gradient(45deg, #28a745, #34c759);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+    body.task-manager .delete-btn {
+        color: #dc3545;
+        background: rgba(220, 53, 69, 0.1);
+    }
+
+        body.task-manager .delete-btn:hover {
+            color: #ffffff;
+            background: linear-gradient(45deg, #dc3545, #ff4d4d);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+    body.task-manager .overdue {
+        background: rgba(220, 53, 69, 0.1);
+        border-left: 4px solid #dc3545;
+    }
+
+    body.task-manager .pagination {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.8rem;
+    }
+
+        body.task-manager .pagination button {
+            padding: 0.7rem 1.3rem;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #0062cc, #3388ff);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+            body.task-manager .pagination button:disabled {
+                background: #f1f3f5;
+                cursor: not-allowed;
+                box-shadow: none;
+                color: #868e96;
+            }
+
+    body.task-manager .error {
+        color: #dc3545;
+        margin-top: 1rem;
+        font-weight: 500;
+    }
+
+    body.task-manager .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    body.task-manager .spinner {
+        border: 5px solid rgba(0, 0, 0, 0.1);
+        border-top: 5px solid #0062cc;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
 
 @keyframes spin {
     0% {
@@ -240,49 +299,52 @@ td a {
     }
 }
 
-.loader.hidden {
+body.task-manager .loader.hidden {
     display: none;
 }
 
-footer {
-    background: rgba(0, 0, 0, 0.4);
+body.task-manager footer {
+    background: #f8f9fa;
     padding: 1.5rem 0;
     text-align: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
-    footer a {
-        color: #a8c7fa;
+    body.task-manager footer a {
+        color: #0062cc;
         margin: 0 1.2rem;
         text-decoration: none;
     }
 
-        footer a:hover {
-            color: #fff;
+        body.task-manager footer a:hover {
+            color: #003d80;
             text-decoration: underline;
         }
 
-.create-task {
-    background: rgba(255, 255, 255, 0.1);
+body.task-manager .create-task {
+    background: #f8f9fa;
     border-radius: 10px;
     padding: 1.5rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-    .create-task h3 {
+    body.task-manager .create-task h3 {
         margin: 0 0 1.2rem;
         font-size: 1.4rem;
+        color: #1a3c72;
     }
 
-.edit-task {
-    background: rgba(255, 255, 255, 0.1);
+body.task-manager .edit-task {
+    background: #f8f9fa;
     border-radius: 10px;
     padding: 1.5rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-    .edit-task h3 {
+    body.task-manager .edit-task h3 {
         margin: 0 0 1.2rem;
         font-size: 1.4rem;
+        color: #1a3c72;
     }
