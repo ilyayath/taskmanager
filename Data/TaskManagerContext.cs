@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TaskManager.Models;
 
 namespace TaskManager.Data
@@ -11,6 +12,8 @@ namespace TaskManager.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TaskTag> TaskTags { get; set; }
+        public DbSet<Comment> Comments { get; set; } // Додано
+        public DbSet<Note> Notes { get; set; } // Додано
 
         public TaskManagerContext(DbContextOptions<TaskManagerContext> options)
             : base(options)
@@ -50,14 +53,38 @@ namespace TaskManager.Data
                 .HasOne(tt => tt.Tag)
                 .WithMany(t => t.TaskTags)
                 .HasForeignKey(tt => tt.TagId);
+
+            // Налаштування зв’язку між Comment і Task
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Task)
+                .WithMany(t => t.Comments)
+                .HasForeignKey(c => c.TaskId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Налаштування зв’язку між Note і Task
+            modelBuilder.Entity<Note>()
+                .HasOne(n => n.Task)
+                .WithMany(t => t.NotesList)
+                .HasForeignKey(n => n.TaskId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 
     public class Tag
     {
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Name { get; set; }
-        public ICollection<TaskTag> TaskTags { get; set; }
+
+        public ICollection<TaskTag> TaskTags { get; set; } = new List<TaskTag>();
     }
 
     public class TaskTag
@@ -66,5 +93,12 @@ namespace TaskManager.Data
         public TaskItem Task { get; set; }
         public int TagId { get; set; }
         public Tag Tag { get; set; }
+    }
+
+    // DTO для Tag
+    public class TagDto
+    {
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }

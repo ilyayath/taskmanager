@@ -1,0 +1,1389 @@
+2025-05-18 11:15:25.134 +03:00 [INF] User profile is available. Using 'C:\Users\iyfoo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-18 11:15:27.960 +03:00 [INF] Executed DbCommand (72ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2025-05-18 11:15:28.075 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2025-05-18 11:15:28.104 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2025-05-18 11:15:28.176 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS c)
+2025-05-18 11:15:28.189 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Tasks" AS t)
+2025-05-18 11:15:28.200 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Tags" AS t)
+2025-05-18 11:15:28.665 +03:00 [INF] Now listening on: https://localhost:7285
+2025-05-18 11:15:28.666 +03:00 [INF] Now listening on: http://localhost:5181
+2025-05-18 11:15:28.761 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-18 11:15:28.764 +03:00 [INF] Hosting environment: Development
+2025-05-18 11:15:28.765 +03:00 [INF] Content root path: C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager
+2025-05-18 11:15:29.914 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/ - null null
+2025-05-18 11:15:30.188 +03:00 [INF] Executing endpoint 'Fallback {*path:nonfile}'
+2025-05-18 11:15:30.211 +03:00 [INF] The file /index.html was not modified
+2025-05-18 11:15:30.214 +03:00 [INF] Executed endpoint 'Fallback {*path:nonfile}'
+2025-05-18 11:15:30.226 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/index.html - 304 null text/html 322.6257ms
+2025-05-18 11:15:30.327 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/main.js - null null
+2025-05-18 11:15:30.327 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/css/styles.css - null null
+2025-05-18 11:15:30.327 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/_vs/browserLink - null null
+2025-05-18 11:15:30.332 +03:00 [INF] The file /js/main.js was not modified
+2025-05-18 11:15:30.335 +03:00 [INF] The file /css/styles.css was not modified
+2025-05-18 11:15:30.340 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/main.js - 304 null text/javascript 13.6466ms
+2025-05-18 11:15:30.384 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/css/styles.css - 304 null text/css 57.2051ms
+2025-05-18 11:15:30.418 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/router.js - null null
+2025-05-18 11:15:30.418 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/api.js - null null
+2025-05-18 11:15:30.422 +03:00 [INF] The file /js/router.js was not modified
+2025-05-18 11:15:30.426 +03:00 [INF] The file /js/api.js was not modified
+2025-05-18 11:15:30.428 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/router.js - 304 null text/javascript 9.9122ms
+2025-05-18 11:15:30.430 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/api.js - 304 null text/javascript 12.6597ms
+2025-05-18 11:15:30.457 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/auth.js - null null
+2025-05-18 11:15:30.460 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/tasks.js - null null
+2025-05-18 11:15:30.464 +03:00 [INF] The file /js/auth.js was not modified
+2025-05-18 11:15:30.469 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/auth.js - 304 null text/javascript 12.1672ms
+2025-05-18 11:15:30.529 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/_vs/browserLink - 200 null text/javascript; charset=UTF-8 201.4238ms
+2025-05-18 11:15:30.541 +03:00 [INF] Sending file. Request path: '/js/tasks.js'. Physical path: 'C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager\wwwroot\js\tasks.js'
+2025-05-18 11:15:30.544 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/tasks.js - 200 19166 text/javascript 83.7234ms
+2025-05-18 11:15:30.558 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/comments.js - null null
+2025-05-18 11:15:30.558 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/notes.js - null null
+2025-05-18 11:15:30.562 +03:00 [INF] The file /js/comments.js was not modified
+2025-05-18 11:15:30.569 +03:00 [INF] The file /js/notes.js was not modified
+2025-05-18 11:15:30.570 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/comments.js - 304 null text/javascript 11.7642ms
+2025-05-18 11:15:30.571 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/notes.js - 304 null text/javascript 13.0314ms
+2025-05-18 11:15:31.311 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:15:31.318 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 7.4143ms
+2025-05-18 11:15:31.323 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:15:33.997 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:15:34.006 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 9.5409ms
+2025-05-18 11:15:34.012 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:15:38.114 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:15:38.117 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 3.1613ms
+2025-05-18 11:15:38.121 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:15:45.857 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:15:45.862 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.5168ms
+2025-05-18 11:15:45.866 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:18:13.892 +03:00 [INF] User profile is available. Using 'C:\Users\iyfoo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-18 11:18:15.750 +03:00 [INF] Executed DbCommand (59ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2025-05-18 11:18:15.837 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2025-05-18 11:18:15.856 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2025-05-18 11:18:15.916 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS c)
+2025-05-18 11:18:15.927 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Tasks" AS t)
+2025-05-18 11:18:15.935 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Tags" AS t)
+2025-05-18 11:18:16.172 +03:00 [INF] Now listening on: https://localhost:7285
+2025-05-18 11:18:16.175 +03:00 [INF] Now listening on: http://localhost:5181
+2025-05-18 11:18:16.238 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-18 11:18:16.240 +03:00 [INF] Hosting environment: Development
+2025-05-18 11:18:16.241 +03:00 [INF] Content root path: C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager
+2025-05-18 11:18:17.190 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/_vs/browserLink - null null
+2025-05-18 11:18:17.190 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/tasks.js - null null
+2025-05-18 11:18:17.414 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/_vs/browserLink - 200 null text/javascript; charset=UTF-8 232.5995ms
+2025-05-18 11:18:17.417 +03:00 [INF] Sending file. Request path: '/js/tasks.js'. Physical path: 'C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager\wwwroot\js\tasks.js'
+2025-05-18 11:18:17.424 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/tasks.js - 200 19205 text/javascript 243.9374ms
+2025-05-18 11:18:17.970 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:18:18.015 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 44.9678ms
+2025-05-18 11:18:18.022 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:18:20.765 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:18:20.770 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.9716ms
+2025-05-18 11:18:20.774 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:18:22.887 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:18:22.894 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 7.1193ms
+2025-05-18 11:18:22.898 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:18:24.870 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:18:24.874 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.151ms
+2025-05-18 11:18:24.878 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:18:32.611 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/tasks.js - null null
+2025-05-18 11:18:32.699 +03:00 [INF] The file /js/tasks.js was not modified
+2025-05-18 11:18:32.701 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/tasks.js - 304 null text/javascript 90.6994ms
+2025-05-18 11:18:33.761 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:18:33.766 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.8947ms
+2025-05-18 11:18:33.770 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:24:31.746 +03:00 [INF] User profile is available. Using 'C:\Users\iyfoo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-18 11:24:33.541 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2025-05-18 11:24:33.626 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2025-05-18 11:24:33.646 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2025-05-18 11:24:33.718 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS c)
+2025-05-18 11:24:33.729 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Tasks" AS t)
+2025-05-18 11:24:33.737 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Tags" AS t)
+2025-05-18 11:24:33.992 +03:00 [INF] Now listening on: https://localhost:7285
+2025-05-18 11:24:33.995 +03:00 [INF] Now listening on: http://localhost:5181
+2025-05-18 11:24:34.057 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-18 11:24:34.059 +03:00 [INF] Hosting environment: Development
+2025-05-18 11:24:34.060 +03:00 [INF] Content root path: C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager
+2025-05-18 11:24:35.081 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/_vs/browserLink - null null
+2025-05-18 11:24:35.081 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/tasks.js - null null
+2025-05-18 11:24:35.167 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/_vs/browserLink - 200 null text/javascript; charset=UTF-8 95.1193ms
+2025-05-18 11:24:35.187 +03:00 [INF] Sending file. Request path: '/js/tasks.js'. Physical path: 'C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager\wwwroot\js\tasks.js'
+2025-05-18 11:24:35.190 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/tasks.js - 200 19196 text/javascript 119.2421ms
+2025-05-18 11:24:35.209 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/notes.js - null null
+2025-05-18 11:24:35.209 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/js/comments.js - null null
+2025-05-18 11:24:35.218 +03:00 [INF] Sending file. Request path: '/js/comments.js'. Physical path: 'C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager\wwwroot\js\comments.js'
+2025-05-18 11:24:35.218 +03:00 [INF] Sending file. Request path: '/js/notes.js'. Physical path: 'C:\Users\iyfoo\source\repos\lab1isttp\src\TaskManager\wwwroot\js\notes.js'
+2025-05-18 11:24:35.220 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/comments.js - 499 1037 text/javascript 10.8369ms
+2025-05-18 11:24:35.222 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/js/notes.js - 499 1743 text/javascript 13.2351ms
+2025-05-18 11:24:35.234 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:35.298 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.324 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:35.341 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:35.476 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 145.6371ms
+2025-05-18 11:24:35.479 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.482 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 25 application/json; charset=utf-8 248.2543ms
+2025-05-18 11:24:35.485 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:24:35.494 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.495 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:35.509 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:35.512 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 13.5628ms
+2025-05-18 11:24:35.514 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.515 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 25 application/json; charset=utf-8 30.1702ms
+2025-05-18 11:24:35.524 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:35.531 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.533 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:35.543 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:35.546 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.0676ms
+2025-05-18 11:24:35.548 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.550 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 25 application/json; charset=utf-8 25.9871ms
+2025-05-18 11:24:35.558 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:24:35.562 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.564 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:35.568 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:35.570 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 3.3459ms
+2025-05-18 11:24:35.572 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:35.574 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 25 application/json; charset=utf-8 16.2635ms
+2025-05-18 11:24:35.956 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:24:35.961 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 5.0737ms
+2025-05-18 11:24:35.966 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:24:38.571 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:24:38.576 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 5.4674ms
+2025-05-18 11:24:38.581 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:24:40.097 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:40.102 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.103 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:40.108 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:40.110 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 3.8609ms
+2025-05-18 11:24:40.112 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.114 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 25 application/json; charset=utf-8 16.6233ms
+2025-05-18 11:24:40.126 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7285/api/account/login - application/json 52
+2025-05-18 11:24:40.134 +03:00 [INF] CORS policy execution successful.
+2025-05-18 11:24:40.138 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.Login (TaskManager)'
+2025-05-18 11:24:40.152 +03:00 [INF] Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(TaskManager.Controllers.LoginModel) on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:40.280 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."NormalizedEmail" = @__normalizedEmail_0
+LIMIT 2
+2025-05-18 11:24:40.493 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__user_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ClaimType", a."ClaimValue", a."UserId"
+FROM "AspNetUserClaims" AS a
+WHERE a."UserId" = @__user_Id_0
+2025-05-18 11:24:40.534 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:40.541 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedName_0
+LIMIT 1
+2025-05-18 11:24:40.556 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__role_Id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."ClaimType", a."ClaimValue"
+FROM "AspNetRoleClaims" AS a
+WHERE a."RoleId" = @__role_Id_0
+2025-05-18 11:24:40.572 +03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-05-18 11:24:40.576 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:40.582 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.Login (TaskManager) in 426.3868ms
+2025-05-18 11:24:40.584 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.Login (TaskManager)'
+2025-05-18 11:24:40.590 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7285/api/account/login - 200 30 application/json; charset=utf-8 463.9611ms
+2025-05-18 11:24:40.672 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:40.672 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:40.690 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.690 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.692 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:40.693 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:40.737 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:40.748 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:40.752 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:40.756 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 58.7319ms
+2025-05-18 11:24:40.758 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.760 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 88.0664ms
+2025-05-18 11:24:40.768 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:24:40.775 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.776 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:40.782 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:40.787 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:40.790 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:40.793 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 13.3046ms
+2025-05-18 11:24:40.795 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.797 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 29.1053ms
+2025-05-18 11:24:40.887 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:40.893 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:40.893 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.897 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:40.897 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:40.902 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:40.903 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:40.907 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:40.907 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 212.2358ms
+2025-05-18 11:24:40.911 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:40.912 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.914 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 15.1875ms
+2025-05-18 11:24:40.917 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 244.2793ms
+2025-05-18 11:24:40.918 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.921 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:24:40.925 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 38.094ms
+2025-05-18 11:24:40.928 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - application/json null
+2025-05-18 11:24:40.929 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.937 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:40.941 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:40.946 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:24:40.946 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:40.950 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:40.952 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 12.7816ms
+2025-05-18 11:24:40.953 +03:00 [INF] Route matched with {action = "GetTasks", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.PagedTasksResponse]] GetTasks(Int32, Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:24:40.954 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:40.958 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 37.3964ms
+2025-05-18 11:24:40.971 +03:00 [INF] TasksController.GetTasks викликано з page=1, pageSize=10
+2025-05-18 11:24:40.977 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:40.991 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:24:41.009 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:24:41.047 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:41.052 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:41.053 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:41.057 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Tasks" AS t
+2025-05-18 11:24:41.059 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:41.063 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:41.066 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:41.068 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 11.2575ms
+2025-05-18 11:24:41.070 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:41.072 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 25.2ms
+2025-05-18 11:24:41.079 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - application/json null
+2025-05-18 11:24:41.083 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:24:41.085 +03:00 [INF] Route matched with {action = "GetTasks", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.PagedTasksResponse]] GetTasks(Int32, Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:24:41.088 +03:00 [INF] TasksController.GetTasks викликано з page=1, pageSize=10
+2025-05-18 11:24:41.092 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:41.096 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:24:41.100 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:24:41.106 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Tasks" AS t
+2025-05-18 11:24:41.133 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    ORDER BY t."Id"
+    LIMIT @__p_1 OFFSET @__p_0
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:24:41.136 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    ORDER BY t."Id"
+    LIMIT @__p_1 OFFSET @__p_0
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:24:41.150 +03:00 [INF] Знайдено 2 задач для користувача 2, сторінка 1
+2025-05-18 11:24:41.150 +03:00 [INF] Знайдено 2 задач для користувача 2, сторінка 1
+2025-05-18 11:24:41.155 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.PagedTasksResponse'.
+2025-05-18 11:24:41.155 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.PagedTasksResponse'.
+2025-05-18 11:24:41.170 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:24:41.175 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.883ms
+2025-05-18 11:24:41.201 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTasks (TaskManager) in 113.841ms
+2025-05-18 11:24:41.201 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTasks (TaskManager) in 244.9311ms
+2025-05-18 11:24:41.203 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:24:41.205 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:24:41.207 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:24:41.211 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - 200 396 application/json; charset=utf-8 131.9551ms
+2025-05-18 11:24:41.212 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - 200 396 application/json; charset=utf-8 284.3398ms
+2025-05-18 11:24:42.216 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:24:42.221 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 5.4121ms
+2025-05-18 11:24:42.226 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:24:45.540 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:45.540 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:45.544 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.548 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.548 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:45.549 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:45.555 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.556 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.563 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:45.563 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:45.567 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:45.569 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:45.571 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 16.9842ms
+2025-05-18 11:24:45.572 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 20.6833ms
+2025-05-18 11:24:45.574 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.575 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.577 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 36.7113ms
+2025-05-18 11:24:45.579 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 38.7962ms
+2025-05-18 11:24:45.587 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks/3 - application/json null
+2025-05-18 11:24:45.587 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks/3 - application/json null
+2025-05-18 11:24:45.595 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:24:45.595 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:24:45.602 +03:00 [INF] Route matched with {action = "GetTask", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.TaskItemDto]] GetTask(Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:24:45.602 +03:00 [INF] Route matched with {action = "GetTask", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.TaskItemDto]] GetTask(Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:24:45.609 +03:00 [INF] TasksController.GetTask викликано для ID: 3
+2025-05-18 11:24:45.609 +03:00 [INF] TasksController.GetTask викликано для ID: 3
+2025-05-18 11:24:45.631 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    WHERE t."Id" = @__id_0
+    LIMIT 1
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:24:45.631 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    WHERE t."Id" = @__id_0
+    LIMIT 1
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:24:45.637 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.639 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.642 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:24:45.645 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:24:45.647 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:24:45.650 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:24:45.651 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.TaskItemDto'.
+2025-05-18 11:24:45.653 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.TaskItemDto'.
+2025-05-18 11:24:45.655 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTask (TaskManager) in 48.5459ms
+2025-05-18 11:24:45.657 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTask (TaskManager) in 52.7213ms
+2025-05-18 11:24:45.658 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:24:45.660 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:24:45.661 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks/3 - 200 181 application/json; charset=utf-8 74.0503ms
+2025-05-18 11:24:45.663 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks/3 - 200 181 application/json; charset=utf-8 75.7433ms
+2025-05-18 11:24:45.675 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:45.675 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:45.679 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.682 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.683 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:45.684 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:45.689 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.692 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.695 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:45.697 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:45.698 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:45.701 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:45.703 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 16.895ms
+2025-05-18 11:24:45.705 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 16.2772ms
+2025-05-18 11:24:45.707 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.709 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.710 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 35.1669ms
+2025-05-18 11:24:45.712 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 36.4647ms
+2025-05-18 11:24:45.751 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/categories - application/json null
+2025-05-18 11:24:45.756 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:24:45.761 +03:00 [INF] Route matched with {action = "GetCategories", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Models.Category]]] GetCategories() on controller TaskManager.Controllers.CategoriesController (TaskManager).
+2025-05-18 11:24:45.771 +03:00 [INF] CategoriesController.GetCategories called
+2025-05-18 11:24:45.773 +03:00 [INF] Fetching categories...
+2025-05-18 11:24:45.783 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Name"
+FROM "Categories" AS c
+2025-05-18 11:24:45.794 +03:00 [INF] Found 7 categories.
+2025-05-18 11:24:45.796 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Models.Category, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:24:45.802 +03:00 [INF] Executed action TaskManager.Controllers.CategoriesController.GetCategories (TaskManager) in 38.911ms
+2025-05-18 11:24:45.804 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:24:45.805 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/categories - 200 235 application/json; charset=utf-8 54.1127ms
+2025-05-18 11:24:45.816 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/categories - application/json null
+2025-05-18 11:24:45.820 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:24:45.822 +03:00 [INF] Route matched with {action = "GetCategories", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Models.Category]]] GetCategories() on controller TaskManager.Controllers.CategoriesController (TaskManager).
+2025-05-18 11:24:45.825 +03:00 [INF] CategoriesController.GetCategories called
+2025-05-18 11:24:45.826 +03:00 [INF] Fetching categories...
+2025-05-18 11:24:45.830 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Name"
+FROM "Categories" AS c
+2025-05-18 11:24:45.833 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:45.833 +03:00 [INF] Found 7 categories.
+2025-05-18 11:24:45.837 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.837 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Models.Category, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:24:45.839 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:45.841 +03:00 [INF] Executed action TaskManager.Controllers.CategoriesController.GetCategories (TaskManager) in 16.0452ms
+2025-05-18 11:24:45.844 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:24:45.845 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.846 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/categories - 200 235 application/json; charset=utf-8 29.5067ms
+2025-05-18 11:24:45.851 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:45.856 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:45.858 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 15.6775ms
+2025-05-18 11:24:45.860 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.862 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 28.9228ms
+2025-05-18 11:24:45.883 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:45.887 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.888 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:45.892 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tags - application/json null
+2025-05-18 11:24:45.893 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:45.896 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:24:45.900 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:45.903 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:45.904 +03:00 [INF] Route matched with {action = "GetTags", controller = "Tags"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Data.Tag]]] GetTags() on controller TaskManager.Controllers.TagsController (TaskManager).
+2025-05-18 11:24:45.905 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 14.4467ms
+2025-05-18 11:24:45.909 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:45.911 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 28.1492ms
+2025-05-18 11:24:45.920 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."Name"
+FROM "Tags" AS t
+2025-05-18 11:24:45.934 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Data.Tag, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:24:45.942 +03:00 [INF] Executed action TaskManager.Controllers.TagsController.GetTags (TaskManager) in 34.4883ms
+2025-05-18 11:24:45.944 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:24:45.946 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tags - 200 454 application/json; charset=utf-8 53.8349ms
+2025-05-18 11:24:45.966 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tags - application/json null
+2025-05-18 11:24:45.970 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:24:45.972 +03:00 [INF] Route matched with {action = "GetTags", controller = "Tags"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Data.Tag]]] GetTags() on controller TaskManager.Controllers.TagsController (TaskManager).
+2025-05-18 11:24:45.977 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."Name"
+FROM "Tags" AS t
+2025-05-18 11:24:45.981 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Data.Tag, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:24:45.983 +03:00 [INF] Executed action TaskManager.Controllers.TagsController.GetTags (TaskManager) in 8.6814ms
+2025-05-18 11:24:45.985 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:24:45.986 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tags - 200 454 application/json; charset=utf-8 20.7173ms
+2025-05-18 11:24:46.594 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:24:46.599 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 5.0537ms
+2025-05-18 11:24:46.604 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:24:55.027 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:55.032 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.034 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:55.038 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:55.043 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:55.046 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:55.049 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 13.2581ms
+2025-05-18 11:24:55.051 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.053 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 26.0458ms
+2025-05-18 11:24:55.062 +03:00 [INF] Request starting HTTP/2 PUT https://localhost:7285/api/tasks/3 - application/json 186
+2025-05-18 11:24:55.066 +03:00 [INF] CORS policy execution successful.
+2025-05-18 11:24:55.069 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.UpdateTask (TaskManager)'
+2025-05-18 11:24:55.075 +03:00 [INF] Route matched with {action = "UpdateTask", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateTask(Int32, TaskManager.Models.TaskItemDto) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:24:55.127 +03:00 [INF] TasksController.UpdateTask викликано для ID: 3 з даними: {"id":3,"title":"tag","description":"tag","dueDate":"2025-05-21T00:00:00Z","isCompleted":true,"userId":null,"categoryId":null,"priority":"High","progress":6,"notes":"","tagIds":[]}
+2025-05-18 11:24:55.166 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."CategoryId", t1."Description", t1."DueDate", t1."IsCompleted", t1."Notes", t1."Priority", t1."Progress", t1."Title", t1."UserId", t0."TaskId", t0."TagId"
+FROM (
+    SELECT t."Id", t."CategoryId", t."Description", t."DueDate", t."IsCompleted", t."Notes", t."Priority", t."Progress", t."Title", t."UserId"
+    FROM "Tasks" AS t
+    WHERE t."Id" = @__id_0
+    LIMIT 1
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:24:55.199 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:55.207 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:24:55.212 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:24:55.353 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Tasks" SET "IsCompleted" = @p0
+WHERE "Id" = @p1;
+2025-05-18 11:24:55.367 +03:00 [INF] Задачу з ID 3 успішно оновлено
+2025-05-18 11:24:55.372 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 204
+2025-05-18 11:24:55.373 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.UpdateTask (TaskManager) in 296.2105ms
+2025-05-18 11:24:55.375 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.UpdateTask (TaskManager)'
+2025-05-18 11:24:55.376 +03:00 [INF] Request finished HTTP/2 PUT https://localhost:7285/api/tasks/3 - 204 null null 314.3302ms
+2025-05-18 11:24:55.386 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:55.390 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.391 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:55.395 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:55.399 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:55.401 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:55.403 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 9.4454ms
+2025-05-18 11:24:55.404 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.406 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 19.9009ms
+2025-05-18 11:24:55.412 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:24:55.416 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.417 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:55.421 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:55.424 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:55.427 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:55.429 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 9.1977ms
+2025-05-18 11:24:55.430 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.432 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 19.3401ms
+2025-05-18 11:24:55.445 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:55.449 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.450 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:55.454 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:55.458 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:55.460 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:55.462 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 9.526ms
+2025-05-18 11:24:55.464 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:55.465 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.2795ms
+2025-05-18 11:24:55.473 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - application/json null
+2025-05-18 11:24:55.476 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:24:55.478 +03:00 [INF] Route matched with {action = "GetTasks", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.PagedTasksResponse]] GetTasks(Int32, Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:24:55.480 +03:00 [INF] TasksController.GetTasks викликано з page=1, pageSize=10
+2025-05-18 11:24:55.483 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:55.486 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:24:55.489 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:24:55.493 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Tasks" AS t
+2025-05-18 11:24:55.497 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    ORDER BY t."Id"
+    LIMIT @__p_1 OFFSET @__p_0
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:24:55.499 +03:00 [INF] Знайдено 2 задач для користувача 2, сторінка 1
+2025-05-18 11:24:55.501 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.PagedTasksResponse'.
+2025-05-18 11:24:55.503 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTasks (TaskManager) in 23.4709ms
+2025-05-18 11:24:55.505 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:24:55.506 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - 200 395 application/json; charset=utf-8 33.4082ms
+2025-05-18 11:24:56.068 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:24:56.074 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 5.4021ms
+2025-05-18 11:24:56.078 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:24:58.149 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:58.153 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:58.155 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:58.159 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:58.163 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:58.165 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:58.168 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.9897ms
+2025-05-18 11:24:58.170 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:58.171 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 22.5013ms
+2025-05-18 11:24:58.179 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks/3 - application/json null
+2025-05-18 11:24:58.184 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:24:58.185 +03:00 [INF] Route matched with {action = "GetTask", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.TaskItemDto]] GetTask(Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:24:58.188 +03:00 [INF] TasksController.GetTask викликано для ID: 3
+2025-05-18 11:24:58.191 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    WHERE t."Id" = @__id_0
+    LIMIT 1
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:24:58.195 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:58.199 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:24:58.204 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:24:58.206 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.TaskItemDto'.
+2025-05-18 11:24:58.208 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTask (TaskManager) in 20.8325ms
+2025-05-18 11:24:58.210 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:24:58.212 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks/3 - 200 180 application/json; charset=utf-8 32.5397ms
+2025-05-18 11:24:58.219 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:58.223 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:58.225 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:58.228 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:58.233 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:58.235 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:58.237 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.6911ms
+2025-05-18 11:24:58.239 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:58.240 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 21.2593ms
+2025-05-18 11:24:58.248 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/categories - application/json null
+2025-05-18 11:24:58.251 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:24:58.253 +03:00 [INF] Route matched with {action = "GetCategories", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Models.Category]]] GetCategories() on controller TaskManager.Controllers.CategoriesController (TaskManager).
+2025-05-18 11:24:58.255 +03:00 [INF] CategoriesController.GetCategories called
+2025-05-18 11:24:58.256 +03:00 [INF] Fetching categories...
+2025-05-18 11:24:58.258 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Name"
+FROM "Categories" AS c
+2025-05-18 11:24:58.261 +03:00 [INF] Found 7 categories.
+2025-05-18 11:24:58.262 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Models.Category, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:24:58.265 +03:00 [INF] Executed action TaskManager.Controllers.CategoriesController.GetCategories (TaskManager) in 9.4552ms
+2025-05-18 11:24:58.266 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:24:58.268 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/categories - 200 235 application/json; charset=utf-8 19.7808ms
+2025-05-18 11:24:58.275 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:24:58.279 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:58.280 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:24:58.284 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:24:58.288 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:24:58.291 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:24:58.293 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.5533ms
+2025-05-18 11:24:58.295 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:24:58.296 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.9022ms
+2025-05-18 11:24:58.303 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tags - application/json null
+2025-05-18 11:24:58.307 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:24:58.308 +03:00 [INF] Route matched with {action = "GetTags", controller = "Tags"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Data.Tag]]] GetTags() on controller TaskManager.Controllers.TagsController (TaskManager).
+2025-05-18 11:24:58.312 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."Name"
+FROM "Tags" AS t
+2025-05-18 11:24:58.315 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Data.Tag, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:24:58.317 +03:00 [INF] Executed action TaskManager.Controllers.TagsController.GetTags (TaskManager) in 6.293ms
+2025-05-18 11:24:58.318 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:24:58.320 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tags - 200 454 application/json; charset=utf-8 16.9709ms
+2025-05-18 11:24:59.193 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:24:59.197 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.2708ms
+2025-05-18 11:24:59.201 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:25:00.854 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:00.858 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:00.859 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:00.864 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:00.869 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:00.872 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:00.874 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 12.4493ms
+2025-05-18 11:25:00.876 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:00.878 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 24.4219ms
+2025-05-18 11:25:00.885 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:25:00.889 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:00.890 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:00.894 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:00.898 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:00.901 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:00.903 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.3982ms
+2025-05-18 11:25:00.905 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:00.906 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.6847ms
+2025-05-18 11:25:00.916 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:00.919 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:00.921 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:00.925 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:00.929 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:00.932 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:00.934 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.7661ms
+2025-05-18 11:25:00.935 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:00.937 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.8973ms
+2025-05-18 11:25:00.946 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - application/json null
+2025-05-18 11:25:00.950 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:25:00.952 +03:00 [INF] Route matched with {action = "GetTasks", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.PagedTasksResponse]] GetTasks(Int32, Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:25:00.955 +03:00 [INF] TasksController.GetTasks викликано з page=1, pageSize=10
+2025-05-18 11:25:00.959 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:00.962 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:25:00.966 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:25:00.969 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Tasks" AS t
+2025-05-18 11:25:00.973 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    ORDER BY t."Id"
+    LIMIT @__p_1 OFFSET @__p_0
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:25:00.976 +03:00 [INF] Знайдено 2 задач для користувача 2, сторінка 1
+2025-05-18 11:25:00.977 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.PagedTasksResponse'.
+2025-05-18 11:25:00.979 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTasks (TaskManager) in 24.0796ms
+2025-05-18 11:25:00.981 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:25:00.982 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - 200 395 application/json; charset=utf-8 36.1347ms
+2025-05-18 11:25:01.891 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:25:01.895 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.0357ms
+2025-05-18 11:25:01.899 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:25:02.760 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:02.763 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.765 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:02.769 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:02.773 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:02.776 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:02.777 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.2235ms
+2025-05-18 11:25:02.779 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.781 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.9693ms
+2025-05-18 11:25:02.789 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks/3 - application/json null
+2025-05-18 11:25:02.793 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:25:02.794 +03:00 [INF] Route matched with {action = "GetTask", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.TaskItemDto]] GetTask(Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:25:02.796 +03:00 [INF] TasksController.GetTask викликано для ID: 3
+2025-05-18 11:25:02.799 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    WHERE t."Id" = @__id_0
+    LIMIT 1
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:25:02.803 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:02.806 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:25:02.810 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:25:02.812 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.TaskItemDto'.
+2025-05-18 11:25:02.815 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTask (TaskManager) in 18.5346ms
+2025-05-18 11:25:02.816 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTask (TaskManager)'
+2025-05-18 11:25:02.818 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks/3 - 200 180 application/json; charset=utf-8 28.5707ms
+2025-05-18 11:25:02.825 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:02.829 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.830 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:02.834 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:02.838 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:02.841 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:02.843 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.7059ms
+2025-05-18 11:25:02.845 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.846 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.8065ms
+2025-05-18 11:25:02.856 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/categories - application/json null
+2025-05-18 11:25:02.860 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:25:02.861 +03:00 [INF] Route matched with {action = "GetCategories", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Models.Category]]] GetCategories() on controller TaskManager.Controllers.CategoriesController (TaskManager).
+2025-05-18 11:25:02.863 +03:00 [INF] CategoriesController.GetCategories called
+2025-05-18 11:25:02.864 +03:00 [INF] Fetching categories...
+2025-05-18 11:25:02.866 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Name"
+FROM "Categories" AS c
+2025-05-18 11:25:02.868 +03:00 [INF] Found 7 categories.
+2025-05-18 11:25:02.869 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Models.Category, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:25:02.871 +03:00 [INF] Executed action TaskManager.Controllers.CategoriesController.GetCategories (TaskManager) in 7.9415ms
+2025-05-18 11:25:02.873 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.CategoriesController.GetCategories (TaskManager)'
+2025-05-18 11:25:02.874 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/categories - 200 235 application/json; charset=utf-8 18.2168ms
+2025-05-18 11:25:02.884 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:02.887 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.889 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:02.893 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:02.897 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:02.900 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:02.902 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.4198ms
+2025-05-18 11:25:02.904 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.906 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 21.7805ms
+2025-05-18 11:25:02.915 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tags - application/json null
+2025-05-18 11:25:02.919 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:25:02.921 +03:00 [INF] Route matched with {action = "GetTags", controller = "Tags"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Data.Tag]]] GetTags() on controller TaskManager.Controllers.TagsController (TaskManager).
+2025-05-18 11:25:02.924 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."Name"
+FROM "Tags" AS t
+2025-05-18 11:25:02.927 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Data.Tag, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:25:02.929 +03:00 [INF] Executed action TaskManager.Controllers.TagsController.GetTags (TaskManager) in 5.8301ms
+2025-05-18 11:25:02.930 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TagsController.GetTags (TaskManager)'
+2025-05-18 11:25:02.932 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tags - 200 454 application/json; charset=utf-8 16.4412ms
+2025-05-18 11:25:02.943 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:02.943 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:02.947 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.950 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.951 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:02.952 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:02.956 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:02.958 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:02.960 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:02.963 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:02.965 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:02.968 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:02.969 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 15.3682ms
+2025-05-18 11:25:02.971 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 14.6539ms
+2025-05-18 11:25:02.973 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.974 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:02.976 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 32.8864ms
+2025-05-18 11:25:02.977 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 33.8489ms
+2025-05-18 11:25:02.984 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks/3/comments - application/json null
+2025-05-18 11:25:02.987 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks/3/notes - application/json null
+2025-05-18 11:25:02.989 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.CommentsController.GetComments (TaskManager)'
+2025-05-18 11:25:02.992 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.NotesController.GetNotes (TaskManager)'
+2025-05-18 11:25:02.996 +03:00 [INF] Route matched with {action = "GetComments", controller = "Comments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Models.CommentDto]]] GetComments(Int32) on controller TaskManager.Controllers.CommentsController (TaskManager).
+2025-05-18 11:25:02.997 +03:00 [INF] Route matched with {action = "GetNotes", controller = "Notes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[TaskManager.Models.NoteDto]]] GetNotes(Int32) on controller TaskManager.Controllers.NotesController (TaskManager).
+2025-05-18 11:25:03.002 +03:00 [INF] CommentsController.GetComments викликано для задачі ID: 3
+2025-05-18 11:25:03.004 +03:00 [INF] NotesController.GetNotes викликано для задачі ID: 3
+2025-05-18 11:25:03.005 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:03.006 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:03.015 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CategoryId", t."Description", t."DueDate", t."IsCompleted", t."Notes", t."Priority", t."Progress", t."Title", t."UserId"
+FROM "Tasks" AS t
+WHERE t."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:03.015 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t."Id", t."CategoryId", t."Description", t."DueDate", t."IsCompleted", t."Notes", t."Priority", t."Progress", t."Title", t."UserId"
+FROM "Tasks" AS t
+WHERE t."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:03.019 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:25:03.022 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:25:03.024 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:25:03.026 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:25:03.041 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__taskId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id" AS id, c."TaskId" AS "taskId", c."UserId" AS "userId", c."Content" AS comment, c."CreatedAt" AS timestamp
+FROM "Comments" AS c
+WHERE c."TaskId" = @__taskId_0
+ORDER BY c."CreatedAt"
+2025-05-18 11:25:03.041 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__taskId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT n."Id" AS id, n."TaskId" AS "taskId", n."Title" AS title, n."Content" AS content, n."CreatedAt" AS "createdAt", n."UpdatedAt" AS "updatedAt"
+FROM "Notes" AS n
+WHERE n."TaskId" = @__taskId_0
+ORDER BY n."CreatedAt"
+2025-05-18 11:25:03.044 +03:00 [INF] Знайдено 0 коментарів для задачі 3
+2025-05-18 11:25:03.046 +03:00 [INF] Знайдено 0 нотаток для задачі 3
+2025-05-18 11:25:03.047 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Models.CommentDto, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:25:03.049 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[TaskManager.Models.NoteDto, TaskManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 11:25:03.051 +03:00 [INF] Executed action TaskManager.Controllers.CommentsController.GetComments (TaskManager) in 53.1702ms
+2025-05-18 11:25:03.052 +03:00 [INF] Executed action TaskManager.Controllers.NotesController.GetNotes (TaskManager) in 51.867ms
+2025-05-18 11:25:03.053 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.CommentsController.GetComments (TaskManager)'
+2025-05-18 11:25:03.055 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.NotesController.GetNotes (TaskManager)'
+2025-05-18 11:25:03.057 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks/3/comments - 200 2 application/json; charset=utf-8 72.2379ms
+2025-05-18 11:25:03.058 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks/3/notes - 200 2 application/json; charset=utf-8 70.8187ms
+2025-05-18 11:25:03.875 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:25:03.880 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.7271ms
+2025-05-18 11:25:03.884 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:25:07.410 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:07.414 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:07.415 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:07.419 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:07.423 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:07.426 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:07.428 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.0698ms
+2025-05-18 11:25:07.429 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:07.431 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.1852ms
+2025-05-18 11:25:07.438 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:25:07.442 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:07.444 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:07.448 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:07.452 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:07.455 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:07.457 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 11.2313ms
+2025-05-18 11:25:07.459 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:07.460 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 22.0149ms
+2025-05-18 11:25:07.469 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:07.473 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:07.474 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:07.478 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:07.483 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:07.486 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:07.488 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 11.0717ms
+2025-05-18 11:25:07.489 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:07.491 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 22.1299ms
+2025-05-18 11:25:07.497 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - application/json null
+2025-05-18 11:25:07.502 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:25:07.503 +03:00 [INF] Route matched with {action = "GetTasks", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.PagedTasksResponse]] GetTasks(Int32, Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:25:07.505 +03:00 [INF] TasksController.GetTasks викликано з page=1, pageSize=10
+2025-05-18 11:25:07.508 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:07.512 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:25:07.516 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:25:07.519 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Tasks" AS t
+2025-05-18 11:25:07.523 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    ORDER BY t."Id"
+    LIMIT @__p_1 OFFSET @__p_0
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:25:07.526 +03:00 [INF] Знайдено 2 задач для користувача 2, сторінка 1
+2025-05-18 11:25:07.528 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.PagedTasksResponse'.
+2025-05-18 11:25:07.530 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTasks (TaskManager) in 24.4856ms
+2025-05-18 11:25:07.531 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:25:07.532 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - 200 395 application/json; charset=utf-8 35.0592ms
+2025-05-18 11:25:08.512 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:25:08.516 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.6081ms
+2025-05-18 11:25:08.520 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404
+2025-05-18 11:25:10.033 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:10.037 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:10.038 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:10.042 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:10.046 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:10.048 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:10.050 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 9.34ms
+2025-05-18 11:25:10.052 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:10.053 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.2475ms
+2025-05-18 11:25:10.059 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - application/json null
+2025-05-18 11:25:10.063 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:10.065 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:10.069 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:10.073 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:10.077 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:10.079 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 11.7269ms
+2025-05-18 11:25:10.081 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:10.082 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 22.6976ms
+2025-05-18 11:25:10.091 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/account/checkauth - null null
+2025-05-18 11:25:10.094 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:10.096 +03:00 [INF] Route matched with {action = "CheckAuth", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckAuth() on controller TaskManager.Controllers.AccountController (TaskManager).
+2025-05-18 11:25:10.100 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:10.104 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a0."Name"
+FROM "AspNetUserRoles" AS a
+INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+WHERE a."UserId" = @__userId_0
+2025-05-18 11:25:10.107 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-05-18 11:25:10.108 +03:00 [INF] Executed action TaskManager.Controllers.AccountController.CheckAuth (TaskManager) in 10.208ms
+2025-05-18 11:25:10.110 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.AccountController.CheckAuth (TaskManager)'
+2025-05-18 11:25:10.111 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/account/checkauth - 200 41 application/json; charset=utf-8 20.6466ms
+2025-05-18 11:25:10.117 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - application/json null
+2025-05-18 11:25:10.121 +03:00 [INF] Executing endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:25:10.122 +03:00 [INF] Route matched with {action = "GetTasks", controller = "Tasks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[TaskManager.Models.PagedTasksResponse]] GetTasks(Int32, Int32) on controller TaskManager.Controllers.TasksController (TaskManager).
+2025-05-18 11:25:10.124 +03:00 [INF] TasksController.GetTasks викликано з page=1, pageSize=10
+2025-05-18 11:25:10.127 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."Email", a."EmailConfirmed", a."LockoutEnabled", a."LockoutEnd", a."Name", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+FROM "AspNetUsers" AS a
+WHERE a."Id" = @__p_0
+LIMIT 1
+2025-05-18 11:25:10.131 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+FROM "AspNetRoles" AS a
+WHERE a."NormalizedName" = @__normalizedRoleName_0
+LIMIT 2
+2025-05-18 11:25:10.134 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."UserId", a."RoleId"
+FROM "AspNetUserRoles" AS a
+WHERE a."UserId" = @__p_0 AND a."RoleId" = @__p_1
+LIMIT 1
+2025-05-18 11:25:10.138 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Tasks" AS t
+2025-05-18 11:25:10.141 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t1."Id", t1."Title", t1."Description", t1."DueDate", t1."IsCompleted", t1."UserId", t1."CategoryId", t1."Priority", t1."Progress", t1."Notes", t0."TagId", t0."TaskId"
+FROM (
+    SELECT t."Id", t."Title", t."Description", t."DueDate", t."IsCompleted", t."UserId", t."CategoryId", t."Priority", t."Progress", t."Notes"
+    FROM "Tasks" AS t
+    ORDER BY t."Id"
+    LIMIT @__p_1 OFFSET @__p_0
+) AS t1
+LEFT JOIN "TaskTags" AS t0 ON t1."Id" = t0."TaskId"
+ORDER BY t1."Id", t0."TaskId"
+2025-05-18 11:25:10.144 +03:00 [INF] Знайдено 2 задач для користувача 2, сторінка 1
+2025-05-18 11:25:10.147 +03:00 [INF] Executing OkObjectResult, writing value of type 'TaskManager.Models.PagedTasksResponse'.
+2025-05-18 11:25:10.148 +03:00 [INF] Executed action TaskManager.Controllers.TasksController.GetTasks (TaskManager) in 24.2842ms
+2025-05-18 11:25:10.150 +03:00 [INF] Executed endpoint 'TaskManager.Controllers.TasksController.GetTasks (TaskManager)'
+2025-05-18 11:25:10.152 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/api/tasks?page=1&pageSize=10 - 200 395 application/json; charset=utf-8 34.637ms
+2025-05-18 11:25:11.141 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7285/sw.js - null null
+2025-05-18 11:25:11.145 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7285/sw.js - 404 0 null 4.0141ms
+2025-05-18 11:25:11.149 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7285/sw.js, Response status code: 404

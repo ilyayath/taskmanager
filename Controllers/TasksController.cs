@@ -8,6 +8,8 @@ using System.Security.Claims;
 using System.Text.Json;
 using Serilog;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TaskManager.Controllers
 {
@@ -27,23 +29,23 @@ namespace TaskManager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetTasks()
+        public async Task<ActionResult<PagedTasksResponse>> GetTasks([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            Log.Information("TasksController.GetTasks called");
+            Log.Information("TasksController.GetTasks викликано з page={Page}, pageSize={PageSize}", page, pageSize);
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
-                    Log.Warning("Unauthorized: No user ID found");
-                    return Unauthorized();
+                    Log.Warning("Неавторизовано: ID користувача не знайдено");
+                    return Unauthorized(new { error = "Неавторизовано: ID користувача не знайдено." });
                 }
 
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
-                    Log.Warning($"User not found for ID: {userId}");
-                    return Unauthorized();
+                    Log.Warning("Користувача не знайдено для ID: {UserId}", userId);
+                    return Unauthorized(new { error = "Користувача не знайдено." });
                 }
 
                 var isWorker = await _userManager.IsInRoleAsync(user, "Worker");
@@ -54,67 +56,85 @@ namespace TaskManager.Controllers
                     .ThenInclude(tt => tt.Tag)
                     .Select(t => new TaskItemDto
                     {
-                        Id = t.Id,
-                        Title = t.Title,
-                        Description = t.Description,
-                        DueDate = t.DueDate,
-                        IsCompleted = t.IsCompleted,
-                        UserId = t.UserId,
-                        CategoryId = t.CategoryId,
-                        Notes = t.Notes,
-                        Progress = t.Progress,
-                        TagIds = t.TaskTags.Select(tt => tt.TagId).ToList()
+                        id = t.Id,
+                        title = t.Title,
+                        description = t.Description,
+                        dueDate = t.DueDate,
+                        isCompleted = t.IsCompleted,
+                        userId = t.UserId,
+                        categoryId = t.CategoryId,
+                        priority = t.Priority,
+                        progress = t.Progress,
+                        notes = t.Notes,
+                        tagIds = t.TaskTags.Select(tt => tt.TagId).ToList()
                     });
 
-                var tasks = await tasksQuery.ToListAsync();
-                Log.Information($"Found {tasks.Count} tasks for user {userId}");
-                return Ok(tasks);
+                var total = await tasksQuery.CountAsync();
+                var tasks = await tasksQuery
+                    .OrderBy(t => t.id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                Log.Information("Знайдено {TaskCount} задач для користувача {UserId}, сторінка {Page}", tasks.Count, userId, page);
+                return Ok(new PagedTasksResponse
+                {
+                    tasks = tasks,
+                    total = total,
+                    page = page
+                });
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error in GetTasks");
-                return StatusCode(500, new { error = "An error occurred while retrieving tasks.", details = ex.Message });
+                Log.Error(ex, "Помилка в GetTasks");
+                return StatusCode(500, new { error = "Виникла помилка під час отримання задач.", details = ex.Message });
             }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskItemDto>> GetTask(int id)
         {
-            Console.WriteLine($"TasksController.GetTask called for ID: {id}");
+            Log.Information("TasksController.GetTask викликано для ID: {TaskId}", id);
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId))
                 {
-                    Console.WriteLine("Unauthorized: No user ID found");
-                    return Unauthorized();
+                    Log.Warning("Неавторизовано: ID користувача не знайдено");
+                    return Unauthorized(new { error = "Неавторизовано: ID користувача не знайдено." });
                 }
 
                 var task = await _context.Tasks
-                    .Include(t => t.AssignedUser)
-                    .Include(t => t.Category)
+                    .AsNoTracking()
+                    .Include(t => t.TaskTags)
+                    .ThenInclude(tt => tt.Tag)
                     .Select(t => new TaskItemDto
                     {
-                        Id = t.Id,
-                        Title = t.Title,
-                        Description = t.Description,
-                        DueDate = t.DueDate,
-                        IsCompleted = t.IsCompleted,
-                        UserId = t.UserId,
-                        CategoryId = t.CategoryId,
-                        Notes = t.Notes,
-                        Progress = t.Progress,
-                        TagIds = t.TaskTags.Select(tt => tt.TagId).ToList()
+                        id = t.Id,
+                        title = t.Title,
+                        description = t.Description,
+                        dueDate = t.DueDate,
+                        isCompleted = t.IsCompleted,
+                        userId = t.UserId,
+                        categoryId = t.CategoryId,
+                        priority = t.Priority,
+                        progress = t.Progress,
+                        notes = t.Notes,
+                        tagIds = t.TaskTags.Select(tt => tt.TagId).ToList()
                     })
-                    .FirstOrDefaultAsync(t => t.Id == id);
+                    .FirstOrDefaultAsync(t => t.id == id);
 
-                if (task == null) return NotFound();
+                if (task == null)
+                {
+                    Log.Information("Задачу з ID {TaskId} не знайдено", id);
+                    return NotFound(new { error = "Задачу не знайдено." });
+                }
 
                 var user = await _userManager.FindByIdAsync(userId);
                 var isWorker = await _userManager.IsInRoleAsync(user, "Worker");
-                if (isWorker && task.UserId != int.Parse(userId))
+                if (isWorker && task.userId != int.Parse(userId))
                 {
-                    Console.WriteLine($"Forbidden: Worker {userId} tried to access task {id} not assigned to them");
+                    Log.Warning("Заборонено: Працівник {UserId} намагався отримати задачу {TaskId}, яка йому не призначена", userId, id);
                     return Forbid();
                 }
 
@@ -122,64 +142,96 @@ namespace TaskManager.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in GetTask: {ex.Message}");
-                return StatusCode(500, new { error = "An error occurred while retrieving the task.", details = ex.Message });
+                Log.Error(ex, "Помилка в GetTask для ID: {TaskId}", id);
+                return StatusCode(500, new { error = "Виникла помилка під час отримання задачі.", details = ex.Message });
             }
         }
 
         [HttpPost]
         [Authorize(Roles = "Manager")]
-        public async Task<ActionResult<TaskItemDto>> CreateTask(TaskItemDto taskDto)
+        public async Task<ActionResult<TaskItemDto>> CreateTask([FromBody] TaskItemDto taskDto)
         {
-            Console.WriteLine($"TasksController.CreateTask called with data: {JsonSerializer.Serialize(taskDto)}");
+            Log.Information("TasksController.CreateTask викликано з даними: {TaskData}", JsonSerializer.Serialize(taskDto));
             try
             {
                 if (taskDto == null)
                 {
-                    return BadRequest(new { error = "Task data is required." });
+                    Log.Warning("Дані задачі відсутні");
+                    return BadRequest(new { error = "Дані задачі є обов’язковими." });
                 }
 
                 if (!ModelState.IsValid)
                 {
                     var errors = ModelState.ToDictionary(k => k.Key, v => v.Value.Errors.Select(e => e.ErrorMessage).ToArray());
-                    Console.WriteLine($"ModelState errors: {JsonSerializer.Serialize(errors)}");
+                    Log.Warning("Помилки валідації моделі: {Errors}", JsonSerializer.Serialize(errors));
                     return BadRequest(new { errors });
                 }
 
-                if (taskDto.DueDate == default(DateTime))
+                if (taskDto.dueDate == default)
                 {
-                    return BadRequest(new { error = "DueDate is required and must be a valid date." });
+                    Log.Warning("Дата виконання не вказана або некоректна");
+                    return BadRequest(new { error = "Дата виконання є обов’язковою і має бути коректною." });
                 }
 
-                if (taskDto.Progress < 0 || taskDto.Progress > 100)
+                if (taskDto.progress < 0 || taskDto.progress > 100)
                 {
-                    return BadRequest(new { error = "Progress must be between 0 and 100." });
+                    Log.Warning("Прогрес {Progress} не в межах 0-100", taskDto.progress);
+                    return BadRequest(new { error = "Прогрес має бути в межах від 0 до 100." });
+                }
+
+                if (!new[] { "High", "Medium", "Low" }.Contains(taskDto.priority))
+                {
+                    Log.Warning("Некоректний пріоритет: {Priority}", taskDto.priority);
+                    return BadRequest(new { error = "Пріоритет має бути High, Medium або Low." });
+                }
+
+                if (taskDto.userId.HasValue && !await _context.Users.AnyAsync(u => u.Id == taskDto.userId))
+                {
+                    Log.Warning("Користувача з ID {UserId} не знайдено", taskDto.userId);
+                    return BadRequest(new { error = "Користувача з вказаним ID не знайдено." });
+                }
+
+                if (taskDto.categoryId.HasValue && !await _context.Categories.AnyAsync(c => c.Id == taskDto.categoryId))
+                {
+                    Log.Warning("Категорію з ID {CategoryId} не знайдено", taskDto.categoryId);
+                    return BadRequest(new { error = "Категорію з вказаним ID не знайдено." });
+                }
+
+                if (taskDto.tagIds != null && taskDto.tagIds.Any())
+                {
+                    var invalidTagIds = taskDto.tagIds.Where(id => !_context.Tags.Any(t => t.Id == id)).ToList();
+                    if (invalidTagIds.Any())
+                    {
+                        Log.Warning("Некоректні ID тегів: {InvalidTagIds}", string.Join(", ", invalidTagIds));
+                        return BadRequest(new { error = $"Теги з ID {string.Join(", ", invalidTagIds)} не існують." });
+                    }
                 }
 
                 var task = new TaskItem
                 {
-                    Title = taskDto.Title,
-                    Description = taskDto.Description,
-                    DueDate = DateTime.SpecifyKind(taskDto.DueDate, DateTimeKind.Utc),
-                    IsCompleted = taskDto.IsCompleted,
-                    UserId = taskDto.UserId,
-                    CategoryId = taskDto.CategoryId,
-                    Notes = taskDto.Notes,
-                    Progress = taskDto.Progress,
-                    TaskTags = taskDto.TagIds?.Select(tagId => new TaskTag { TagId = tagId }).ToList() ?? new List<TaskTag>()
+                    Title = taskDto.title,
+                    Description = taskDto.description,
+                    DueDate = DateTime.SpecifyKind(taskDto.dueDate, DateTimeKind.Utc),
+                    IsCompleted = taskDto.isCompleted,
+                    UserId = taskDto.userId,
+                    CategoryId = taskDto.categoryId,
+                    Priority = taskDto.priority,
+                    Progress = taskDto.progress,
+                    Notes = taskDto.notes,
+                    TaskTags = taskDto.tagIds?.Select(tagId => new TaskTag { TagId = tagId }).ToList() ?? new List<TaskTag>()
                 };
 
                 _context.Tasks.Add(task);
                 await _context.SaveChangesAsync();
-                Console.WriteLine($"Task created successfully with ID: {task.Id}");
+                Log.Information("Задачу створено успішно з ID: {TaskId}", task.Id);
 
-                taskDto.Id = task.Id;
+                taskDto.id = task.Id;
                 return CreatedAtAction(nameof(GetTask), new { id = task.Id }, taskDto);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in CreateTask: {ex.Message}");
-                return StatusCode(500, new { error = "An error occurred while creating the task.", details = ex.Message });
+                Log.Error(ex, "Помилка в CreateTask");
+                return StatusCode(500, new { error = "Виникла помилка під час створення задачі.", details = ex.Message });
             }
         }
 
@@ -187,61 +239,120 @@ namespace TaskManager.Controllers
         [Authorize(Roles = "Worker,Manager")]
         public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskItemDto taskDto)
         {
-            Console.WriteLine($"TasksController.UpdateTask called for ID: {id} with data: {JsonSerializer.Serialize(taskDto)}");
+            Log.Information("TasksController.UpdateTask викликано для ID: {TaskId} з даними: {TaskData}", id, JsonSerializer.Serialize(taskDto));
             try
             {
-                if (id != taskDto.Id) return BadRequest(new { error = "Route id and task Id must match." });
+                if (id != taskDto.id)
+                {
+                    Log.Warning("ID в URL ({Id}) не співпадає з ID задачі ({TaskId})", id, taskDto.id);
+                    return BadRequest(new { error = "ID у маршруті та ID задачі мають співпадати." });
+                }
 
                 if (taskDto == null)
                 {
-                    return BadRequest(new { error = "Task data is required." });
+                    Log.Warning("Дані задачі відсутні");
+                    return BadRequest(new { error = "Дані задачі є обов’язковими." });
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.ToDictionary(k => k.Key, v => v.Value.Errors.Select(e => e.ErrorMessage).ToArray());
+                    Log.Warning("Помилки валідації моделі: {Errors}", JsonSerializer.Serialize(errors));
+                    return BadRequest(new { errors });
                 }
 
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var existingTask = await _context.Tasks
                     .Include(t => t.TaskTags)
                     .FirstOrDefaultAsync(t => t.Id == id);
-                if (existingTask == null) return NotFound();
+
+                if (existingTask == null)
+                {
+                    Log.Information("Задачу з ID {TaskId} не знайдено", id);
+                    return NotFound(new { error = "Задачу не знайдено." });
+                }
 
                 var user = await _userManager.FindByIdAsync(userId);
                 var isWorker = await _userManager.IsInRoleAsync(user, "Worker");
                 if (isWorker && existingTask.UserId != int.Parse(userId))
                 {
-                    Console.WriteLine($"Forbidden: Worker {userId} tried to update task {id} not assigned to them");
+                    Log.Warning("Заборонено: Працівник {UserId} намагався оновити задачу {TaskId}, яка йому не призначена", userId, id);
                     return Forbid();
+                }
+
+                if (taskDto.dueDate == default)
+                {
+                    Log.Warning("Дата виконання не вказана або некоректна");
+                    return BadRequest(new { error = "Дата виконання є обов’язковою і має бути коректною." });
+                }
+
+                if (taskDto.progress < 0 || taskDto.progress > 100)
+                {
+                    Log.Warning("Прогрес {Progress} не в межах 0-100", taskDto.progress);
+                    return BadRequest(new { error = "Прогрес має бути в межах від 0 до 100." });
+                }
+
+                if (!new[] { "High", "Medium", "Low" }.Contains(taskDto.priority))
+                {
+                    Log.Warning("Некоректний пріоритет: {Priority}", taskDto.priority);
+                    return BadRequest(new { error = "Пріоритет має бути High, Medium або Low." });
+                }
+
+                if (taskDto.userId.HasValue && !await _context.Users.AnyAsync(u => u.Id == taskDto.userId))
+                {
+                    Log.Warning("Користувача з ID {UserId} не знайдено", taskDto.userId);
+                    return BadRequest(new { error = "Користувача з вказаним ID не знайдено." });
+                }
+
+                if (taskDto.categoryId.HasValue && !await _context.Categories.AnyAsync(c => c.Id == taskDto.categoryId))
+                {
+                    Log.Warning("Категорію з ID {CategoryId} не знайдено", taskDto.categoryId);
+                    return BadRequest(new { error = "Категорію з вказаним ID не знайдено." });
+                }
+
+                if (taskDto.tagIds != null && taskDto.tagIds.Any())
+                {
+                    var invalidTagIds = taskDto.tagIds.Where(tId => !_context.Tags.Any(t => t.Id == tId)).ToList();
+                    if (invalidTagIds.Any())
+                    {
+                        Log.Warning("Некоректні ID тегів: {InvalidTagIds}", string.Join(", ", invalidTagIds));
+                        return BadRequest(new { error = $"Теги з ID {string.Join(", ", invalidTagIds)} не існують." });
+                    }
                 }
 
                 if (isWorker)
                 {
-                    existingTask.IsCompleted = taskDto.IsCompleted;
-                    existingTask.Notes = taskDto.Notes;
+                    existingTask.IsCompleted = taskDto.isCompleted;
+                    existingTask.Notes = taskDto.notes;
+                    existingTask.Progress = taskDto.progress;
                 }
                 else
                 {
-                    existingTask.Title = taskDto.Title;
-                    existingTask.Description = taskDto.Description;
-                    existingTask.DueDate = DateTime.SpecifyKind(taskDto.DueDate, DateTimeKind.Utc);
-                    existingTask.IsCompleted = taskDto.IsCompleted;
-                    existingTask.UserId = taskDto.UserId;
-                    existingTask.CategoryId = taskDto.CategoryId;
-                    existingTask.Notes = taskDto.Notes;
-                    existingTask.Progress = taskDto.Progress;
+                    existingTask.Title = taskDto.title;
+                    existingTask.Description = taskDto.description;
+                    existingTask.DueDate = DateTime.SpecifyKind(taskDto.dueDate, DateTimeKind.Utc);
+                    existingTask.IsCompleted = taskDto.isCompleted;
+                    existingTask.UserId = taskDto.userId;
+                    existingTask.CategoryId = taskDto.categoryId;
+                    existingTask.Priority = taskDto.priority;
+                    existingTask.Progress = taskDto.progress;
+                    existingTask.Notes = taskDto.notes;
 
-                    // Оновлення тегів
                     existingTask.TaskTags.Clear();
-                    if (taskDto.TagIds != null)
+                    if (taskDto.tagIds != null)
                     {
-                        existingTask.TaskTags = taskDto.TagIds.Select(tagId => new TaskTag { TaskId = id, TagId = tagId }).ToList();
+                        existingTask.TaskTags = taskDto.tagIds.Select(tagId => new TaskTag { TaskId = id, TagId = tagId }).ToList();
                     }
                 }
 
                 await _context.SaveChangesAsync();
+                Log.Information("Задачу з ID {TaskId} успішно оновлено", id);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in UpdateTask: {ex.Message}");
-                return StatusCode(500, new { error = "An error occurred while updating the task.", details = ex.Message });
+                Log.Error(ex, "Помилка в UpdateTask для ID: {TaskId}", id);
+                return StatusCode(500, new { error = "Виникла помилка під час оновлення задачі.", details = ex.Message });
             }
         }
 
@@ -249,47 +360,26 @@ namespace TaskManager.Controllers
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            Console.WriteLine($"TasksController.DeleteTask called for ID: {id}");
+            Log.Information("TasksController.DeleteTask викликано для ID: {TaskId}", id);
             try
             {
                 var task = await _context.Tasks.FindAsync(id);
-                if (task == null) return NotFound();
+                if (task == null)
+                {
+                    Log.Information("Задачу з ID {TaskId} не знайдено", id);
+                    return NotFound(new { error = "Задачу не знайдено." });
+                }
+
                 _context.Tasks.Remove(task);
                 await _context.SaveChangesAsync();
+                Log.Information("Задачу з ID {TaskId} успішно видалено", id);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in DeleteTask: {ex.Message}");
-                return StatusCode(500, new { error = "An error occurred while deleting the task.", details = ex.Message });
+                Log.Error(ex, "Помилка в DeleteTask для ID: {TaskId}", id);
+                return StatusCode(500, new { error = "Виникла помилка під час видалення задачі.", details = ex.Message });
             }
         }
-    }
-
-    public class TaskItemDto
-    {
-        public int Id { get; set; }
-
-        [Required]
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        [Required]
-        public DateTime DueDate { get; set; }
-
-        public bool IsCompleted { get; set; }
-
-        public int? UserId { get; set; }
-
-        public int? CategoryId { get; set; }
-
-        public string Notes { get; set; }
-
-        // Нове поле для прогресу
-        public int Progress { get; set; }
-
-        // Нове поле для тегів
-        public List<int> TagIds { get; set; }
     }
 }
