@@ -1,28 +1,31 @@
 ﻿const BASE_URL = 'https://localhost:7285/api';
 
+let csrfToken = null;
+
 async function getCsrfToken() {
     try {
-        console.log('Fetching CSRF token from /account/checkauth');
-        const response = await fetch(`${BASE_URL}/account/checkauth`, {
+        console.log('Fetching CSRF token from /account/getcsrftoken');
+        const response = await fetch(`${BASE_URL}/account/getcsrftoken`, {
             method: 'GET',
+            headers: { 'Accept': 'application/json' },
             credentials: 'include',
         });
-        console.log('checkauth response status:', response.status, 'headers:', [...response.headers.entries()]);
+        console.log('getcsrftoken response status:', response.status, 'headers:', [...response.headers.entries()]);
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Failed to fetch CSRF token: ${response.status} - ${errorText}`);
         }
-        const token = response.headers.get('X-XSRF-TOKEN') ||
-            response.headers.get('x-xsrf-token') ||
-            document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='))?.split('=')[1] || '';
-        console.log('CSRF token:', token);
-        if (!token) {
+        const data = await response.json();
+        csrfToken = data.token || '';
+        console.log('CSRF token:', csrfToken);
+        if (!csrfToken) {
             console.warn('CSRF token is empty; requests may fail');
         }
-        return token;
+        return csrfToken;
     } catch (err) {
         console.error('Error fetching CSRF token:', err);
-        return '';
+        csrfToken = '';
+        return csrfToken;
     }
 }
 
@@ -31,9 +34,12 @@ async function fetchWithCsrf(method, url, data = null) {
     if (loader) loader.classList.remove('hidden');
     try {
         const headers = {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': await getCsrfToken(),
         };
+        if (['POST', 'PUT', 'DELETE'].includes(method)) {
+            headers['X-CSRF-TOKEN'] = await getCsrfToken();
+        }
         const options = { method, headers, credentials: 'include' };
         if (data) options.body = JSON.stringify(data);
         console.log(`API request: ${method} ${BASE_URL}${url}`, data ? `with body: ${JSON.stringify(data)}` : '');
@@ -119,9 +125,18 @@ export async function deleteTask(id) {
 }
 
 export async function getUsers() {
-    const result = await fetchWithCsrf('GET', '/users');
-    console.log('Users result:', result);
-    return Array.isArray(result) ? result : [];
+    try {
+        const data = await fetchWithCsrf('GET', '/users');
+        console.log('getUsers raw response:', data);
+        if (!Array.isArray(data)) {
+            console.warn('getUsers: Response is not an array', data);
+        }
+        data.forEach(user => console.log('User:', user));
+        return Array.isArray(data) ? data : [];
+    } catch (err) {
+        console.error('Помилка getUsers:', err);
+        throw err;
+    }
 }
 
 export async function getComments(taskId) {

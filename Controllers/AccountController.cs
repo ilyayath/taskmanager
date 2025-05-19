@@ -40,7 +40,18 @@ namespace TaskManager.Controllers
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                return Ok(new { message = "Login successful" });
+                var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                if (role == null)
+                {
+                    return BadRequest(new { error = "User has no role assigned." });
+                }
+                return Ok(new
+                {
+                    message = "Login successful",
+                    isAuthenticated = true,
+                    role,
+                    userId = user.Id // Додаємо userId
+                });
             }
 
             return BadRequest(new { error = "Invalid email or password." });

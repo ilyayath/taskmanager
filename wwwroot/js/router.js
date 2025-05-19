@@ -1,105 +1,118 @@
-﻿import { renderLogin, renderRegister } from './auth.js';
-import { renderTasks, renderTaskDetail } from './tasks.js';
-import { checkAuth } from './api.js';
+﻿import { renderLogin, renderRegister, checkAuth, logout } from './auth.js';
+import { renderTasks, renderTaskDetail, renderTaskForm } from './tasks.js';
 
-const routes = {
-    '/': async () => {
-        const auth = await checkAuth();
-        if (auth.isAuthenticated) {
-            renderTasks();
-        } else {
-            navigate('/login');
-        }
-    },
-    '/login': renderLogin,
-    '/register': renderRegister,
-    '/task/:id': renderTaskDetail,
-};
-
-export function initRouter(isAuthenticated) {
-    console.log('Initializing router with isAuthenticated:', isAuthenticated);
-    updateNav(isAuthenticated);
-    let lastPath = window.location.hash.slice(1) || '/';
-    console.log('Initial navigation to:', lastPath);
-    navigate(lastPath);
-    window.removeEventListener('hashchange', handleHashChange);
-    window.addEventListener('hashchange', handleHashChange);
-}
-
-function handleHashChange() {
-    const path = window.location.hash.slice(1) || '/';
-    console.log('Hashchange triggered, navigating to:', path);
-    navigate(path);
-}
+// Дебагінг імпорту
+console.log('Імпортовано з tasks.js:', { renderTasks, renderTaskDetail });
 
 export async function navigate(path) {
-    console.log('Navigating to:', path);
-    path = (path || '/').trim().replace(/\/+/g, '/');
-    if (path === '') path = '/';
-    console.log('Normalized path:', path);
+    console.log('Навігація до:', path);
+    const normalizedPath = path.split('?')[0].toLowerCase();
+    console.log('Нормалізований шлях:', normalizedPath);
 
-    let route = Object.keys(routes).find(r => r === path);
+    let route = null;
     let param = null;
 
-    if (!route) {
-        const pathParts = path.split('/').filter(Boolean);
-        const basePath = pathParts[0] || '';
-        route = Object.keys(routes).find(r => {
-            if (r.includes(':')) {
-                const routeParts = r.split('/').filter(Boolean);
-                return routeParts[0] === basePath && routeParts.length === pathParts.length;
-            }
-            return false;
-        });
-
-        if (route) {
-            param = pathParts[1];
+    if (normalizedPath === '/') {
+        route = '/';
+    } else if (normalizedPath.startsWith('/task/') && !normalizedPath.includes('/edit/')) {
+        route = '/task/:id';
+        param = normalizedPath.split('/')[2];
+    } else if (normalizedPath === '/task/new') {
+        route = '/task/new';
+    } else if (normalizedPath.startsWith('/task/edit/')) {
+        route = '/task/edit/:id';
+        const parts = normalizedPath.split('/');
+        param = parts.length > 3 && !isNaN(parseInt(parts[3])) ? parseInt(parts[3]) : null;
+        if (!param) {
+            console.error('Некоректний ID для редагування:', normalizedPath);
+            document.getElementById('app').innerHTML = '<h1>404 - Некоректний ID завдання</h1>';
+            return;
         }
+    } else if (normalizedPath === '/login') {
+        route = '/login';
+    } else if (normalizedPath === '/register') {
+        route = '/register';
     }
 
-    if (!route) {
-        console.error('Route not found:', path);
-        document.getElementById('app').innerHTML = '<h2>404 Not Found</h2>';
+    console.log('Знайдено маршрут:', route, 'з параметром:', param);
+
+    const app = document.getElementById('app');
+    if (!app) {
+        console.error('Контейнер app не знайдено');
         return;
     }
 
-    console.log('Found route:', route, 'with param:', param);
-    const handler = routes[route];
-    if (typeof handler !== 'function') {
-        console.error('Handler is not a function for route:', route, handler);
-        document.getElementById('app').innerHTML = '<h2>Error: Invalid route handler</h2>';
-        return;
-    }
+    try {
+        const authData = await checkAuth();
+        console.log('authData:', authData);
+        updateNavigation(authData ? authData.isAuthenticated : false);
 
-    await handler(param);
+        if (!authData?.isAuthenticated && route !== '/login' && route !== '/register') {
+            navigate('/login');
+            return;
+        }
+
+        switch (route) {
+            case '/':
+                await renderTasks();
+                break;
+            case '/task/:id':
+                await renderTaskDetail(param);
+                break;
+            case '/task/new':
+                await renderTaskForm(null);
+                break;
+            case '/task/edit/:id':
+                await renderTaskForm(param);
+                break;
+            case '/login':
+                await renderLogin();
+                break;
+            case '/register':
+                await renderRegister();
+                break;
+            default:
+                app.innerHTML = '<h1>404 - Сторінка не знайдена</h1>';
+        }
+    } catch (err) {
+        console.error('Помилка навігації:', err);
+        app.innerHTML = `<p class="error">Помилка навігації: ${err.message}</p>`;
+    }
 }
 
-export function updateNav(isAuthenticated) {
+function updateNavigation(isAuthenticated) {
+    console.log('Оновлення навігації, isAuthenticated:', isAuthenticated);
     const nav = document.getElementById('nav');
     if (!nav) {
-        console.error('Navigation element #nav not found in DOM');
+        console.error('Контейнер nav не знайдено');
         return;
     }
-    console.log('Updating navigation, isAuthenticated:', isAuthenticated);
+
     nav.innerHTML = isAuthenticated
         ? `
-      <a href="#/"><i class="fas fa-tasks"></i> Tasks</a>
-      <button id="logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
-    `
+            <a href="#/"><i class="fas fa-tasks"></i> Завдання</a>
+            <button id="logout" class="action-btn"><i class="fas fa-sign-out-alt"></i> Вийти</button>
+        `
         : `
-      <a href="#/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-      <a href="#/register"><i class="fas fa-user-plus"></i> Register</a>
-    `;
-    console.log('Navigation HTML set to:', nav.innerHTML);
+            <a href="#/login"><i class="fas fa-sign-in-alt"></i> Вхід</a>
+            <a href="#/register"><i class="fas fa-user-plus"></i> Реєстрація</a>
+        `;
+    console.log('HTML навігації встановлено:', nav.innerHTML);
 
-    if (isAuthenticated) {
-        const logoutButton = document.getElementById('logout');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', async () => {
-                await import('./auth.js').then(({ logout }) => logout());
-            });
-        } else {
-            console.error('Logout button not found after rendering');
-        }
+    const logoutButton = document.getElementById('logout');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await logout();
+            } catch (err) {
+                console.error('Помилка виходу:', err);
+            }
+        });
     }
+}
+
+export function initRouter(isAuthenticated) {
+    console.log('Ініціалізація роутера, isAuthenticated:', isAuthenticated);
+    window.addEventListener('hashchange', () => navigate(window.location.hash.slice(1)));
+    navigate(window.location.hash.slice(1) || '/');
 }
