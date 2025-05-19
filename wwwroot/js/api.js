@@ -130,15 +130,20 @@ export async function getUsers() {
         console.log('getUsers raw response:', data);
         if (!Array.isArray(data)) {
             console.warn('getUsers: Response is not an array', data);
+            return [];
         }
-        data.forEach(user => console.log('User:', user));
-        return Array.isArray(data) ? data : [];
+        const normalizedUsers = data.map(user => ({
+            id: user.id || user.Id,
+            name: user.name || user.Name || 'Без імені',
+            email: user.email || user.Email || `user${user.id || user.Id}@example.com`
+        }));
+        normalizedUsers.forEach(user => console.log('Normalized user:', user));
+        return normalizedUsers;
     } catch (err) {
         console.error('Помилка getUsers:', err);
         throw err;
     }
 }
-
 export async function getComments(taskId) {
     return fetchWithCsrf('GET', `/tasks/${taskId}/comments`);
 }

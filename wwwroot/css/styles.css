@@ -173,6 +173,21 @@ main#app {
         color: var(--text-color);
     }
 
+        .create-task select option {
+            color: var(--text-color);
+            background-color: #ffffff;
+            font-size: 1.1rem;
+            padding: 0.5rem;
+        }
+
+.card select option {
+    color: var(--text-color);
+    background-color: #ffffff;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+}
+    
+
         .create-task input:focus,
         .create-task select:focus {
             outline: none;

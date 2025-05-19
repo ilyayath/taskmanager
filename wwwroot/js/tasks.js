@@ -112,64 +112,68 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
     if (role === 'Manager') {
         try {
             const users = await getUsers();
-            console.log('Users fetched for createTaskForm:', users);
-            const availableWorkers = users; // Використовуємо всіх користувачів
-            console.log('Available workers (all users):', availableWorkers);
+            console.log('Users fetched for createTaskForm:', users.map(u => ({ id: u.id, email: u.email, name: u.name })));
+            const availableWorkers = users;
+            console.log('Available workers:', availableWorkers);
 
             createTaskButton = `
-                <button id="toggle-create-task" class="action-btn primary-btn">
-                    <i class="fas fa-plus"></i> Створити Завдання
-                </button>
-            `;
+            <button id="toggle-create-task" class="action-btn primary-btn">
+                <i class="fas fa-plus"></i> Створити Завдання
+            </button>
+        `;
 
             createTaskForm = availableWorkers.length > 0 ? `
-                <div id="create-task-form-container" style="display: none;">
-                    <h3>Створити Нове Завдання</h3>
-                    <form id="create-task-form" class="create-task">
-                        <div>
-                            <label><i class="fas fa-heading"></i> Назва</label>
-                            <input type="text" id="task-title" required placeholder="Введіть назву завдання">
-                        </div>
-                        <div>
-                            <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
-                            <select id="assigned-user">
-                                <option value="">Без виконавця</option>
-                                ${availableWorkers.map(u => `<option value="${u.id}">${escapeHtml(u.email)}</option>`).join('')}
-                            </select>
-                        </div>
-                        <div>
-                            <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
-                            <input type="date" id="task-due-date" required>
-                        </div>
-                        <div>
-                            <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
-                            <select id="task-priority" required>
-                                <option value="High">Високий</option>
-                                <option value="Medium" selected>Середній</option>
-                                <option value="Low">Низький</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="action-btn primary-btn" id="create-task-btn">
-                            <i class="fas fa-plus"></i> Створити
-                        </button>
-                        <p class="error" id="create-task-error"></p>
-                        <div class="loader hidden" id="create-task-loader">
-                            <div class="spinner"></div>
-                        </div>
-                    </form>
-                </div>
-            ` : `
-                <div id="create-task-form-container" style="display: none;">
-                    <p class="error">Немає доступних користувачів для призначення. Перевірте базу даних.</p>
-                </div>
-            `;
+            <div id="create-task-form-container" style="display: none;">
+                <h3>Створити Нове Завдання</h3>
+                <form id="create-task-form" class="create-task">
+                    <div>
+                        <label><i class="fas fa-heading"></i> Назва</label>
+                        <input type="text" id="task-title" required placeholder="Введіть назву завдання">
+                    </div>
+                    <div>
+                        <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
+                        <select id="assigned-user">
+                            <option value="">Без виконавця</option>
+                            ${availableWorkers.map(u => {
+                const displayText = u.email || u.name || `Користувач ${u.id}`;
+                console.log('Rendering user option:', { id: u.id, email: u.email, name: u.name, displayText });
+                return `<option value="${u.id}">${escapeHtml(displayText)}</option>`;
+            }).join('')}
+                        </select>
+                    </div>
+                    <div>
+                        <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
+                        <input type="date" id="task-due-date" required>
+                    </div>
+                    <div>
+                        <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
+                        <select id="task-priority" required>
+                            <option value="High">Високий</option>
+                            <option value="Medium" selected>Середній</option>
+                            <option value="Low">Низький</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="action-btn primary-btn" id="create-task-btn">
+                        <i class="fas fa-plus"></i> Створити
+                    </button>
+                    <p class="error" id="create-task-error"></p>
+                    <div class="loader hidden" id="create-task-loader">
+                        <div class="spinner"></div>
+                    </div>
+                </form>
+            </div>
+        ` : `
+            <div id="create-task-form-container" style="display: none;">
+                <p class="error">Немає доступних користувачів для призначення. Перевірте базу даних.</p>
+            </div>
+        `;
         } catch (err) {
             console.error('Помилка завантаження користувачів для форми:', err);
             createTaskForm = `
-                <div id="create-task-form-container" style="display: none;">
-                    <p class="error">Не вдалося завантажити дані для форми: ${err.message}</p>
-                </div>
-            `;
+            <div id="create-task-form-container" style="display: none;">
+                <p class="error">Не вдалося завантажити дані для форми: ${err.message}</p>
+            </div>
+        `;
         }
     }
 
@@ -431,7 +435,7 @@ export async function renderTaskForm(taskId) {
     if (role === 'Manager') {
         try {
             users = await getUsers();
-            console.log('Завантажені користувачі для форми редагування:', users);
+            console.log('Завантажені користувачі для форми редагування:', users.map(u => ({ id: u.id, email: u.email, name: u.name })));
             categories = await getCategories();
             tags = await getTags();
         } catch (err) {
@@ -441,8 +445,8 @@ export async function renderTaskForm(taskId) {
         }
     }
 
-    const availableWorkers = users; // Використовуємо всіх користувачів
-    console.log('Доступні виконавці (всі користувачі) для редагування:', availableWorkers);
+    const availableWorkers = users;
+    console.log('Доступні виконавці:', availableWorkers.map(u => ({ id: u.id, email: u.email, name: u.name })));
     if (role === 'Manager' && availableWorkers.length === 0) {
         console.warn('Немає доступних користувачів для редагування.');
     }
@@ -451,76 +455,78 @@ export async function renderTaskForm(taskId) {
     const today = new Date().toISOString().split('T')[0];
 
     app.innerHTML = `
-        <div class="card">
-            <h2>${isEdit ? 'Редагувати Завдання' : 'Створити Завдання'}</h2>
-            <form id="task-form">
+    <div class="card">
+        <h2>${isEdit ? 'Редагувати Завдання' : 'Створити Завдання'}</h2>
+        <form id="task-form">
+            <div>
+                <label><i class="fas fa-heading"></i> Назва</label>
+                <input type="text" id="title" value="${escapeHtml(task.title) || ''}" required ${role === 'Worker' && isEdit ? 'disabled' : ''} placeholder="Введіть назву">
+            </div>
+            ${role === 'Manager' && availableWorkers.length > 0 ? `
                 <div>
-                    <label><i class="fas fa-heading"></i> Назва</label>
-                    <input type="text" id="title" value="${escapeHtml(task.title) || ''}" required ${role === 'Worker' && isEdit ? 'disabled' : ''} placeholder="Введіть назву">
+                    <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
+                    <select id="assigned-user">
+                        <option value="">Без виконавця</option>
+                        ${availableWorkers.map(u => {
+        const displayText = u.email || u.name || `Користувач ${u.id}`;
+        console.log('Rendering user option:', { id: u.id, email: u.email, name: u.name, displayText });
+        return `<option value="${u.id}" ${task.userId === u.id ? 'selected' : ''}>${escapeHtml(displayText)}</option>`;
+    }).join('')}
+                    </select>
                 </div>
-                ${role === 'Manager' && availableWorkers.length > 0 ? `
-                    <div>
-                        <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
-                        <select id="assigned-user">
-                            <option value="">Без виконавця</option>
-                            ${availableWorkers.map(u => `
-                                <option value="${u.id}" ${task.userId === u.id ? 'selected' : ''}>${escapeHtml(u.email)}</option>
-                            `).join('')}
-                        </select>
-                    </div>
-                ` : role === 'Manager' ? `
-                    <div>
-                        <p class="error">Немає доступних користувачів</p>
-                    </div>
-                ` : ''}
+            ` : role === 'Manager' ? `
                 <div>
-                    <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
-                    <input type="date" id="dueDate" value="${task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : today}" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
+                    <p class="error">Немає доступних користувачів</p>
                 </div>
+            ` : ''}
+            <div>
+                <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
+                <input type="date" id="dueDate" value="${task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : today}" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
+            </div>
+            <div>
+                <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
+                <select id="priority" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
+                    <option value="High" ${task.priority === 'High' ? 'selected' : ''}>Високий</option>
+                    <option value="Medium" ${task.priority === 'Medium' ? 'selected' : ''}>Середній</option>
+                    <option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Низький</option>
+                </select>
+            </div>
+            <div>
+                <label><i class="fas fa-tasks"></i> Прогрес (%)</label>
+                <input type="number" id="progress" min="0" max="100" value="${task.progress || 0}" required ${role === 'Manager' && isEdit ? 'disabled' : ''} placeholder="0-100">
+            </div>
+            ${role === 'Manager' ? `
                 <div>
-                    <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
-                    <select id="priority" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
-                        <option value="High" ${task.priority === 'High' ? 'selected' : ''}>Високий</option>
-                        <option value="Medium" ${task.priority === 'Medium' ? 'selected' : ''}>Середній</option>
-                        <option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Низький</option>
+                    <label><i class="fas fa-folder"></i> Категорія</label>
+                    <select id="category">
+                        <option value="" ${!task.categoryId ? 'selected' : ''}>Без категорії</option>
+                        ${categories.map(c => `
+                            <option value="${c.id}" ${task.categoryId === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>
+                        `).join('')}
                     </select>
                 </div>
                 <div>
-                    <label><i class="fas fa-tasks"></i> Прогрес (%)</label>
-                    <input type="number" id="progress" min="0" max="100" value="${task.progress || 0}" required ${role === 'Manager' && isEdit ? 'disabled' : ''} placeholder="0-100">
+                    <label><i class="fas fa-tags"></i> Теги</label>
+                    <select id="tags" multiple>
+                        ${tags.map(t => `
+                            <option value="${t.id}" ${task.tagIds?.includes(t.id) ? 'selected' : ''}>${escapeHtml(t.name)}</option>
+                        `).join('')}
+                    </select>
                 </div>
-                ${role === 'Manager' ? `
-                    <div>
-                        <label><i class="fas fa-folder"></i> Категорія</label>
-                        <select id="category">
-                            <option value="" ${!task.categoryId ? 'selected' : ''}>Без категорії</option>
-                            ${categories.map(c => `
-                                <option value="${c.id}" ${task.categoryId === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>
-                            `).join('')}
-                        </select>
-                    </div>
-                    <div>
-                        <label><i class="fas fa-tags"></i> Теги</label>
-                        <select id="tags" multiple>
-                            ${tags.map(t => `
-                                <option value="${t.id}" ${task.tagIds?.includes(t.id) ? 'selected' : ''}>${escapeHtml(t.name)}</option>
-                            `).join('')}
-                        </select>
-                    </div>
-                ` : ''}
-                <button type="submit" class="action-btn primary-btn" id="save-task-btn">
-                    <i class="fas fa-save"></i> Зберегти
-                </button>
-                <button type="button" class="action-btn" id="cancel-btn">
-                    <i class="fas fa-times"></i> Скасувати
-                </button>
-                <p class="error" id="task-error"></p>
-                <div class="loader hidden" id="task-loader">
-                    <div class="spinner"></div>
-                </div>
-            </form>
-        </div>
-    `;
+            ` : ''}
+            <button type="submit" class="action-btn primary-btn" id="save-task-btn">
+                <i class="fas fa-save"></i> Зберегти
+            </button>
+            <button type="button" class="action-btn" id="cancel-btn">
+                <i class="fas fa-times"></i> Скасувати
+            </button>
+            <p class="error" id="task-error"></p>
+            <div class="loader hidden" id="task-loader">
+                <div class="spinner"></div>
+            </div>
+        </form>
+    </div>
+`;
 
     const form = document.getElementById('task-form');
     const errorElement = document.getElementById('task-error');
