@@ -930,3 +930,124 @@ nav#nav {
         background-color: #0056b3;
         transform: translateY(-2px);
     }
+#overdue-notification {
+    position: fixed;
+    bottom: 80px; /* Вище пагінації (.pagination має padding: 1.5rem) */
+    right: 20px;
+    z-index: 1000;
+}
+
+#overdue-btn {
+    background-color: var(--danger-color);
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-light);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    #overdue-btn:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+body.dark #overdue-btn {
+    box-shadow: var(--shadow-dark);
+}
+
+.overdue-popup {
+    position: absolute;
+    bottom: 100%; /* Спливаюче вікно відкривається вгору */
+    right: 0;
+    background-color: var(--card-background-light);
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-light);
+    z-index: 1001;
+    min-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+body.dark .overdue-popup {
+    background-color: var(--card-background-dark);
+    border-color: var(--border-color-dark);
+    box-shadow: var(--shadow-dark);
+}
+
+.overdue-popup.hidden {
+    display: none;
+}
+
+.overdue-popup h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-color-light);
+}
+
+body.dark .overdue-popup h3 {
+    color: var(--text-color-dark);
+}
+
+.overdue-popup ul {
+    list-style: none;
+    padding: 0;
+}
+
+.overdue-popup li {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--text-color-light);
+}
+
+body.dark .overdue-popup li {
+    color: var(--text-color-dark);
+}
+
+.overdue-popup a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+    .overdue-popup a:hover {
+        color: #0056b3;
+    }
+
+.overdue-popup #close-overdue {
+    margin-top: 1rem;
+    padding: 8px 16px;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    #overdue-notification {
+        bottom: 100px; /* Вище пагінації на мобільних */
+        right: 15px;
+    }
+
+    .overdue-popup {
+        min-width: 250px;
+        max-height: 300px;
+    }
+
+    #overdue-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #overdue-notification {
+        bottom: 120px;
+    }
+
+    .overdue-popup {
+        min-width: 200px;
+    }
+}

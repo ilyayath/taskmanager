@@ -873,3 +873,60 @@ export async function renderTaskDetail(taskId) {
         }
     });
 }
+// tasks.js
+export async function getOverdueTasks() {
+    console.log('Отримання прострочених завдань');
+    try {
+        const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        const now = new Date();
+        return tasks.filter(task => new Date(task.dueDate) < now && task.status !== 'done');
+    } catch (err) {
+        console.error('Помилка отримання прострочених завдань:', err);
+        return [];
+    }
+}
+
+export function renderOverdueNotification() {
+    const overdueContainer = document.getElementById('overdue-notification');
+    if (!overdueContainer) {
+        console.warn('Контейнер #overdue-notification не знайдено');
+        return;
+    }
+    getOverdueTasks().then(overdueTasks => {
+        overdueContainer.innerHTML = `
+            <button id="overdue-btn" class="action-btn">
+                <i class="fas fa-exclamation-triangle"></i>
+                Прострочено: ${overdueTasks.length}
+            </button>
+            <div id="overdue-popup" class="overdue-popup hidden">
+                <h3>Прострочені завдання</h3>
+                <ul>
+                    ${overdueTasks.length
+                ? overdueTasks.map(task => `
+                            <li>
+                                <a href="#/task/${task.id}">${task.title}</a>
+                                (Дедлайн: ${new Date(task.dueDate).toLocaleDateString('uk-UA')})
+                            </li>
+                        `).join('')
+                : '<li>Немає прострочених завдань</li>'}
+                </ul>
+                <button id="close-overdue" class="action-btn">Закрити</button>
+            </div>
+        `;
+        const overdueBtn = document.getElementById('overdue-btn');
+        const overduePopup = document.getElementById('overdue-popup');
+        const closeBtn = document.getElementById('close-overdue');
+        if (overdueBtn && overduePopup) {
+            overdueBtn.addEventListener('click', () => {
+                overduePopup.classList.toggle('hidden');
+                console.log('Відкрито/закрито сповіщення про прострочені завдання');
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                overduePopup.classList.add('hidden');
+                console.log('Спливаюче вікно закрито');
+            });
+        }
+    });
+}

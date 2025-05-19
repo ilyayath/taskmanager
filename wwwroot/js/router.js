@@ -1,6 +1,6 @@
 ﻿import { renderLogin, renderRegister, checkAuth, logout } from './auth.js';
 import { renderTasks, renderTaskDetail, renderTaskForm } from './tasks.js';
-
+import { renderOverdueNotification } from './tasks.js';
 // Дебагінг імпорту
 console.log('Імпортовано з tasks.js:', { renderTasks, renderTaskDetail });
 
@@ -107,6 +107,7 @@ function updateNavigation(isAuthenticated) {
     if (themeButton) {
         nav.appendChild(themeButton);
         console.log('Кнопка #theme-toggle відновлена в #nav');
+        renderOverdueNotification();
     } else {
         console.warn('Кнопка #theme-toggle не знайдена для відновлення');
     }
