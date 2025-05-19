@@ -853,3 +853,80 @@ body.dark .filter-form select {
     color: var(--text-color-dark);
     border-color: var(--border-color-dark);
 }
+#theme-toggle {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 1000;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    align-items: center;
+    gap: 8px;
+}
+
+    #theme-toggle:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+body.dark #theme-toggle {
+    background-color: #0056b3;
+}
+
+    body.dark #theme-toggle:hover {
+        background-color: #003d80;
+    }
+
+/* Стили для іконок у кнопці */
+#theme-toggle i {
+    font-size: 1.2rem;
+}
+
+/* Забезпечуємо, що nav видимий і адаптивний */
+nav#nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+/* Адаптація для мобільних */
+@media (max-width: 768px) {
+    nav#nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    #theme-toggle {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+/* Стили для action-btn, щоб уникнути конфліктів */
+.action-btn {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .action-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }

@@ -88,6 +88,10 @@ function updateNavigation(isAuthenticated) {
         return;
     }
 
+    // Зберігаємо кнопку теми, якщо вона існує
+    const themeButton = document.getElementById('theme-toggle');
+
+    // Оновлюємо навігацію
     nav.innerHTML = isAuthenticated
         ? `
             <a href="#/"><i class="fas fa-tasks"></i> Завдання</a>
@@ -99,6 +103,15 @@ function updateNavigation(isAuthenticated) {
         `;
     console.log('HTML навігації встановлено:', nav.innerHTML);
 
+    // Відновлюємо кнопку теми
+    if (themeButton) {
+        nav.appendChild(themeButton);
+        console.log('Кнопка #theme-toggle відновлена в #nav');
+    } else {
+        console.warn('Кнопка #theme-toggle не знайдена для відновлення');
+    }
+
+    // Додаємо обробник для кнопки виходу
     const logoutButton = document.getElementById('logout');
     if (logoutButton) {
         logoutButton.addEventListener('click', async () => {

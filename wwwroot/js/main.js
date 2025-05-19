@@ -9,38 +9,60 @@ function toggleTheme() {
     const themeButton = document.getElementById('theme-toggle');
     if (themeButton) {
         themeButton.innerHTML = isDark ? '<i class="fas fa-sun"></i> Світла тема' : '<i class="fas fa-moon"></i> Темна тема';
+        console.log('Тему змінено на:', isDark ? 'темну' : 'світлу');
+    } else {
+        console.error('Кнопка #theme-toggle не знайдена після перемикання теми');
     }
+}
+
+function addThemeButton() {
+    const nav = document.getElementById('nav');
+    if (!nav) {
+        console.error('Елемент навігації #nav не знайдено в DOM');
+        return;
+    }
+
+    // Видаляємо стару кнопку, якщо вона є
+    const oldThemeButton = document.getElementById('theme-toggle');
+    if (oldThemeButton) {
+        oldThemeButton.remove();
+        console.log('Стара кнопка #theme-toggle видалена');
+    }
+
+    // Додаємо нову кнопку
+    const themeButton = document.createElement('button');
+    themeButton.id = 'theme-toggle';
+    themeButton.classList.add('action-btn');
+    const isDark = localStorage.getItem('theme') === 'dark';
+    if (isDark) {
+        document.body.classList.add('dark');
+    }
+    themeButton.innerHTML = isDark ? '<i class="fas fa-sun"></i> Світла тема' : '<i class="fas fa-moon"></i> Темна тема';
+    themeButton.addEventListener('click', toggleTheme);
+    nav.appendChild(themeButton);
+    console.log('Кнопка #theme-toggle додана до #nav');
 }
 
 async function init() {
+    console.log('Запуск ініціалізації');
+    let isAuthenticated = false;
     try {
         const auth = await checkAuth();
         console.log('authData:', auth);
-        if (!document.getElementById('nav')) {
-            console.error('Елемент навігації #nav не знайдено в DOM');
-            return;
-        }
-        // Ініціалізація теми
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark');
-        }
-        // Додавання кнопки перемикання теми
-        const nav = document.getElementById('nav');
-        const themeButton = document.createElement('button');
-        themeButton.id = 'theme-toggle';
-        themeButton.classList.add('action-btn');
-        themeButton.innerHTML = document.body.classList.contains('dark')
-            ? '<i class="fas fa-sun"></i> Світла тема'
-            : '<i class="fas fa-moon"></i> Темна тема';
-        themeButton.addEventListener('click', toggleTheme);
-        nav.appendChild(themeButton);
-
-        console.log('Запуск initRouter з isAuthenticated:', auth.isAuthenticated);
-        initRouter(auth.isAuthenticated);
+        isAuthenticated = auth.isAuthenticated;
     } catch (err) {
         console.error('Помилка перевірки автентифікації:', err);
-        initRouter(false);
     }
+
+    // Ініціалізація роутера
+    console.log('Запуск initRouter з isAuthenticated:', isAuthenticated);
+    initRouter(isAuthenticated);
+
+    // Додаємо кнопку теми після ініціалізації роутера
+    addThemeButton();
 }
 
-init();
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM завантажено, виклик init');
+    init();
+});
