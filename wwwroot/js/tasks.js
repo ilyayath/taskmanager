@@ -41,6 +41,7 @@ async function calculateTaskStats() {
         const completedTasks = tasks.filter(t => t.isCompleted).length;
         const notCompletedTasks = totalTasks - completedTasks;
         const completionRate = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(1) : 0;
+        const overdueTasks = tasks.filter(t => t.dueDate && new Date(t.dueDate) < new Date() && !t.isCompleted).length;
 
         const priorityStats = {
             High: tasks.filter(t => t.priority === 'High').length,
@@ -48,13 +49,14 @@ async function calculateTaskStats() {
             Low: tasks.filter(t => t.priority === 'Low').length
         };
 
-        console.log('Розраховано статистику:', { totalTasks, completedTasks, notCompletedTasks, completionRate, priorityStats });
+        console.log('Розраховано статистику:', { totalTasks, completedTasks, notCompletedTasks, completionRate, overdueTasks, priorityStats });
 
         return {
             totalTasks,
             completedTasks,
             notCompletedTasks,
             completionRate,
+            overdueTasks,
             priorityStats
         };
     } catch (err) {
@@ -63,7 +65,7 @@ async function calculateTaskStats() {
     }
 }
 
-export async function renderTasks(page = 1, filter = 'not-completed') {
+export async function renderTasks(page = 1, filter = 'not-completed', priorityFilter = '', userFilter = '', sortBy = 'dueDate') {
     const app = document.getElementById('app');
     if (!app) {
         console.error('Контейнер #app не знайдено в DOM');
@@ -90,6 +92,7 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
                 <p><strong>Всього завдань:</strong> ${stats.totalTasks}</p>
                 <p><strong>Виконано:</strong> ${stats.completedTasks}</p>
                 <p><strong>Не виконано:</strong> ${stats.notCompletedTasks}</p>
+                <p><strong>Прострочені:</strong> ${stats.overdueTasks}</p>
                 <p><strong>Відсоток виконання:</strong> ${stats.completionRate}%</p>
                 <p><strong>Пріоритети:</strong></p>
                 <ul>
@@ -97,7 +100,6 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
                     <li>Середній: ${stats.priorityStats.Medium}</li>
                     <li>Низький: ${stats.priorityStats.Low}</li>
                 </ul>
-                <!-- Місце для графіку -->
                 <canvas id="task-stats-chart" style="max-width: 300px; margin: 20px auto;"></canvas>
             </div>
         `;
@@ -108,78 +110,114 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
     const pageSize = 10;
     let createTaskForm = '';
     let createTaskButton = '';
+    let users = [];
+    let userMap = {};
 
     if (role === 'Manager') {
         try {
-            const users = await getUsers();
+            users = await getUsers();
             console.log('Users fetched for createTaskForm:', users.map(u => ({ id: u.id, email: u.email, name: u.name })));
             const availableWorkers = users;
             console.log('Available workers:', availableWorkers);
 
+            users.forEach(u => {
+                userMap[u.id] = u.email || u.name || `Користувач ${u.id}`;
+            });
+
             createTaskButton = `
-            <button id="toggle-create-task" class="action-btn primary-btn">
-                <i class="fas fa-plus"></i> Створити Завдання
-            </button>
-        `;
+                <button id="toggle-create-task" class="action-btn primary-btn">
+                    <i class="fas fa-plus"></i> Створити Завдання
+                </button>
+            `;
 
             createTaskForm = availableWorkers.length > 0 ? `
-            <div id="create-task-form-container" style="display: none;">
-                <h3>Створити Нове Завдання</h3>
-                <form id="create-task-form" class="create-task">
-                    <div>
-                        <label><i class="fas fa-heading"></i> Назва</label>
-                        <input type="text" id="task-title" required placeholder="Введіть назву завдання">
-                    </div>
-                    <div>
-                        <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
-                        <select id="assigned-user">
-                            <option value="">Без виконавця</option>
-                            ${availableWorkers.map(u => {
+                <div id="create-task-form-container" style="display: none;">
+                    <h3>Створити Нове Завдання</h3>
+                    <form id="create-task-form" class="create-task">
+                        <div>
+                            <label><i class="fas fa-heading"></i> Назва</label>
+                            <input type="text" id="task-title" required placeholder="Введіть назву завдання">
+                        </div>
+                        <div>
+                            <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
+                            <select id="assigned-user">
+                                <option value="">Без виконавця</option>
+                                ${availableWorkers.map(u => {
                 const displayText = u.email || u.name || `Користувач ${u.id}`;
                 console.log('Rendering user option:', { id: u.id, email: u.email, name: u.name, displayText });
                 return `<option value="${u.id}">${escapeHtml(displayText)}</option>`;
             }).join('')}
-                        </select>
-                    </div>
-                    <div>
-                        <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
-                        <input type="date" id="task-due-date" required>
-                    </div>
-                    <div>
-                        <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
-                        <select id="task-priority" required>
-                            <option value="High">Високий</option>
-                            <option value="Medium" selected>Середній</option>
-                            <option value="Low">Низький</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="action-btn primary-btn" id="create-task-btn">
-                        <i class="fas fa-plus"></i> Створити
-                    </button>
-                    <p class="error" id="create-task-error"></p>
-                    <div class="loader hidden" id="create-task-loader">
-                        <div class="spinner"></div>
-                    </div>
-                </form>
-            </div>
-        ` : `
-            <div id="create-task-form-container" style="display: none;">
-                <p class="error">Немає доступних користувачів для призначення. Перевірте базу даних.</p>
-            </div>
-        `;
+                            </select>
+                        </div>
+                        <div>
+                            <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
+                            <input type="date" id="task-due-date" required>
+                        </div>
+                        <div>
+                            <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
+                            <select id="task-priority" required>
+                                <option value="High">Високий</option>
+                                <option value="Medium" selected>Середній</option>
+                                <option value="Low">Низький</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="action-btn primary-btn" id="create-task-btn">
+                            <i class="fas fa-plus"></i> Створити
+                        </button>
+                        <p class="error" id="create-task-error"></p>
+                        <div class="loader hidden" id="create-task-loader">
+                            <div class="spinner"></div>
+                        </div>
+                    </form>
+                </div>
+            ` : `
+                <div id="create-task-form-container" style="display: none;">
+                    <p class="error">Немає доступних користувачів для призначення. Перевірте базу даних.</p>
+                </div>
+            `;
         } catch (err) {
             console.error('Помилка завантаження користувачів для форми:', err);
             createTaskForm = `
-            <div id="create-task-form-container" style="display: none;">
-                <p class="error">Не вдалося завантажити дані для форми: ${err.message}</p>
-            </div>
-        `;
+                <div id="create-task-form-container" style="display: none;">
+                    <p class="error">Не вдалося завантажити дані для форми: ${err.message}</p>
+                </div>
+            `;
         }
     }
+
+    const overdueNotice = stats && stats.overdueTasks > 0 ? `
+        <div class="overdue-notice">
+            <p><strong>Увага!</strong> У вас ${stats.overdueTasks} прострочених завдань.</p>
+        </div>
+    ` : '';
+
+    const filterForm = `
+        <div class="filter-form">
+            <select id="filter-priority">
+                <option value="">Усі пріоритети</option>
+                <option value="High" ${priorityFilter === 'High' ? 'selected' : ''}>Високий</option>
+                <option value="Medium" ${priorityFilter === 'Medium' ? 'selected' : ''}>Середній</option>
+                <option value="Low" ${priorityFilter === 'Low' ? 'selected' : ''}>Низький</option>
+            </select>
+            <select id="filter-user">
+                <option value="">Усі виконавці</option>
+                ${users.map(u => `
+                    <option value="${u.id}" ${userFilter === u.id.toString() ? 'selected' : ''}>${escapeHtml(u.email || u.name || `Користувач ${u.id}`)}</option>
+                `).join('')}
+            </select>
+            <select id="sort-by">
+                <option value="dueDate" ${sortBy === 'dueDate' ? 'selected' : ''}>За терміном</option>
+                <option value="priority" ${sortBy === 'priority' ? 'selected' : ''}>За пріоритетом</option>
+            </select>
+            <button id="apply-filter" class="action-btn"><i class="fas fa-filter"></i> Фільтрувати</button>
+        </div>
+    `;
 
     app.innerHTML = `
         <div class="card">
             <h2>Завдання</h2>
+            ${overdueNotice}
+            ${filterForm}
             ${statsHtml}
             <div class="task-tabs">
                 <button class="tab-btn ${filter === 'not-completed' ? 'active' : ''}" data-filter="not-completed">Не Виконані</button>
@@ -219,24 +257,43 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
                 throw new Error('Невалідна відповідь від API');
             }
 
-            const { tasks = [], total = 0, page: currentPage = 1 } = response;
+            let { tasks = [], total = 0, page: currentPage = 1 } = response;
             if (!Array.isArray(tasks)) {
                 throw new Error('Завдання не є масивом');
             }
 
-            const filteredTasks = tasks.filter(task => filter === 'completed' ? task.isCompleted : !task.isCompleted);
-            const userIds = [...new Set(filteredTasks.map(t => t.userId).filter(id => id))];
-            let users = [];
-            if (userIds.length > 0) {
+            // Фільтрація за статусом
+            tasks = tasks.filter(task => filter === 'completed' ? task.isCompleted : !task.isCompleted);
+
+            // Фільтрація за пріоритетом
+            if (priorityFilter) {
+                tasks = tasks.filter(task => task.priority === priorityFilter);
+            }
+
+            // Фільтрація за виконавцем
+            if (userFilter) {
+                tasks = tasks.filter(task => task.userId === parseInt(userFilter));
+            }
+
+            // Сортування
+            if (sortBy === 'dueDate') {
+                tasks.sort((a, b) => new Date(a.dueDate || '9999-12-31') - new Date(b.dueDate || '9999-12-31'));
+            } else if (sortBy === 'priority') {
+                const priorityOrder = { High: 1, Medium: 2, Low: 3 };
+                tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            }
+
+            const userIds = [...new Set(tasks.map(t => t.userId).filter(id => id))];
+            if (userIds.length > 0 && Object.keys(userMap).length === 0) {
                 users = await getUsers();
                 console.log('Завантажені користувачі:', users);
+                userMap = Object.fromEntries(users.map(u => [u.id, u.email || u.name || `Користувач ${u.id}`]));
             }
-            const userMap = Object.fromEntries(users.map(u => [u.id, u.email]));
 
             const tbody = document.getElementById('task-list');
             const now = new Date();
-            tbody.innerHTML = filteredTasks.length > 0
-                ? filteredTasks.map(task => {
+            tbody.innerHTML = tasks.length > 0
+                ? tasks.map(task => {
                     const isOverdue = task.dueDate && new Date(task.dueDate) < now && !task.isCompleted;
                     return `
                         <tr class="${isOverdue ? 'overdue' : ''}">
@@ -261,6 +318,63 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
             document.getElementById('page-info').textContent = `Сторінка ${currentPage} з ${Math.ceil(total / pageSize) || 1}`;
             document.getElementById('prev-page').disabled = currentPage <= 1;
             document.getElementById('next-page').disabled = currentPage >= Math.ceil(total / pageSize);
+
+            // Оновлення діаграми
+            try {
+                const ctx = document.getElementById('task-stats-chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Всього', 'Виконані', 'Не виконані', 'Прострочені'],
+                        datasets: [{
+                            label: 'Статистика завдань',
+                            data: [stats.totalTasks, stats.completedTasks, stats.notCompletedTasks, stats.overdueTasks],
+                            backgroundColor: [
+                                'rgba(0, 123, 255, 0.5)',
+                                'rgba(40, 167, 69, 0.5)',
+                                'rgba(255, 206, 86, 0.5)',
+                                'rgba(220, 53, 69, 0.5)'
+                            ],
+                            borderColor: [
+                                'rgba(0, 123, 255, 1)',
+                                'rgba(40, 167, 69, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(220, 53, 69, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Кількість завдань',
+                                    color: document.body.classList.contains('dark') ? '#e0e0e0' : '#333333'
+                                },
+                                ticks: {
+                                    color: document.body.classList.contains('dark') ? '#e0e0e0' : '#333333'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: document.body.classList.contains('dark') ? '#e0e0e0' : '#333333'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: document.body.classList.contains('dark') ? '#e0e0e0' : '#333333'
+                                }
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error('Помилка створення діаграми:', err);
+            }
         } catch (err) {
             console.error('Помилка завантаження завдань:', err);
             document.getElementById('task-error').textContent = `Не вдалося завантажити завдання: ${err.message}`;
@@ -285,8 +399,6 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
             if (errorElement) errorElement.textContent = '';
             console.log('Форма переключена, display:', formContainer.style.display);
         });
-    } else {
-        console.error('Кнопка #toggle-create-task або форма не знайдені:', { toggleButton, formContainer });
     }
 
     if (form && submitButton && errorElement && loader) {
@@ -314,7 +426,7 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
 
             const taskData = {
                 title,
-                userId: userId || null, // Залишаємо як string або null
+                userId: userId || null,
                 dueDate: new Date(dueDate).toISOString(),
                 priority,
                 progress: 0,
@@ -340,9 +452,14 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
                 loader.classList.add('hidden');
             }
         });
-    } else {
-        console.warn('Елементи форми не знайдені:', { form, submitButton, errorElement, loader });
     }
+
+    document.getElementById('apply-filter')?.addEventListener('click', () => {
+        const priority = document.getElementById('filter-priority').value;
+        const userId = document.getElementById('filter-user').value;
+        const sort = document.getElementById('sort-by').value;
+        renderTasks(page, filter, priority, userId, sort);
+    });
 
     document.getElementById('prev-page').addEventListener('click', () => {
         if (page > 1) {
@@ -389,7 +506,7 @@ export async function renderTasks(page = 1, filter = 'not-completed') {
     document.querySelectorAll('.task-tabs .tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const newFilter = btn.dataset.filter;
-            renderTasks(1, newFilter);
+            renderTasks(1, newFilter, priorityFilter, userFilter, sortBy);
         });
     });
 }
@@ -455,78 +572,78 @@ export async function renderTaskForm(taskId) {
     const today = new Date().toISOString().split('T')[0];
 
     app.innerHTML = `
-    <div class="card">
-        <h2>${isEdit ? 'Редагувати Завдання' : 'Створити Завдання'}</h2>
-        <form id="task-form">
-            <div>
-                <label><i class="fas fa-heading"></i> Назва</label>
-                <input type="text" id="title" value="${escapeHtml(task.title) || ''}" required ${role === 'Worker' && isEdit ? 'disabled' : ''} placeholder="Введіть назву">
-            </div>
-            ${role === 'Manager' && availableWorkers.length > 0 ? `
+        <div class="card">
+            <h2>${isEdit ? 'Редагувати Завдання' : 'Створити Завдання'}</h2>
+            <form id="task-form">
                 <div>
-                    <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
-                    <select id="assigned-user">
-                        <option value="">Без виконавця</option>
-                        ${availableWorkers.map(u => {
+                    <label><i class="fas fa-heading"></i> Назва</label>
+                    <input type="text" id="title" value="${escapeHtml(task.title) || ''}" required ${role === 'Worker' && isEdit ? 'disabled' : ''} placeholder="Введіть назву">
+                </div>
+                ${role === 'Manager' && availableWorkers.length > 0 ? `
+                    <div>
+                        <label><i class="fas fa-user"></i> Призначити Виконавцю</label>
+                        <select id="assigned-user">
+                            <option value="">Без виконавця</option>
+                            ${availableWorkers.map(u => {
         const displayText = u.email || u.name || `Користувач ${u.id}`;
         console.log('Rendering user option:', { id: u.id, email: u.email, name: u.name, displayText });
         return `<option value="${u.id}" ${task.userId === u.id ? 'selected' : ''}>${escapeHtml(displayText)}</option>`;
     }).join('')}
-                    </select>
-                </div>
-            ` : role === 'Manager' ? `
+                        </select>
+                    </div>
+                ` : role === 'Manager' ? `
+                    <div>
+                        <p class="error">Немає доступних користувачів</p>
+                    </div>
+                ` : ''}
                 <div>
-                    <p class="error">Немає доступних користувачів</p>
+                    <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
+                    <input type="date" id="dueDate" value="${task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : today}" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
                 </div>
-            ` : ''}
-            <div>
-                <label><i class="fas fa-calendar-alt"></i> Термін Виконання</label>
-                <input type="date" id="dueDate" value="${task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : today}" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
-            </div>
-            <div>
-                <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
-                <select id="priority" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
-                    <option value="High" ${task.priority === 'High' ? 'selected' : ''}>Високий</option>
-                    <option value="Medium" ${task.priority === 'Medium' ? 'selected' : ''}>Середній</option>
-                    <option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Низький</option>
-                </select>
-            </div>
-            <div>
-                <label><i class="fas fa-tasks"></i> Прогрес (%)</label>
-                <input type="number" id="progress" min="0" max="100" value="${task.progress || 0}" required ${role === 'Manager' && isEdit ? 'disabled' : ''} placeholder="0-100">
-            </div>
-            ${role === 'Manager' ? `
                 <div>
-                    <label><i class="fas fa-folder"></i> Категорія</label>
-                    <select id="category">
-                        <option value="" ${!task.categoryId ? 'selected' : ''}>Без категорії</option>
-                        ${categories.map(c => `
-                            <option value="${c.id}" ${task.categoryId === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>
-                        `).join('')}
+                    <label><i class="fas fa-exclamation-circle"></i> Пріоритет</label>
+                    <select id="priority" required ${role === 'Worker' && isEdit ? 'disabled' : ''}>
+                        <option value="High" ${task.priority === 'High' ? 'selected' : ''}>Високий</option>
+                        <option value="Medium" ${task.priority === 'Medium' ? 'selected' : ''}>Середній</option>
+                        <option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Низький</option>
                     </select>
                 </div>
                 <div>
-                    <label><i class="fas fa-tags"></i> Теги</label>
-                    <select id="tags" multiple>
-                        ${tags.map(t => `
-                            <option value="${t.id}" ${task.tagIds?.includes(t.id) ? 'selected' : ''}>${escapeHtml(t.name)}</option>
-                        `).join('')}
-                    </select>
+                    <label><i class="fas fa-tasks"></i> Прогрес (%)</label>
+                    <input type="number" id="progress" min="0" max="100" value="${task.progress || 0}" required ${role === 'Manager' && isEdit ? 'disabled' : ''} placeholder="0-100">
                 </div>
-            ` : ''}
-            <button type="submit" class="action-btn primary-btn" id="save-task-btn">
-                <i class="fas fa-save"></i> Зберегти
-            </button>
-            <button type="button" class="action-btn" id="cancel-btn">
-                <i class="fas fa-times"></i> Скасувати
-            </button>
-            <p class="error" id="task-error"></p>
-            <div class="loader hidden" id="task-loader">
-                <div class="spinner"></div>
-            </div>
-        </form>
-    </div>
-`;
+                ${role === 'Manager' ? `
+                    <div>
+                        <label><i class="fas fa-folder"></i> Категорія</label>
+                        <select id="category">
+                            <option value="" ${!task.categoryId ? 'selected' : ''}>Без категорії</option>
+                            ${categories.map(c => `
+                                <option value="${c.id}" ${task.categoryId === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                    <div>
+                        <label><i class="fas fa-tags"></i> Теги</label>
+                        <select id="tags" multiple>
+                            ${tags.map(t => `
+                                <option value="${t.id}" ${task.tagIds?.includes(t.id) ? 'selected' : ''}>${escapeHtml(t.name)}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                ` : ''}
+                <button type="submit" class="action-btn primary-btn" id="save-task-btn">
+                    <i class="fas fa-save"></i> Зберегти
+                </button>
+                <button type="button" class="action-btn" id="cancel-btn">
+                    <i class="fas fa-times"></i> Скасувати
+                </button>
+                <p class="error" id="task-error"></p>
+                <div class="loader hidden" id="task-loader">
+                    <div class="spinner"></div>
+                </div>
+            </form>
+        </div>
+    `;
 
     const form = document.getElementById('task-form');
     const errorElement = document.getElementById('task-error');
@@ -567,7 +684,7 @@ export async function renderTaskForm(taskId) {
             const taskData = {
                 id: parseInt(taskId) || 0,
                 title,
-                userId: userId || null, // Залишаємо як string або null
+                userId: userId || null,
                 dueDate: new Date(dueDate).toISOString(),
                 priority,
                 progress,
@@ -601,8 +718,6 @@ export async function renderTaskForm(taskId) {
         cancelButton.addEventListener('click', () => {
             navigate('/');
         });
-    } else {
-        console.error('Елементи форми не знайдені:', { form, submitButton, errorElement, cancelButton, loader });
     }
 }
 
@@ -645,6 +760,8 @@ export async function renderTaskDetail(taskId) {
         }
     }
 
+    const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.isCompleted;
+
     app.innerHTML = `
         <div class="card">
             <h2>${escapeHtml(task.title) || 'Без назви'}</h2>
@@ -653,6 +770,7 @@ export async function renderTaskDetail(taskId) {
             <p><strong>Пріоритет:</strong> ${escapeHtml(task.priority) || 'Н/Д'}</p>
             <p><strong>Прогрес:</strong> ${task.progress != null ? task.progress + '%' : '0%'}</p>
             <p><strong>Статус:</strong> ${task.isCompleted ? 'Виконано' : 'Не виконано'}</p>
+            ${isOverdue ? '<p class="error">Завдання прострочено!</p>' : ''}
             ${role === 'Manager' ? `
                 <div>
                     <label><i class="fas fa-folder"></i> Категорія</label>

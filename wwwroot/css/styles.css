@@ -3,11 +3,16 @@
     --success-color: #28a745;
     --danger-color: #dc3545;
     --details-color: #6c757d;
-    --background-color: #f5f5f5;
-    --card-background: #ffffff;
-    --text-color: #333333;
-    --border-color: #e0e0e0;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --background-color-light: #f5f5f5;
+    --card-background-light: #ffffff;
+    --text-color-light: #333333;
+    --background-color-dark: #1a1a1a;
+    --card-background-dark: #2c2c2c;
+    --text-color-dark: #e0e0e0;
+    --border-color-light: #e0e0e0;
+    --border-color-dark: #444444;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.3);
     --button-padding: 14px 28px;
     --button-font-size: 1.2rem;
     --container-padding: 30px;
@@ -22,10 +27,16 @@
 
 body.task-manager {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
     line-height: 1.8;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+    body.task-manager.dark {
+        background-color: var(--background-color-dark);
+        color: var(--text-color-dark);
+    }
 
 .container {
     width: 100%;
@@ -34,27 +45,36 @@ body.task-manager {
 }
 
 header {
-    background-color: var(--card-background);
-    box-shadow: var(--shadow);
+    background-color: var(--card-background-light);
+    box-shadow: var(--shadow-light);
     padding: 1.5rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-    header .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+body.dark header {
+    background-color: var(--card-background-dark);
+    box-shadow: var(--shadow-dark);
+}
 
-    header h1 {
-        font-size: 2rem;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--text-color);
-    }
+header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-color-light);
+}
+
+body.dark header h1 {
+    color: var(--text-color-dark);
+}
 
 nav#nav {
     margin-left: auto;
@@ -82,26 +102,40 @@ main#app {
 }
 
 .card {
-    background-color: var(--card-background);
-    border: 1px solid var(--border-color);
+    background-color: var(--card-background-light);
+    border: 1px solid var(--border-color-light);
     border-radius: 12px;
     padding: 3rem;
     margin: var(--element-margin) auto;
-    box-shadow: var(--shadow);
-    max-width: 1200px; /* Ðîçøèðåíî äëÿ òàáëèö³ */
+    box-shadow: var(--shadow-light);
+    max-width: 1200px;
 }
 
-    .card h2 {
-        font-size: 1.8rem;
-        margin-bottom: var(--element-margin);
-        color: var(--text-color);
-    }
+body.dark .card {
+    background-color: var(--card-background-dark);
+    border-color: var(--border-color-dark);
+    box-shadow: var(--shadow-dark);
+}
 
-    .card h3 {
-        font-size: 1.5rem;
-        margin: 1.5rem 0 1rem;
-        color: var(--text-color);
-    }
+.card h2 {
+    font-size: 1.8rem;
+    margin-bottom: var(--element-margin);
+    color: var(--text-color-light);
+}
+
+body.dark .card h2 {
+    color: var(--text-color-dark);
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem;
+    color: var(--text-color-light);
+}
+
+body.dark .card h3 {
+    color: var(--text-color-dark);
+}
 
 .task-tabs {
     display: flex;
@@ -121,19 +155,28 @@ main#app {
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-        .task-tabs .tab-btn.active {
-            background-color: var(--primary-color);
-            color: #ffffff;
-        }
+body.dark .task-tabs .tab-btn {
+    background-color: #444444;
+    color: var(--text-color-dark);
+}
 
-        .task-tabs .tab-btn:hover {
-            background-color: #d1d4d7;
-            transform: translateY(-2px);
-        }
+.task-tabs .tab-btn.active {
+    background-color: var(--primary-color);
+    color: # Wffffff;
+}
 
-        .task-tabs .tab-btn.active:hover {
-            background-color: #0056b3;
-        }
+.task-tabs .tab-btn:hover {
+    background-color: #d1d4d7;
+    transform: translateY(-2px);
+}
+
+body.dark .task-tabs .tab-btn:hover {
+    background-color: #555555;
+}
+
+.task-tabs .tab-btn.active:hover {
+    background-color: #0056b3;
+}
 
 .create-task {
     margin-bottom: var(--element-margin);
@@ -142,58 +185,86 @@ main#app {
     border-radius: 8px;
 }
 
-    .create-task h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-        color: var(--text-color);
-    }
+body.dark .create-task {
+    background-color: #333333;
+}
 
-    .create-task form > div {
-        margin-bottom: 1.5rem;
-    }
+.create-task h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color-light);
+}
 
-    .create-task label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 500;
-        font-size: 1.1rem;
-        color: var(--text-color);
-        margin-bottom: 0.75rem;
-    }
+body.dark .create-task h3 {
+    color: var(--text-color-dark);
+}
 
-    .create-task input,
-    .create-task select {
-        width: 100%;
-        padding: 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        font-size: 1.1rem;
-        background-color: #ffffff;
-        color: var(--text-color);
-    }
+.create-task form > div {
+    margin-bottom: 1.5rem;
+}
 
-        .create-task select option {
-            color: var(--text-color);
-            background-color: #ffffff;
-            font-size: 1.1rem;
-            padding: 0.5rem;
-        }
+.create-task label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--text-color-light);
+    margin-bottom: 0.75rem;
+}
 
-.card select option {
-    color: var(--text-color);
+body.dark .create-task label {
+    color: var(--text-color-dark);
+}
+
+.create-task input,
+.create-task select {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    background-color: #ffffff;
+    color: var(--text-color-light);
+}
+
+body.dark .create-task input,
+body.dark .create-task select {
+    border-color: var(--border-color-dark);
+    background-color: #444444;
+    color: var(--text-color-dark);
+}
+
+.create-task select option {
+    color: var(--text-color-light);
     background-color: #ffffff;
     font-size: 1.1rem;
     padding: 0.5rem;
 }
-    
 
-        .create-task input:focus,
-        .create-task select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
-        }
+body.dark .create-task select option {
+    color: var(--text-color-dark);
+    background-color: #444444;
+}
+
+.card select option {
+    color: var(--text-color-light);
+    background-color: #ffffff;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+}
+
+body.dark .card select option {
+    color: var(--text-color-dark);
+    background-color: #444444;
+}
+
+.create-task input:focus,
+.create-task select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
 
 .task-table {
     width: 100%;
@@ -205,103 +276,125 @@ main#app {
         padding: 1.2rem;
         text-align: left;
         font-size: 1.15rem;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color-light);
     }
 
-    .task-table th {
-        font-weight: 600;
-        color: var(--text-color);
-        background-color: #f8f9fa;
+body.dark .task-table th,
+body.dark .task-table td {
+    border-bottom: 1px solid var(--border-color-dark);
+}
+
+.task-table th {
+    font-weight: 600;
+    color: var(--text-color-light);
+    background-color: #f8f9fa;
+}
+
+body.dark .task-table th {
+    color: var(--text-color-dark);
+    background-color: #333333;
+}
+
+.task-table td {
+    color: #495057;
+}
+
+body.dark .task-table td {
+    color: var(--text-color-dark);
+}
+
+.task-table tr {
+    min-height: 70px;
+    transition: background-color 0.2s ease;
+}
+
+    .task-table tr:hover {
+        background-color: #f1f3f5;
     }
 
-    .task-table td {
-        color: #495057;
+body.dark .task-table tr:hover {
+    background-color: #444444;
+}
+
+.task-table tr.overdue {
+    border-left: 6px solid var(--danger-color);
+    background-color: #fff5f5;
+}
+
+body.dark .task-table tr.overdue {
+    background-color: #4a2c2c;
+}
+
+.task-table a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .task-table a:hover {
+        color: #0056b3;
     }
 
-    .task-table tr {
-        min-height: 70px;
-        transition: background-color 0.2s ease;
+.task-table button.action-btn {
+    padding: 8px;
+    font-size: 0.95rem;
+    margin-right: 0.5rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+    .task-table button.action-btn:hover {
+        transform: translateY(-2px);
     }
 
-        .task-table tr:hover {
-            background-color: #f1f3f5;
-        }
+.task-table button.details-btn {
+    background-color: var(--details-color);
+    color: #ffffff;
+}
 
-        .task-table tr.overdue {
-            border-left: 6px solid var(--danger-color);
-            background-color: #fff5f5;
-        }
-
-    .task-table a {
-        color: var(--primary-color);
-        text-decoration: none;
-        transition: color 0.3s ease;
+    .task-table button.details-btn:hover {
+        background-color: #5a6268;
     }
 
-        .task-table a:hover {
-            color: #0056b3;
-        }
+.task-table button.edit-btn {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
 
-    .task-table button.action-btn {
-        padding: 8px;
-        font-size: 0.95rem;
-        margin-right: 0.5rem;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
+    .task-table button.edit-btn:hover {
+        background-color: #0056b3;
     }
 
-        .task-table button.action-btn:hover {
-            transform: translateY(-2px);
-        }
+.task-table button.done-btn {
+    background-color: var(--success-color);
+    color: #ffffff;
+}
 
-    .task-table button.details-btn {
-        background-color: var(--details-color);
-        color: #ffffff;
+    .task-table button.done-btn:hover {
+        background-color: #218838;
     }
 
-        .task-table button.details-btn:hover {
-            background-color: #5a6268;
-        }
-
-    .task-table button.edit-btn {
-        background-color: var(--primary-color);
-        color: #ffffff;
+    .task-table button.done-btn.disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        transform: none;
     }
 
-        .task-table button.edit-btn:hover {
-            background-color: #0056b3;
-        }
+.task-table button.delete-btn {
+    background-color: var(--danger-color);
+    color: #ffffff;
+}
 
-    .task-table button.done-btn {
-        background-color: var(--success-color);
-        color: #ffffff;
+    .task-table button.delete-btn:hover {
+        background-color: #c82333;
     }
-
-        .task-table button.done-btn:hover {
-            background-color: #218838;
-        }
-
-        .task-table button.done-btn.disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-    .task-table button.delete-btn {
-        background-color: var(--danger-color);
-        color: #ffffff;
-    }
-
-        .task-table button.delete-btn:hover {
-            background-color: #c82333;
-        }
 
 .card form > div {
     margin-bottom: var(--element-margin);
@@ -313,8 +406,12 @@ main#app {
     gap: 8px;
     font-weight: 500;
     font-size: 1.1rem;
-    color: var(--text-color);
+    color: var(--text-color-light);
     margin-bottom: 0.75rem;
+}
+
+body.dark .card label {
+    color: var(--text-color-dark);
 }
 
 .card input,
@@ -322,20 +419,28 @@ main#app {
 .card textarea {
     width: 100%;
     padding: 1rem;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color-light);
     border-radius: 8px;
     font-size: 1.1rem;
     background-color: #fafafa;
-    color: var(--text-color);
+    color: var(--text-color-light);
 }
 
-    .card input:focus,
-    .card select:focus,
-    .card textarea:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
-    }
+body.dark .card input,
+body.dark .card select,
+body.dark .card textarea {
+    border-color: var(--border-color-dark);
+    background-color: #444444;
+    color: var(--text-color-dark);
+}
+
+.card input:focus,
+.card select:focus,
+.card textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
 
 .card textarea {
     min-height: 100px;
@@ -358,8 +463,12 @@ main#app {
 
     .card p strong {
         font-weight: 500;
-        color: var(--text-color);
+        color: var(--text-color-light);
     }
+
+body.dark .card p strong {
+    color: var(--text-color-dark);
+}
 
 button, .action-btn {
     background-color: var(--primary-color);
@@ -429,6 +538,11 @@ button, .action-btn {
         animation: spin 1s linear infinite;
     }
 
+body.dark .loader .spinner {
+    border-color: #444444;
+    border-top-color: var(--primary-color);
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -448,7 +562,7 @@ button, .action-btn {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: var(--card-background);
+    background-color: var(--card-background-light);
     padding: 1.5rem;
     display: flex;
     justify-content: center;
@@ -457,30 +571,47 @@ button, .action-btn {
     z-index: 1000;
 }
 
-    .pagination button {
-        padding: 12px 24px;
-        font-size: 1.1rem;
-        border-radius: 8px;
-    }
+body.dark .pagination {
+    background-color: var(--card-background-dark);
+}
 
-    .pagination span {
-        font-size: 1.1rem;
-        align-self: center;
-        color: var(--text-color);
-    }
+.pagination button {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+}
+
+.pagination span {
+    font-size: 1.1rem;
+    align-self: center;
+    color: var(--text-color-light);
+}
+
+body.dark .pagination span {
+    color: var(--text-color-dark);
+}
 
 footer {
-    background-color: var(--card-background);
+    background-color: var(--card-background-light);
     padding: 1.5rem 0;
     text-align: center;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color-light);
     margin-top: var(--element-margin);
 }
 
-    footer p {
-        color: #555;
-        font-size: 1rem;
-    }
+body.dark footer {
+    background-color: var(--card-background-dark);
+    border-top-color: var(--border-color-dark);
+}
+
+footer p {
+    color: #555;
+    font-size: 1rem;
+}
+
+body.dark footer p {
+    color: #aaaaaa;
+}
 
 .footer-links {
     margin-top: 1rem;
@@ -515,7 +646,7 @@ footer {
     nav#nav {
         margin-left: 0;
         margin-top: 1rem;
-        flex-direction: row;
+        flex-direction: column;
         gap: 1.2rem;
     }
 
@@ -652,6 +783,7 @@ footer {
         gap: 10px;
     }
 }
+
 .stats {
     margin: 20px 0;
     padding: 15px;
@@ -660,21 +792,64 @@ footer {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-    .stats h3 {
-        margin-top: 0;
-        color: #333;
-    }
+body.dark .stats {
+    background-color: #333333;
+}
 
-    .stats p {
+.stats h3 {
+    margin-top: 0;
+    color: var(--text-color-light);
+}
+
+body.dark .stats h3 {
+    color: var(--text-color-dark);
+}
+
+.stats p {
+    margin: 5px 0;
+}
+
+.stats ul {
+    list-style: none;
+    padding: 0;
+}
+
+    .stats ul li {
         margin: 5px 0;
+        color: #555;
     }
 
-    .stats ul {
-        list-style: none;
-        padding: 0;
+body.dark .stats ul li {
+    color: #aaaaaa;
+}
+
+.overdue-notice {
+    margin-bottom: var(--element-margin);
+    padding: 1rem;
+    border-left: 6px solid var(--danger-color);
+    background-color: #fff5f5;
+}
+
+body.dark .overdue-notice {
+    background-color: #4a2c2c;
+}
+
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: var(--element-margin);
+}
+
+    .filter-form select,
+    .filter-form button {
+        padding: 0.75rem;
+        font-size: 1rem;
+        border-radius: 8px;
     }
 
-        .stats ul li {
-            margin: 5px 0;
-            color: #555;
-        }
+body.dark .filter-form select {
+    background-color: #444444;
+    color: var(--text-color-dark);
+    border-color: var(--border-color-dark);
+}
