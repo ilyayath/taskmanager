@@ -12,6 +12,27 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
+// Функція для перевірки дублікатів завдань
+async function checkTaskDuplicate(title, dueDate, excludeTaskId = null) {
+    try {
+        console.log('Перевірка дублікатів для завдання:', { title, dueDate, excludeTaskId });
+        const response = await getTasks(1, 1000); // Отримуємо всі завдання
+        if (!response || !Array.isArray(response.tasks)) {
+            throw new Error('Невалідна відповідь від API');
+        }
+        const tasks = response.tasks;
+        const normalizedDueDate = dueDate ? new Date(dueDate).toISOString().split('T')[0] : '';
+        return tasks.some(task =>
+            task.id !== excludeTaskId &&
+            task.title.trim() === title.trim() &&
+            task.dueDate && new Date(task.dueDate).toISOString().split('T')[0] === normalizedDueDate
+        );
+    } catch (err) {
+        console.error('Помилка перевірки дублікатів:', err);
+        return false; // Якщо API недоступне, дозволяємо збереження
+    }
+}
+
 // Функція для обчислення статистики
 async function calculateTaskStats() {
     try {
@@ -21,8 +42,7 @@ async function calculateTaskStats() {
         const userId = user?.id || null;
         console.log('Роль:', role, 'User ID:', userId);
 
-        // Отримуємо всі завдання
-        const response = await getTasks(1, 1000); // Великий pageSize для всіх завдань
+        const response = await getTasks(1, 1000);
         console.log('Відповідь getTasks для статистики:', response);
 
         if (!response || typeof response !== 'object' || !Array.isArray(response.tasks)) {
@@ -31,7 +51,6 @@ async function calculateTaskStats() {
 
         let tasks = response.tasks;
 
-        // Фільтрація для Worker
         if (role === 'Worker' && userId) {
             tasks = tasks.filter(t => t.userId === userId);
             console.log('Відфільтровано завдання для Worker:', tasks.length);
@@ -81,7 +100,6 @@ export async function renderTasks(page = 1, filter = 'not-completed', priorityFi
         return;
     }
 
-    // Отримуємо статистику
     console.log('Виклик calculateTaskStats для статистики');
     const stats = await calculateTaskStats();
     let statsHtml = '';
@@ -262,20 +280,16 @@ export async function renderTasks(page = 1, filter = 'not-completed', priorityFi
                 throw new Error('Завдання не є масивом');
             }
 
-            // Фільтрація за статусом
             tasks = tasks.filter(task => filter === 'completed' ? task.isCompleted : !task.isCompleted);
 
-            // Фільтрація за пріоритетом
             if (priorityFilter) {
                 tasks = tasks.filter(task => task.priority === priorityFilter);
             }
 
-            // Фільтрація за виконавцем
             if (userFilter) {
                 tasks = tasks.filter(task => task.userId === parseInt(userFilter));
             }
 
-            // Сортування
             if (sortBy === 'dueDate') {
                 tasks.sort((a, b) => new Date(a.dueDate || '9999-12-31') - new Date(b.dueDate || '9999-12-31'));
             } else if (sortBy === 'priority') {
@@ -319,7 +333,6 @@ export async function renderTasks(page = 1, filter = 'not-completed', priorityFi
             document.getElementById('prev-page').disabled = currentPage <= 1;
             document.getElementById('next-page').disabled = currentPage >= Math.ceil(total / pageSize);
 
-            // Оновлення діаграми
             try {
                 const ctx = document.getElementById('task-stats-chart').getContext('2d');
                 new Chart(ctx, {
@@ -421,6 +434,14 @@ export async function renderTasks(page = 1, filter = 'not-completed', priorityFi
             }
             if (!priority) {
                 errorElement.textContent = 'Оберіть пріоритет';
+                return;
+            }
+
+            // Перевірка дублікатів
+            const isDuplicate = await checkTaskDuplicate(title, dueDate);
+            if (isDuplicate) {
+                errorElement.textContent = 'Завдання з такою назвою та дедлайном уже існує';
+                console.warn('Спроба додати дублікат завдання:', { title, dueDate });
                 return;
             }
 
@@ -681,6 +702,14 @@ export async function renderTaskForm(taskId) {
                 return;
             }
 
+            // Перевірка дублікатів
+            const isDuplicate = await checkTaskDuplicate(title, dueDate, isEdit ? parseInt(taskId) : null);
+            if (isDuplicate) {
+                errorElement.textContent = 'Завдання з такою назвою та дедлайном уже існує';
+                console.warn('Спроба додати/оновити дублікат завдання:', { title, dueDate, taskId });
+                return;
+            }
+
             const taskData = {
                 id: parseInt(taskId) || 0,
                 title,
@@ -873,7 +902,7 @@ export async function renderTaskDetail(taskId) {
         }
     });
 }
-// tasks.js
+
 export async function getOverdueTasks() {
     console.log('Отримання прострочених завдань');
     try {

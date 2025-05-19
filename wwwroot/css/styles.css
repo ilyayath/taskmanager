@@ -951,10 +951,10 @@ nav#nav {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-    #overdue-btn:hover {
-        background-color: #c82333;
-        transform: translateY(-2px);
-    }
+#overdue-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
 
 body.dark #overdue-btn {
     box-shadow: var(--shadow-dark);
@@ -1015,9 +1015,9 @@ body.dark .overdue-popup li {
     text-decoration: none;
 }
 
-    .overdue-popup a:hover {
-        color: #0056b3;
-    }
+.overdue-popup a:hover {
+    color: #0056b3;
+}
 
 .overdue-popup #close-overdue {
     margin-top: 1rem;
@@ -1030,12 +1030,10 @@ body.dark .overdue-popup li {
         bottom: 100px; /* Вище пагінації на мобільних */
         right: 15px;
     }
-
     .overdue-popup {
         min-width: 250px;
         max-height: 300px;
     }
-
     #overdue-btn {
         padding: 8px 16px;
         font-size: 0.9rem;
@@ -1046,7 +1044,6 @@ body.dark .overdue-popup li {
     #overdue-notification {
         bottom: 120px;
     }
-
     .overdue-popup {
         min-width: 200px;
     }
